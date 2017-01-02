@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="invoiceApp">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Invoice</title>
+
+	<link rel="shortcut icon" href="img/invoice_icon.png" type="image/png"> <!-- Иконка -->
+	<!-- <link rel="shortcut icon" href="favicon.ico"> -->
+
+	<!-- jQuery and jQueryUI -->
+	<link rel="stylesheet" href="lib/jquery-ui-1.11.4/jquery-ui.css"> <!-- Minify this!! -->
+	<link rel="stylesheet" href="lib/jquery-ui-1.11.4/jquery-ui.theme.css"> <!-- Minify this!! -->
+	<script src="lib/jquery-1.11.2.js"></script> <!-- Minify this!! -->
+	<script src="lib/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+	<script>
+		// Change jQueryUI plugin names to fix name collision with Bootstrap.
+		// Need to be executed after the JQueryUI and before the Bootstrap js file references.
+		// $.widget.bridge('uitooltip', $.ui.tooltip);
+		// $.widget.bridge('uibutton', $.ui.button);
+	</script>
+	
+	<link href="lib/bootstrap-3.3.6-dist/css/bootstrap.css" rel="stylesheet"> <!-- Minify this!! -->
+	<script src="lib/bootstrap-3.3.6-dist/js/bootstrap.js"></script> <!-- Minify this!! -->
+	<script src="lib/angular.js"></script> <!-- Minify this!! -->
+
+	<!-- Шрифт для шапки -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,600,600i&subset=cyrillic-ext" rel="stylesheet">
+
+	<link rel="stylesheet" href="style.css"> <!-- Собственный стиль -->
+	<script src="app.js"></script> <!-- Собственный скрипт -->
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="bcgr-main" ng-cloak>
+	
+	<header class="container-fluid">
+		<div class="row header">
+			<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 col-lg-offset-1 logo" >
+				<img src="img/invoice_logo.png" class="img-responsive center-block" alt="">
+			</div>
+
+			<div class="col-xs-9 col-sm-10 col-md-11 col-lg-10">
+			<h1><b>Счет на оплату</b></h1>
+		  <h4>Создание счетов прямо в браузере.</h4>
+		  <h4>
+		  Генерация PDF со счетом и отправка его на e-mail, или загрузка на ваш компьютер</h4>
+		  <br>
+			</div>
+		</div>
+	</header>
+	
+	<div class="container-fluid">
+
+		<form action="" name="invoiceForm" ng-controller="invoiceFormController" novalidate>
+			<div class="row">
+				<br>
+				<!-- Колонка с формой -->
+				<div class="col-xs-12 col-md-10 col-lg-9 col-lg-offset-1 bcgr-white">
+					<div class="row">
+						<br>
+						
+						<div class="hidden-xs col-sm-3 col-sm-offset-0"> <!-- (Добавить) логотип -->
+							<div class="well well-lg invoice-logo" ng-show="invoiceLogoSrc == 'img/add_logo.png'">
+								<!-- Предлагаем добавить логотип -->
+								<img ng-src="{{invoiceLogoSrc}}" alt="">
+								<input type="file" accept="image/*" inv-add-logo>
+								<input type="file" accept="image/*" inv-add-logo>
+								<input type="file" accept="image/*" inv-add-logo>
+								<input type="file" accept="image/*" inv-add-logo>
+							</div>
+
+							<div ng-show="invoiceLogoSrc != 'img/add_logo.png'">
+								<!-- Отображаем логотип, если выбран -->
+								<h3 id="removeLogoButton"> <!-- Кнопка, удаляющая логотоип -->
+									<span class="glyphicon glyphicon-remove-circle cursor-pointer" ng-click="invoiceLogoSrc = 'img/add_logo.png'"></span>
+								</h3>
+								<img ng-src="{{invoiceLogoSrc}}" alt="" class="img-rounded img-responsive invoice-logo">
+							</div>
+						</div>
+						
+						<div class="col-xs-12 col-sm-9">
+							<h3 class="text-center">Счет на оплату</h3>
+						</div>
+						
+						<!-- Номер, дата, валюта -->
+						<div class="form-group form-inline center-block col-sm-9">
+							
+							<div class="col-lg-1 visible-lg-inline-block">
+								<!-- Этот <div> для горизонтального выравнивания -->
+							</div> 
+
+							<div class="input-group">
+								<div class="input-group-addon">№</div>
+								<input type="text" name="invoice-number" class="form-control input-sm" ng-model="invoiceNumber" required>
+								<div class="input-group-addon">Дата:</div>
+								<input type="text" name="invoiceDate" class="form-control input-sm" placeholder="дд.мм.гггг" ng-model="invoiceDate" inv-date-picker required>
+								<div class="input-group-addon">Валюта</div>
+								<select class="form-control input-sm" name="invoice-currency" id="" ng-model="invoiceCurrency">
+									<option value="руб." class="text-center">руб.</option>
+									<option value="USD">USD</option>
+									<option value="EUR">EUR</option>
+								</select>
+							</div>
+						
+						</div>
+					
+					</div>
+					
+					<br>
+					<div class="row">
+													
+						<!-- Коротко о плательщике и платеже -->
+						<div class="form-group col-xs-12 col-sm-6">
+							<label for="aboutPayerBriefly" class="control-label">Плательщик</label>
+							<input type="text" id="aboutPayerBriefly" class="form-control input-sm" placeholder="Кому выставлен счет" required ng-model="invoicePayer">
+						</div>
+						
+						<div class="form-group col-xs-12 col-sm-6">
+							<label for="invoiceBriefly" class="control-label">Основание платежа (коротко о платеже)</label>
+							<textarea name="invoiceBriefly" class="form-control input-sm" id="" rows="2" placeholder="За расходные материалы, за оргтехнику и т. д." required ng-model="invoiceBriefly"></textarea>
+						</div>
+						
+						<!-- Получатель платежа -->
+						<div class="col-xs-12">
+							<h4><strong>Получатель платежа</strong></h4>
+							<hr>
+						</div>
+
+						<div class="col-sm-6 col-xs-12">
+							<div class="form-group">
+								<!-- Изменение <label> по щелчку Название / Ф.И.О. -->
+								<div ng-click="changeReceiverLabel()" class="cursor-pointer">
+									<span class="glyphicon glyphicon-pencil cursor-pointer change-icon text-muted"></span>
+									<span class="cursor-pointer">&nbsp;</span>
+									<label for="receiverName" class="control-label cursor-pointer" ng-bind="receiverLabel"></label>
+								</div>
+								<input type="text" id="receiverName" class="form-control input-sm" required ng-model="receiverName">
+							</div>
+							
+							<div class="row hidden-xs"  ng-show="optionalTextInputs[0].visible || optionalTextInputs[1].visible">
+								<div class="form-group col-sm-5" ng-show="optionalTextInputs[0].visible">
+									<!-- Телефон получателя -->
+									<label for="{{optionalTextInputs[0].id}}" class="control-label">
+										<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="showHideInput(optionalTextInputs[0].id);"></span>
+										&nbsp;{{optionalTextInputs[0].text}}
+									</label>
+									<input type="tel" id="{{optionalTextInputs[0].id}}" class="form-control input-sm" ng-model="optionalTextInputs[0].value" required>
+								</div>
+
+								<div class="form-group col-sm-7" ng-show="optionalTextInputs[1].visible">
+									<!-- E-mail получателя -->
+									<label for="{{optionalTextInputs[1].id}}" class="control-label">
+										<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="showHideInput(optionalTextInputs[1].id);"></span>
+										&nbsp;{{optionalTextInputs[1].text}}
+									</label>
+									<input type="email" id="{{optionalTextInputs[1].id}}" class="form-control input-sm" ng-model="optionalTextInputs[1].value" required>
+								</div>
+							</div>
+
+							<!-- Руководитель -->
+							<div class="row" ng-show="optionalTextInputs[3].visible">
+								<div class="form-group col-sm-12 col-xs-12">
+									<label for="{{optionalTextInputs[3].id}}" class="control-label">
+										<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="showHideInput(optionalTextInputs[3].id);"></span>
+										&nbsp;{{optionalTextInputs[3].text}}</label>
+									<input type="text" id="{{optionalTextInputs[3].id}}" class="form-control input-sm" required ng-model="optionalTextInputs[3].value">
+								</div>
+							</div>
+
+						</div>
+						
+						<div class="col-sm-6 col-xs-12" ng-show="optionalTextInputs[2].visible">
+							<!-- Адрес получателя -->
+							<div class="form-group">
+								<label for="{{optionalTextInputs[2].id}}" class="control-label">
+									<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="showHideInput(optionalTextInputs[2].id);"></span>
+									&nbsp;{{optionalTextInputs[2].text}}
+								</label>
+								<textarea id="{{optionalTextInputs[1].id}}" class="form-control input-sm" rows="5" required ng-model="optionalTextInputs[2].value"></textarea>
+							</div>
+						</div>
+						
+						<div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+						<!-- Телефон и E-mail получателя для размера xs -->
+							<div class="form-group" ng-show="optionalTextInputs[0].visible">
+								<label for="{{optionalTextInputs[0].id}}" class="control-label">
+									<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="showHideInput(optionalTextInputs[0].id);"></span>
+									&nbsp;{{optionalTextInputs[0].text}}</label>
+								<input type="tel" id="{{optionalTextInputs[0].id}}" class="form-control input-sm" ng-model="optionalTextInputs[0].value" required>
+							</div>
+
+							<div class="form-group" ng-show="optionalTextInputs[1].visible">
+								<label for="{{optionalTextInputs[1].id}}" class="control-label">
+									<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="showHideInput(optionalTextInputs[1].id);"></span>
+									&nbsp;{{optionalTextInputs[1].text}}
+								</label>
+								<input type="email" id="{{optionalTextInputs[1].id}}" class="form-control input-sm" ng-model="optionalTextInputs[1].value" required>
+							</div>
+
+						</div>
+					
+					</div>
+
+					<!-- Остальные поля -->
+					<div class="row">
+						<div class="form-group col-xs-12 col-sm-6 col-md-4" ng-repeat="formGroup in optionalTextInputs.slice(4) | filter:{visible:true}">
+							<label for="{{formGroup.id}}" class="control-label">
+								<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="showHideInput(formGroup.id);"></span>
+								&nbsp;{{formGroup.text}}</label>
+							<input type="text" id="{{formGroup.id}}" class="form-control input-sm" required ng-model="formGroup.value">
+						</div>
+					</div>					
+					
+					<!-- Кнопки возвращения удаленных полей -->
+					<div class="row"> 
+						<ul class="list-inline col-xs-12 col-sm-6 col-md-4">
+							<li ng-repeat="formGroup in optionalTextInputs | filter:{visible:false}" class="buttons-list">
+								<button class="btn btn-info btn-xs" ng-click="showHideInput(formGroup.id);">
+									<span class="glyphicon glyphicon-plus"></span>
+										&nbsp;{{formGroup.text}}
+								</button>
+							</li>
+						</ul>
+					</div>
+					
+					<!-- Добавление пользовательских полей -->
+					<div class="row">
+						<div class="col-sm-6 col-xs-12 form-inline">
+							<div class="form-group">
+								<br class="visible-xs-block">
+								<input type="text" class="form-control input-sm" ng-show="addingInput" ng-model="newInputLabel" placeholder="Название поля" data-toggle="tooltip" title="Не более 15 символов" maxlength="15" inv-tooltip>
+								<br class="visible-xs-block">
+								<button ng-disabled="optionalTextInputs.length >= 10" type="button" class="btn btn-success btn-xs" ng-click="addInput();">
+									<span class="glyphicon glyphicon-plus"></span>
+										&nbsp;Добавить поле
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- Конец опциональных полей -->
+					<!-- Конец блока получатель платежа -->
+
+					<br>
+					<div class="table-responsive">
+						<table class="table table-condensed">
+							<tr>
+								<th class="col-xs-3">Наименование</th>
+								<th class="col-xs-2 text-center">Кол-во</th>
+								<th class="col-xs-2 text-center">Ед.</th>
+								<th class="col-xs-2 text-center">Цена</th>
+								<th class="col-xs-1 text-center">Сумма</th>
+								<th class="col-xs-1 text-center"></th>
+							</tr>
+
+							<tr class="form-group" ng-repeat="item in itemsTable">
+								<td class="col-xs-3">
+									<input type="text" class="form-control input-sm" ng-model="item.name" placeholder="Товары, услуги, работы">
+								</td>
+								<td class="col-xs-2">
+									<input type="number" step="any" min="0" class="form-control input-sm" ng-model="item.quantity" placeholder="{{item.quantity}}">
+								</td>
+								<td class="col-xs-2">
+									<input type="text" class="form-control input-sm" ng-model="item.measure" placeholder="{{item.measure}}">
+								</td>
+								<td class="col-xs-2">
+									<input type="number" step="any" min="0" class="form-control input-sm" ng-model="item.price">
+								</td>
+								<td class="col-xs-1 text-center vertical-middle">
+									{{item.amount() | numFormat}}
+								</td>
+								<td class="col-xs-1"> <!-- Кнопка Удалить -->
+									<button type="button" class="btn bg-primary btn-sm center-block" ng-show="itemsTable.length > 1" ng-click="removeItem(item.index)">
+										<span class="glyphicon glyphicon-minus"></span>
+									</button>
+								</td>
+							</tr>
+							
+							<tr> <!-- Кнопка добавить строку -->
+								<td>
+									<button type="button" class="btn btn-success btn-xs" ng-click="addItem();" ng-disabled="itemsTable.length >= 10">
+										<span class="glyphicon glyphicon-plus"></span>
+											&nbsp;Добавить строку
+									</button>
+								</td>
+							</tr>
+
+						</table>
+						<br>
+					</div>
+					
+					<div class="row">
+						
+						<div class="col-sm-6">
+							<!-- НДС -->
+							<div class="form-group form-inline">
+								<div class="input-group">
+									<div class="input-group-addon">НДС</div>
+									<select name="" id="" class="form-control input-sm" ng-model="ndsType">
+										<option value="1">Добавить</option>
+										<option value="0">Включен в стоимость</option>
+									</select>
+									<div class="input-group-addon">Cтавка</div>
+									<select name="" id="" class="form-control input-sm" ng-model="ndsRate">
+										<option value="0">0%</option>
+										<option value="10">10%</option>
+										<option value="18">18%</option>
+									</select>
+								</div>
+							</div>
+							
+							<!-- Скидка -->
+							<!-- Скрыто на xs -->
+							<div class="form-inline hidden-xs">
+								<div class="form-group fix-margin-bootom">
+									
+									<div class="input-group">
+										<div class="input-group-addon">Скидка</div>
+										<input type="number" min="0" class="form-control input-sm" ng-model="invoiceDiscount">
+									</div>
+								
+									<div class="btn-group dropup">
+									  <button class="btn btn-default dropdown-toggle btn-sm" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									    {{invoiceDiscountType == 'percent' ? '%' : invoiceCurrency}}
+									    <span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+									    <li><a href="" ng-click="invoiceDiscountType = 'currency'">{{invoiceCurrency}}</a></li>
+									    <li><a href="" ng-click="invoiceDiscountType = 'percent'">%</a></li>
+									  </ul>
+									</div>
+
+								</div>
+							</div>
+							
+							<!-- Скидка -->
+							<!-- Видно на xs -->
+							<div class="form-group form-inline visible-xs-block">
+								<div class="input-group">
+									<div class="input-group-addon">Скидка</div>
+									<input type="number" min="0" class="form-control input-sm" ng-model="invoiceDiscount">
+									<div class="input-group-addon"></div>
+									<select name="" id="" class="form-control input-sm" ng-model="invoiceDiscountType">
+										<option value="currency">{{invoiceCurrency}}</option>
+										<option value="percent">%</option>
+									</select>
+								</div>
+							</div>
+																			
+							<!-- Доставка -->
+							<div class="form-group form-inline">
+								<div class="input-group">
+									<div class="input-group-addon">Доставка</div>
+									<input type="number" min="0" class="form-control input-sm" ng-model="invoiceShipping">
+									<div class="input-group-addon">{{invoiceCurrency}}</div>
+								</div>
+							</div>
+											
+						</div>
+
+						<div class="col-sm-6"> <!-- Итог -->
+							<div class="well text-right bg-info">
+								
+								<b>Промежуточный итог: {{subTotal() | numFormat}} {{invoiceCurrency}}</b>
+								<br>
+								
+								<b>{{ndsType == 1 ? 'НДС ' : 'НДС включен в стоимость '}}({{ndsRate}}%): <span >{{ndsCalc() | numFormat}} {{invoiceCurrency}}</span></b>
+								<br>
+
+								<!-- Если Скидка в процентах -->
+								<div ng-show="invoiceDiscountType == 'percent'">
+									<b>Скидка {{invoiceDiscount | numFormat}}%: {{invoiceDiscountCalc() | numFormat}} {{invoiceCurrency}}</b>
+									<br>
+								</div>
+
+								<!-- Если Скидка - число -->
+								<div ng-show="invoiceDiscountType == 'currency'">
+									<b>Скидка: {{invoiceDiscount | numFormat}} {{invoiceCurrency}}</b>
+									<br>
+								</div>
+
+								<b>Доставка: {{invoiceShipping | numFormat}} {{invoiceCurrency}}</b>
+								<br>
+
+								<h4 class="text-primary">ИТОГО: {{invoiceTotal() | numFormat}} {{invoiceCurrency}}</h4>
+
+							</div>
+						</div>
+
+						<div class="form-group col-xs-12 col-sm-8">
+							<label for="invoiceComment" class="control-label">Комментарий</label>
+							<textarea name="invoiceComment" class="form-control input-sm" id="" rows="3"></textarea>
+						</div>
+
+					</div>
+				</div>
+
+				<!-- Сайдбар -->
+				<!-- Если сделать его col-md-2 смотреться будет лучше,
+				но при некоторых значениях ширины экрана (где-то между sm и md)
+				появляется горизонтальная прокрутка -->
+				<div class="col-xs-12 col-md-2 col-lg-2 hidden-xs hidden-sm">
+					<button type="button" class="btn btn-primary btn-lg active btn-block" ng-click="send()">Отправить</button>
+					<br>
+					<button type="reset" class="btn btn-default btn-md active center-block" ng-click="resetForm()">Очистить форму</button>
+				</div>
+
+				<div class="col-xs-12 col-md-2 col-lg-2 visible-xs-block visible-sm-block">
+					<div class="row">
+						<div class="col-xs-6 col-xs-offset-3">
+							<br class="visible-xs-block visible-sm-block">
+							<button type="button" class="btn btn-primary btn-lg active btn-block" ng-click="send()">Отправить</button>
+							<br>
+							<button type="reset" class="btn btn-default btn-md active btn-block" ng-click="resetForm()">Очистить форму</button>
+							<br>
+						</div>
+					</div>
+				</div>	
+
+			</div>
+
+			
+			<!-- Шаблон, который отправляем на сервер,
+			там из него создается PDF -->
+			<div id="pdfTemplate">
+				<h1><span>Счет на оплату</span></h1>
+				<p><b>№</b> {{invoiceNumber}}&ensp;|&ensp;<b>Дата:</b> {{invoiceDate}}&ensp;|&ensp;<b>Валюта:</b> {{invoiceCurrency}}</p>
+			</div>
+
+
+		</form>
+		
+		<div class="row">
+			<div class="col-xs-12 col-md-10 col-lg-9 col-lg-offset-1">
+				<hr>
+				<p class="text-center">Создано..., e-mail bla bla bla</p>
+			</div>
+		</div>
+	</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+/* Стиль для создания PDF */
+body {
+	width: 18cm;
+	height: 27cm; /* Не 27.7 как должно быть, чтобы генерировалась одна страница */  
+	padding: 1cm;
+	padding-left: 2cm;
+	font-size: 12pt;
+	/*font-family: 'Open Sans Condensed', sans-serif;*/
+}
+
+* {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 300;
+}
+
+b {
+	font-weight: 400;
+}
+
+h1, p {
+	background: yellow;
+	text-align: center;
+}
+
+span {
+	margin: 0 auto;
+	width: 50%;
+}

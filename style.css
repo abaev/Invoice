@@ -1,0 +1,109 @@
+.bcgr-white {
+	background: white;
+}
+
+.header { /* Градиент и цвет текста в шапке */
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#0a1f28+0,676b70+100 */
+	background: #0a1f28 !important; /* Old browsers */
+	background: -moz-linear-gradient(top,  #0a1f28 0%, #676b70 100%) !important; /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #0a1f28 0%,#676b70 100%) !important; /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #0a1f28 0%,#676b70 100%) !important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0a1f28', endColorstr='#676b70',GradientType=0 ) !important; /* IE6-9 */
+	
+	font-family: 'Open Sans', sans-serif !important;
+	color: #e5e5e5 !important;
+	text-shadow: 1px 1px 1px black; /* Сделать и для IE < 10 (filter: Shadow....) */
+}
+
+h1 {
+	color: white;
+}
+
+.bcgr-main {
+	background: #D8D8D8;
+}
+
+.logo {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	
+	/* Уменьшить расстояние между логотипом и текстом шапки */
+	padding-right: 0px !important;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+	display: inline;
+}
+
+.close-icon:hover,
+.change-icon:hover {
+	color: #337AB7; /* .text-primary color in BS */
+	cursor: pointer;
+}
+
+/* Отступ для кнопок возрата полей,
+когда они занимают больше строки */
+.buttons-list {
+	margin-top: 5px;
+}
+
+.bcgr-gradient {
+
+}
+
+.vertical-middle {
+	/* Выравнивание чисел в ячейке таблицы
+	в колонке Сумма */
+	vertical-align: middle !important;
+}
+
+.input-logo {
+	/* Для размещения невидимых input'ов
+	над контейнером Добавить логотип */
+	opacity: 0;
+	width: 100%;
+}
+
+.fix-margin-bootom {
+	/* Глюк Bootstrap'а: у всех .form-group должен быть
+	margin-bottom: 15px, отчегото у Скидки его нет */
+	margin-bottom: 15px !important;
+}
+
+/* Добавить логотип */
+div.invoice-logo {
+	padding: 0px;
+}
+
+input[type="file"] {
+	opacity: 0;
+	width: 100%;
+	cursor: default;
+}
+
+div.invoice-logo {
+	position: relative;
+}
+
+.invoice-logo img {
+	position: absolute;
+	margin: 15px calc(50% - 41px);
+}
+
+#removeLogoButton {
+	position: absolute;
+	top: -12px;
+	left: 20px;
+	text-shadow: 0px 0px 5px white;
+	/*filter: Shadow(Color=#fff, Direction=0, Strength=5); Для IE < 10, но(!!) - проверить*/
+}
+#removeLogoButton:hover {
+	color: #337AB7;
+}
+
+/* Индикация полей с ошибками */
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
