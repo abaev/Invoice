@@ -169,7 +169,7 @@
 			],
 			[
 				"re",
-				"required	Attr"
+				"required\tAttr"
 			],
 			[
 				"u",
@@ -185,11 +185,11 @@
 			],
 			[
 				"cl",
-				"class	Attr"
+				"class\tAttr"
 			],
 			[
 				"max",
-				"maxlength	Attr"
+				"maxlength\tAttr"
 			],
 			[
 				"cur",
@@ -321,7 +321,7 @@
 			],
 			[
 				"on",
-				"onclick	Attr"
+				"onclick\tAttr"
 			],
 			[
 				"r",
@@ -357,33 +357,63 @@
 			],
 			[
 				"st",
-				"style	Tag"
+				"style\tTag"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "app.js",
-			"settings":
-			{
-				"buffer_size": 7175,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 20337,
+				"buffer_size": 21294,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "readme.md",
+			"file": "js/app.controllers.js",
 			"settings":
 			{
-				"buffer_size": 94,
+				"buffer_size": 2573,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/app.directives.js",
+			"settings":
+			{
+				"buffer_size": 1515,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "style.css",
+			"settings":
+			{
+				"buffer_size": 2404,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/app.services.js",
+			"settings":
+			{
+				"buffer_size": 4029,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/app.js",
+			"settings":
+			{
+				"buffer_size": 92,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -492,6 +522,9 @@
 	},
 	"file_history":
 	[
+		"/C/my_folder/_web_dev/Invoice/app/app.controllers.js",
+		"/C/my_folder/_web_dev/Invoice/app/readme.md",
+		"/C/my_folder/_web_dev/test/invoice/index.html",
 		"/C/my_folder/_web_dev/GrandValesDV/app/server/server.js",
 		"/C/my_folder/_web_dev/GrandValesDV/app/js/GVEditApp.services.js",
 		"/C/my_folder/_web_dev/GrandValesDV/app/js/GVEditApp.directives.js",
@@ -616,10 +649,7 @@
 		"/C/my_folder/_web_dev/GrandValesDV/candidates1.json",
 		"/C/Users/User/AppData/Local/Temp/F3T1F27.tmp/server.js",
 		"/C/my_folder/_web_dev/GrandValesDV/candidates.json",
-		"/C/my_folder/_web_dev/GrandValesDV/vacancies1.json",
-		"/C/my_folder/_web_dev/GrandValesDV/data/candidates.json",
-		"/C/my_folder/_web_dev/Angular ru tutorial/angular-phonecat/app/js/services.js",
-		"/C/my_folder/_web_dev/Angular ru tutorial/angular-phonecat/app/js/controllers.js"
+		"/C/my_folder/_web_dev/GrandValesDV/vacancies1.json"
 	],
 	"find":
 	{
@@ -637,6 +667,29 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"invoiceTotal",
+			"subTotal",
+			"invoiceDiscountCalc",
+			"ndsCalc",
+			"self",
+			"send",
+			"resetForm",
+			"invoiceForm",
+			"resetForm",
+			"removeItem",
+			"index",
+			"self",
+			"addItem",
+			"self",
+			"addInput",
+			"self",
+			"showHideInput",
+			"InvoiceApp",
+			"changeReceiverLabel",
+			"<button class=\"btn btn-info btn-xs ng-binding\" ng-click=\"mainCtrl.showHideInput(mainCtrl.formGroup.id);\">",
+			"<button class=\"btn btn-info btn-xs ng-binding\" ng-click=\"mainCtrl.showHideInput(mainCtrl.formGroup.id);\">\n\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-plus\"></span>\n\t\t\t\t\t\t\t\t\t\t&nbsp;\n\t\t\t\t\t\t\t\t</button>",
+			"numForma",
+			"$scope",
 			"fleetType",
 			"review-author",
 			"vacancy",
@@ -741,30 +794,7 @@
 			"sendError(response, {\n      number: 500,\n      text: 'Internal Server Error'\n    });",
 			"readFileSync",
 			"getJSON",
-			"console.dir",
-			"href",
-			"shortid",
-			"shortId",
-			"vacanciesFiltered",
-			"vacanciesAvailable",
-			"vacanciesFiltered",
-			"filterVacancies",
-			"CandidatesEditController",
-			"mainCtrl",
-			"well",
-			"main-con",
-			"main",
-			"wra",
-			"overflow",
-			"button",
-			"ctrl.shipownerFormIsVisible",
-			"ctrl.candidateFormIsVisible",
-			"ctrl",
-			"Ctrl",
-			"ctrl",
-			"vacanciesAvailable",
-			"mainCtrl",
-			"filterVacancies"
+			"console.dir"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -787,24 +817,84 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app.js",
+					"file": "index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7175,
+						"buffer_size": 21294,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								19308,
+								19308
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 9961.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "js/app.controllers.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2573,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2571,
+								2571
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2260.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/app.directives.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1515,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1515,
+								1515
 							]
 						],
 						"settings":
@@ -817,65 +907,95 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "index.html",
+					"buffer": 3,
+					"file": "style.css",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 20337,
+						"buffer_size": 2404,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								813,
-								813
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 2,
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 540.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "readme.md",
+					"buffer": 4,
+					"file": "js/app.services.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 94,
+						"buffer_size": 4029,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								94,
-								94
+								3905,
+								3905
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "js/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 92,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								35,
+								35
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -912,6 +1032,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 30.0
+	},
 	"output.find_results":
 	{
 		"height": 0.0
