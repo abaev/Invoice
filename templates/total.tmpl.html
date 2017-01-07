@@ -1,0 +1,96 @@
+<!-- Поля НДС, Скидка, Доставка и ИТОГ -->
+<div class="col-sm-6">
+	<!-- НДС -->
+	<div class="form-group form-inline">
+		<div class="input-group">
+			<div class="input-group-addon">НДС</div>
+			<select name="" id="" class="form-control input-sm" ng-model="mainCtrl.ndsType">
+				<option value="1">Добавить</option>
+				<option value="0">Включен в стоимость</option>
+			</select>
+			<div class="input-group-addon">Cтавка</div>
+			<select name="" id="" class="form-control input-sm" ng-model="mainCtrl.ndsRate">
+				<option value="0">0%</option>
+				<option value="10">10%</option>
+				<option value="18">18%</option>
+			</select>
+		</div>
+	</div>
+	
+	<!-- Скидка -->
+	<!-- Скрыто на xs -->
+	<div class="form-inline hidden-xs">
+		<div class="form-group fix-margin-bootom">
+			
+			<div class="input-group">
+				<div class="input-group-addon">Скидка</div>
+				<input type="number" min="0" class="form-control input-sm" ng-model="mainCtrl.invoiceDiscount">
+			</div>
+		
+			<div class="btn-group dropup">
+			  <button class="btn btn-default dropdown-toggle btn-sm" type="button" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    {{mainCtrl.invoiceDiscountType == 'percent' ? '%' : mainCtrl.invoiceCurrency}}
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+			    <li><a href="" ng-click="mainCtrl.invoiceDiscountType = 'currency'">{{mainCtrl.invoiceCurrency}}</a></li>
+			    <li><a href="" ng-click="mainCtrl.invoiceDiscountType = 'percent'">%</a></li>
+			  </ul>
+			</div>
+
+		</div>
+	</div>
+	
+	<!-- Скидка -->
+	<!-- Видно на xs -->
+	<div class="form-group form-inline visible-xs-block">
+		<div class="input-group">
+			<div class="input-group-addon">Скидка</div>
+			<input type="number" min="0" class="form-control input-sm" ng-model="mainCtrl.invoiceDiscount">
+			<div class="input-group-addon"></div>
+			<select name="" id="" class="form-control input-sm" ng-model="mainCtrl.invoiceDiscountType">
+				<option value="currency">{{mainCtrl.invoiceCurrency}}</option>
+				<option value="percent">%</option>
+			</select>
+		</div>
+	</div>
+													
+	<!-- Доставка -->
+	<div class="form-group form-inline">
+		<div class="input-group">
+			<div class="input-group-addon">Доставка</div>
+			<input type="number" min="0" class="form-control input-sm" ng-model="mainCtrl.invoiceShipping">
+			<div class="input-group-addon">{{mainCtrl.invoiceCurrency}}</div>
+		</div>
+	</div>
+					
+</div>
+
+<div class="col-sm-6"> <!-- Итог -->
+	<div class="well text-right bg-info">
+		
+		<b>Промежуточный итог: {{mainCtrl.calc.subTotal(mainCtrl) | numFormat}} {{mainCtrl.invoiceCurrency}}</b>
+		<br>
+		
+		<b>{{mainCtrl.ndsType == 1 ? 'НДС ' : 'НДС включен в стоимость '}}({{mainCtrl.ndsRate}}%): <span >{{mainCtrl.calc.nds(mainCtrl) | numFormat}} {{mainCtrl.invoiceCurrency}}</span></b>
+		<br>
+
+		<!-- Если Скидка в процентах -->
+		<div ng-show="mainCtrl.invoiceDiscountType == 'percent'">
+			<b>Скидка {{mainCtrl.invoiceDiscount | numFormat}}%: {{mainCtrl.calc.discount(mainCtrl) | numFormat}} {{mainCtrl.invoiceCurrency}}</b>
+			<br>
+		</div>
+
+		<!-- Если Скидка - число -->
+		<div ng-show="mainCtrl.invoiceDiscountType == 'currency'">
+			<b>Скидка: {{mainCtrl.invoiceDiscount | numFormat}} {{mainCtrl.invoiceCurrency}}</b>
+			<br>
+		</div>
+
+		<b>Доставка: {{mainCtrl.invoiceShipping | numFormat}} {{mainCtrl.invoiceCurrency}}</b>
+		<br>
+
+		<h4 class="text-primary">ИТОГО: {{mainCtrl.calc.total(mainCtrl) | numFormat}} {{mainCtrl.invoiceCurrency}}</h4>
+
+	</div>
+</div>

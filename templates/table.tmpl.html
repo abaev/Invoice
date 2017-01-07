@@ -1,0 +1,47 @@
+<!-- Таблица (Наименование, количество, цена...) -->
+<div class="table-responsive">
+	<table class="table table-condensed">
+		<tr>
+			<th class="col-xs-3">Наименование</th>
+			<th class="col-xs-2 text-center">Кол-во</th>
+			<th class="col-xs-2 text-center">Ед.</th>
+			<th class="col-xs-2 text-center">Цена</th>
+			<th class="col-xs-1 text-center">Сумма</th>
+			<th class="col-xs-1 text-center"></th>
+		</tr>
+
+		<tr class="form-group" ng-repeat="item in mainCtrl.itemsTable">
+			<td class="col-xs-3">
+				<input type="text" class="form-control input-sm" ng-model="item.name" placeholder="Товары, услуги, работы">
+			</td>
+			<td class="col-xs-2">
+				<input type="number" step="any" min="0" class="form-control input-sm" ng-model="item.quantity" placeholder="{{item.quantity}}">
+			</td>
+			<td class="col-xs-2">
+				<input type="text" class="form-control input-sm" ng-model="item.measure" placeholder="{{item.measure}}">
+			</td>
+			<td class="col-xs-2">
+				<input type="number" step="any" min="0" class="form-control input-sm" ng-model="item.price">
+			</td>
+			<td class="col-xs-1 text-center vertical-middle">
+				{{item.amount() | numFormat}}
+			</td>
+			<td class="col-xs-1"> <!-- Кнопка Удалить -->
+				<button type="button" class="btn bg-primary btn-sm center-block" ng-show="mainCtrl.itemsTable.length > 1" ng-click="mainCtrl.removeItem(mainCtrl, item.index)">
+					<span class="glyphicon glyphicon-minus"></span>
+				</button>
+			</td>
+		</tr>
+		
+		<tr> <!-- Кнопка добавить строку -->
+			<td>
+				<button type="button" class="btn btn-success btn-xs" ng-click="mainCtrl.addItem(mainCtrl);" ng-disabled="mainCtrl.itemsTable.length >= 10">
+					<span class="glyphicon glyphicon-plus"></span>
+						&nbsp;Добавить строку
+				</button>
+			</td>
+		</tr>
+
+	</table>
+	<br>
+</div>

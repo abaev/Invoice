@@ -1,0 +1,78 @@
+<!-- Получатель платежа -->
+<div class="col-xs-12">
+	<h4><strong>Получатель платежа</strong></h4>
+	<hr>
+</div>
+
+<div class="col-sm-6 col-xs-12">
+	<div class="form-group">
+		<!-- Изменение <label> по щелчку Название / Ф.И.О. -->
+		<div ng-click="mainCtrl.changeReceiverLabel(mainCtrl)" class="cursor-pointer">
+			<span class="glyphicon glyphicon-pencil cursor-pointer change-icon text-muted"></span>
+			<span class="cursor-pointer">&nbsp;</span>
+			<label for="receiverName" class="control-label cursor-pointer" ng-bind="mainCtrl.receiverLabel"></label>
+		</div>
+		<input type="text" id="receiverName" class="form-control input-sm" required ng-model="mainCtrl.receiverName">
+	</div>
+	
+	<div class="row hidden-xs"  ng-show="mainCtrl.optionalTextInputs[0].visible || mainCtrl.optionalTextInputs[1].visible">
+		<div class="form-group col-sm-5" ng-show="mainCtrl.optionalTextInputs[0].visible">
+			<!-- Телефон получателя -->
+			<label for="{{mainCtrl.optionalTextInputs[0].id}}" class="control-label">
+				<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="mainCtrl.showHideInput(mainCtrl, mainCtrl.optionalTextInputs[0].id);"></span>
+				&nbsp;{{mainCtrl.optionalTextInputs[0].text}}
+			</label>
+			<input type="tel" id="{{mainCtrl.optionalTextInputs[0].id}}" class="form-control input-sm" ng-model="mainCtrl.optionalTextInputs[0].value" required>
+		</div>
+
+		<div class="form-group col-sm-7" ng-show="mainCtrl.optionalTextInputs[1].visible">
+			<!-- E-mail получателя -->
+			<label for="{{mainCtrl.optionalTextInputs[1].id}}" class="control-label">
+				<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="mainCtrl.showHideInput(mainCtrl, mainCtrl.optionalTextInputs[1].id);"></span>
+				&nbsp;{{mainCtrl.optionalTextInputs[1].text}}
+			</label>
+			<input type="email" id="{{mainCtrl.optionalTextInputs[1].id}}" class="form-control input-sm" ng-model="mainCtrl.optionalTextInputs[1].value" required>
+		</div>
+	</div>
+
+	<!-- Руководитель -->
+	<div class="row" ng-show="mainCtrl.optionalTextInputs[3].visible">
+		<div class="form-group col-sm-12 col-xs-12">
+			<label for="{{mainCtrl.optionalTextInputs[3].id}}" class="control-label">
+				<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="mainCtrl.showHideInput(mainCtrl, mainCtrl.optionalTextInputs[3].id);"></span>
+				&nbsp;{{mainCtrl.optionalTextInputs[3].text}}</label>
+			<input type="text" id="{{mainCtrl.optionalTextInputs[3].id}}" class="form-control input-sm" required ng-model="mainCtrl.optionalTextInputs[3].value">
+		</div>
+	</div>
+
+</div>
+
+<div class="col-sm-6 col-xs-12" ng-show="mainCtrl.optionalTextInputs[2].visible">
+	<!-- Адрес получателя -->
+	<div class="form-group">
+		<label for="{{mainCtrl.optionalTextInputs[2].id}}" class="control-label">
+			<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="mainCtrl.showHideInput(mainCtrl, mainCtrl.optionalTextInputs[2].id);"></span>
+			&nbsp;{{mainCtrl.optionalTextInputs[2].text}}
+		</label>
+		<textarea id="{{mainCtrl.optionalTextInputs[1].id}}" class="form-control input-sm" rows="5" required ng-model="mainCtrl.optionalTextInputs[2].value"></textarea>
+	</div>
+</div>
+
+<div class="col-xs-12 hidden-sm hidden-md hidden-lg">
+<!-- Телефон и E-mail получателя для размера xs -->
+	<div class="form-group" ng-show="mainCtrl.optionalTextInputs[0].visible">
+		<label for="{{mainCtrl.optionalTextInputs[0].id}}" class="control-label">
+			<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="mainCtrl.showHideInput(mainCtrl, mainCtrl.optionalTextInputs[0].id);"></span>
+			&nbsp;{{mainCtrl.optionalTextInputs[0].text}}</label>
+		<input type="tel" id="{{mainCtrl.optionalTextInputs[0].id}}" class="form-control input-sm" ng-model="mainCtrl.optionalTextInputs[0].value" required>
+	</div>
+
+	<div class="form-group" ng-show="mainCtrl.optionalTextInputs[1].visible">
+		<label for="{{mainCtrl.optionalTextInputs[1].id}}" class="control-label">
+			<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="mainCtrl.showHideInput(mainCtrl, mainCtrl.optionalTextInputs[1].id);"></span>
+			&nbsp;{{mainCtrl.optionalTextInputs[1].text}}
+		</label>
+		<input type="email" id="{{mainCtrl.optionalTextInputs[1].id}}" class="form-control input-sm" ng-model="mainCtrl.optionalTextInputs[1].value" required>
+	</div>
+
+</div>

@@ -1,0 +1,36 @@
+<!-- Опциональные поля -->
+<div class="row">
+	<div class="form-group col-xs-12 col-sm-6 col-md-4" ng-repeat="formGroup in mainCtrl.optionalTextInputs.slice(4) | filter:{visible:true}">
+		<label for="{{formGroup.id}}" class="control-label">
+			<span class="glyphicon glyphicon-remove close-icon text-muted" ng-click="mainCtrl.showHideInput(mainCtrl, formGroup.id);"></span>
+			&nbsp;{{formGroup.text}}</label>
+		<input type="text" id="{{formGroup.id}}" class="form-control input-sm" required ng-model="formGroup.value">
+	</div>
+</div>					
+
+<!-- Кнопки возвращения удаленных полей -->
+<div class="row"> 
+	<ul class="list-inline col-xs-12 col-sm-6 col-md-4">
+		<li ng-repeat="formGroup in mainCtrl.optionalTextInputs | filter:{visible:false}" class="buttons-list">
+			<button class="btn btn-info btn-xs" ng-click="mainCtrl.showHideInput(mainCtrl, formGroup.id);">
+				<span class="glyphicon glyphicon-plus"></span>
+					&nbsp;{{formGroup.text}}
+			</button>
+		</li>
+	</ul>
+</div>
+
+<!-- Добавление пользовательских полей -->
+<div class="row">
+	<div class="col-sm-6 col-xs-12 form-inline">
+		<div class="form-group">
+			<br class="visible-xs-block">
+			<input type="text" class="form-control input-sm" ng-show="mainCtrl.addingInput" ng-model="mainCtrl.newInputLabel" placeholder="Название поля" data-toggle="tooltip" title="Не более 15 символов" maxlength="15" inv-tooltip>
+			<br class="visible-xs-block">
+			<button ng-disabled="mainCtrl.optionalTextInputs.length >= 10" type="button" class="btn btn-success btn-xs" ng-click="mainCtrl.addInput(mainCtrl);">
+				<span class="glyphicon glyphicon-plus"></span>
+					&nbsp;Добавить поле
+			</button>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,10 @@
+<!-- Коротко о плательщике и платеже -->
+<div class="form-group col-xs-12 col-sm-6">
+	<label for="aboutPayerBriefly" class="control-label">Плательщик</label>
+	<input type="text" id="aboutPayerBriefly" class="form-control input-sm" placeholder="Кому выставлен счет" required ng-model="mainCtrl.invoicePayer">
+</div>
+
+<div class="form-group col-xs-12 col-sm-6">
+	<label for="invoiceBriefly" class="control-label">Основание платежа (коротко о платеже)</label>
+	<textarea name="invoiceBriefly" class="form-control input-sm" id="" rows="2" placeholder="За расходные материалы, за оргтехнику и т. д." required ng-model="mainCtrl.invoiceBriefly"></textarea>
+</div>

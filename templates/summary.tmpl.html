@@ -1,0 +1,46 @@
+<!-- Логотип самая первая строка с Номером счета, Датой, Валютой -->
+<br>
+<div class="hidden-xs col-sm-3 col-sm-offset-0"> <!-- (Добавить) логотип -->
+	<div class="well well-lg invoice-logo" ng-show="mainCtrl.invoiceLogoSrc == 'img/add_logo.png'">
+		<!-- Предлагаем добавить логотип -->
+		<img ng-src="{{mainCtrl.invoiceLogoSrc}}" alt="">
+		<input type="file" accept="image/*" inv-add-logo>
+		<input type="file" accept="image/*" inv-add-logo>
+		<input type="file" accept="image/*" inv-add-logo>
+		<input type="file" accept="image/*" inv-add-logo>
+	</div>
+
+	<div ng-show="mainCtrl.invoiceLogoSrc != 'img/add_logo.png'">
+		<!-- Отображаем логотип, если выбран -->
+		<h3 id="removeLogoButton"> <!-- Кнопка, удаляющая логотоип -->
+			<span class="glyphicon glyphicon-remove-circle cursor-pointer" ng-click="mainCtrl.invoiceLogoSrc = 'img/add_logo.png'"></span>
+		</h3>
+		<img ng-src="{{mainCtrl.invoiceLogoSrc}}" alt="" class="img-rounded img-responsive invoice-logo">
+	</div>
+</div>
+
+<div class="col-xs-12 col-sm-9">
+	<h3 class="text-center">Счет на оплату</h3>
+</div>
+
+<!-- Номер, дата, валюта -->
+<div class="form-group form-inline center-block col-sm-9">
+	
+	<div class="col-lg-1 visible-lg-inline-block">
+		<!-- Этот <div> для горизонтального выравнивания -->
+	</div> 
+
+	<div class="input-group">
+		<div class="input-group-addon">№</div>
+		<input type="text" name="invoice-number" class="form-control input-sm" ng-model="mainCtrl.invoiceNumber" required>
+		<div class="input-group-addon">Дата:</div>
+		<input type="text" name="invoiceDate" class="form-control input-sm" placeholder="дд.мм.гггг" ng-model="mainCtrl.invoiceDate" inv-date-picker required>
+		<div class="input-group-addon">Валюта</div>
+		<select class="form-control input-sm" name="invoice-currency" id="" ng-model="mainCtrl.invoiceCurrency">
+			<option value="руб." class="text-center">руб.</option>
+			<option value="USD">USD</option>
+			<option value="EUR">EUR</option>
+		</select>
+	</div>
+
+</div>
