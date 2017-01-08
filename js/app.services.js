@@ -88,12 +88,15 @@ angular.module('app.services')
 
 // Reset form
 angular.module('app.services')
-	.factory('resetForm', function() {
-		return function(ctrl, form) {
-				// Заменяет .ng-dirty на .ng-pristine
-				form.$setPristine();
-			}
-	});
+	.factory('resetForm', ['$window', function($window) {
+			return function(ctrl, form) {
+					// Заменяет .ng-dirty на .ng-pristine
+					// form.$setPristine();
+
+					// Может и переделать потом...
+					$window.location.reload(false);
+				}
+		}]);
 
 
 // Отправляем на сервер данные пользователя
