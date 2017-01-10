@@ -1,0 +1,10 @@
+{
+	"name": "Invoice Server",
+	"version": "0.0.1",
+	"description": "Server for my Invoice app",
+	
+	"dependencies": {
+		"phantom": "~2.1.14",
+		"html-pdf": "~2.0.1"
+	}
+}

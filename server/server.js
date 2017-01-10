@@ -1,9 +1,11 @@
 var http = require('http');
-var pdf = require('html-pdf');
-
-// Удалить, если станут ненужны
 var fs = require('fs');
+
+// Установленные модули
+var pdf = require('html-pdf');
 var phantom = require('phantom');
+
+var ALLOW_ORIGIN_HEADER = '*'; // Потом alex1.enwony.net/server, например
 
 var pdfOptions = {
   format: 'A4',
@@ -11,12 +13,15 @@ var pdfOptions = {
 };
 var invoice, html, userData;
 var statusCode = 200;
-var pdfStyle = '<style>' + fs.readFileSync('pdf.css', 'utf8').toString() + '</style>';
+var pdfStyle = '';
 var fontLink = '<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&subset=cyrillic,cyrillic-ext" rel="stylesheet">'
 
+//Читаем CSS для нашего документа в pdfStyle
+fs.readFile('pdf.css', 'utf8', function(err, data) {
+  if(err) return console.error(err);
+  pdfStyle = '<style>' + data.toString() + '</style>';
+});
 
-//Удалить
-console.log('Сервер запущен');
 
 http.createServer(function(request, response) {
   var headers = request.headers;
@@ -29,59 +34,92 @@ http.createServer(function(request, response) {
   }).on('data', function(chunk) {
       body.push(chunk);
   }).on('end', function() {
-      userData = Buffer.concat(body).toString();
-      
-      response.on('error', function(err) {
-        console.error(err);
-    });
-
-    if(userData.length > 0) {
-      // Проверка, не preflight ли это
-      // Сделать нормальную проверку??
-            
-      try {
-        userData = JSON.parse(userData);
-        html = fontLink + pdfStyle + userData.invoiceHtml;
-        console.log(userData.invoiceHtml);
-
-        pdf.create(html, pdfOptions).toFile('invoice.pdf', function(err, res) {
-          if (err) {
-            statusCode = 500;
-            console.log(err);
-          } else {
-            console.log(res); // { filename: 'invoice.pdf' } Удалить потом
-            statusCode = 200;
-          }
+        response.on('error', function(err) {
+          console.error(err);
         });
 
-      } catch(err) {
-        // Нормальную обработку ошибок запилить
-        console.log(err);
-        statusCode = 500;
+        userData = Buffer.concat(body).toString();
+        
+        if(method === 'OPTIONS') {
+          sendData(request, response, 'OK');
+        }
+
+        if(method === 'POST') {
+          servePost(request, response, userData);
+        }
+    });
+}).listen(8080, function() {
+  console.log('Server listening on port 8080');
+  console.log('process.cwd() ' + process.cwd())
+  console.log('__dirname ' + __dirname);
+});
+
+
+function servePost(request, response, userData) {
+  var html = '';
+  
+  try {
+    userData = JSON.parse(userData);
+    html = fontLink + pdfStyle + userData.invoiceHtml;
+    console.log(userData.invoiceHtml);
+
+    pdf.create(html, pdfOptions).toFile('invoice.pdf', function(err, res) {
+      if (err) {
+        console.error(err);
+        send500(request, response);
+      } else {
+        console.log(res); // { filename: 'invoice.pdf' } Удалить потом
+        sendData(request, response, 'Success. invoice.pdf was created.')
       }
+    });
 
-    }
-    
+  } catch(err) {
+    console.error(err);
+    send500(request, response);
+  }
+}
 
-    response.statusCode = statusCode;
-    
-    // Здесь поправить заголовки потом
-    response.setHeader('Access-Control-Allow-Origin', '*');
-    response.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // For POST request
-    // Note: the 2 lines above could be replaced with this next one:
-    // response.writeHead(200, {'Content-Type': 'application/json'})
+function sendError(request, response, err) {
+  var headers = err.headers || {};
+  var message = err.message || '';
 
-    var responseBody = {
-      headers: headers,
-      method: method,
-      url: url,
-      body: body
-    };
+  if(request.headers['access-control-request-headers']) {
+    response.setHeader('Access-Control-Allow-Headers',
+      request.headers['access-control-request-headers']);
+  }
+  response.setHeader('Access-Control-Allow-Origin', ALLOW_ORIGIN_HEADER);
+  response.setHeader('Content-Type', 'text/html');
+  response.writeHead(err.number, err.headers);
+  response.end(message);
+}
 
-    response.write(JSON.stringify(responseBody));
-    response.end();
-    // Note: the 2 lines above could be replaced with this next one:
-    // response.end(JSON.stringify(responseBody))
 
-  });
-}).listen(8080);
+function send500(request, response) {
+  sendError(request, response, {
+      number: 500,
+      message: 'Internal Server Error'
+    });
+}
+
+
+function send403(request, response) {
+  sendError(request, response, {
+      number: 403,
+      message: 'Forbidden',
+      headers: {
+        'WWW-Authenticate': 'Basic realm="Server access denied"'
+      }
+    });
+}
+
+
+function sendData(request, response, data) {
+  if(request.headers['access-control-request-headers']) {
+    response.setHeader('Access-Control-Allow-Headers',
+      request.headers['access-control-request-headers']);
+  }
+  response.setHeader('Access-Control-Allow-Origin', ALLOW_ORIGIN_HEADER);
+  response.setHeader('Content-Type', 'text/html');
+  response.writeHead(200);
+  response.end(data);
+}
