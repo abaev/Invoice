@@ -104,8 +104,9 @@ angular.module('app.services')
 	.factory('send', ['$http', 'dependencies', function($http, dependencies) {
 			return function(ctrl) {
 					var userData = {
-						invoiceHtml: $('#pdfTemplate').find('[class]').removeAttr('class')
-							.end().html()
+						// invoiceHtml: $('#pdfTemplate').find('[class]').removeAttr('class')
+						// 	.end().html()
+						invoiceHtml: $('#pdfTemplate').html()
 					}
 	
 					$http.post(dependencies.SERVER_URL, JSON.stringify(userData))

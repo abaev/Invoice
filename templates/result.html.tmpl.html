@@ -1,6 +1,24 @@
 <!-- HTML, который отправляем на сервер,
 там из него создается PDF -->
 <div id="pdfTemplate">
-	<h1><span>Счет на оплату</span></h1>
-	<p><b>№</b> {{mainCtrl.invoiceNumber}}&ensp;|&ensp;<b>Дата:</b> {{mainCtrl.invoiceDate}}&ensp;|&ensp;<b>Валюта:</b> {{mainCtrl.invoiceCurrency}}</p>
+	<h1 class="center no-margin-top"><span>Счет на оплату</span></h1>
+	<p class="center no-margin-top"><b>№</b> {{mainCtrl.invoiceNumber}}&ensp;|&ensp;<b>Дата:</b> {{mainCtrl.invoiceDate}}&ensp;|&ensp;<b>Валюта:</b> {{mainCtrl.invoiceCurrency}}</p>
+	
+	<div>
+		<p><b>Плательщик:</b> {{mainCtrl.invoicePayer}}</p>
+		<p class="no-margin-top"><b>Основание платежа:</b></p>
+		<p class="no-margin-top">>{{mainCtrl.invoiceBriefly}}</p>
+	</div>
+
+	<div>
+		<h3>Получатель платежа</h3>
+		<p class="no-margin-top"><b>{{mainCtrl.receiverName}}</b></p>
+		<p class="no-margin-top"><b>Телефон:</b> {{mainCtrl.optionalTextInputs[0].value}}</p>
+		<p class="no-margin-top"><b>E-mail:</b> {{mainCtrl.optionalTextInputs[1].value}}</p>
+		<p class="no-margin-top"><b>Адрес:</b> {{mainCtrl.optionalTextInputs[2].value}}</p>
+	</div>
+
+	<div ng-repeat="formGroup in mainCtrl.optionalTextInputs.slice(4) | filter:{visible:true}">
+		<p class="no-margin-top"><b>{{formGroup.text}}:</b> {{formGroup.value}}</p>
+	</div>
 </div>

@@ -10,19 +10,26 @@ body {
 
 * {
 	font-family: 'Roboto', sans-serif;
-	font-weight: 300;
-}
-
-b {
 	font-weight: 400;
 }
 
-h1, p {
+h1, h3, b {
+	font-weight: 700;
+}
+
+h1, h3, p {
 	background: yellow;
+}
+
+.no-margin-top {
+	margin-top: -0.5cm !important;
+}
+
+.center {
 	text-align: center;
 }
 
 span {
 	margin: 0 auto;
-	width: 50%;
+	/*width: 50%;*/
 }

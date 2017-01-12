@@ -6,15 +6,14 @@ var pdf = require('html-pdf');
 var phantom = require('phantom');
 
 var ALLOW_ORIGIN_HEADER = '*'; // Потом alex1.enwony.net/server, например
-
-var pdfOptions = {
+var FONT_LINK = '<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">';
+  //'<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&subset=cyrillic,cyrillic-ext" rel="stylesheet">'
+var PDF_OPTIONS = {
   format: 'A4',
   orientation: 'portrait'
 };
-var invoice, html, userData;
-var statusCode = 200;
+
 var pdfStyle = '';
-var fontLink = '<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&subset=cyrillic,cyrillic-ext" rel="stylesheet">'
 
 //Читаем CSS для нашего документа в pdfStyle
 fs.readFile('pdf.css', 'utf8', function(err, data) {
@@ -28,6 +27,7 @@ http.createServer(function(request, response) {
   var method = request.method;
   var url = request.url;
   var body = [];
+  var userData;
   
   request.on('error', function(err) {
     console.error(err);
@@ -60,10 +60,10 @@ function servePost(request, response, userData) {
   
   try {
     userData = JSON.parse(userData);
-    html = fontLink + pdfStyle + userData.invoiceHtml;
+    html = FONT_LINK + pdfStyle + userData.invoiceHtml;
     console.log(userData.invoiceHtml);
 
-    pdf.create(html, pdfOptions).toFile('invoice.pdf', function(err, res) {
+    pdf.create(html, PDF_OPTIONS).toFile('invoice.pdf', function(err, res) {
       if (err) {
         console.error(err);
         send500(request, response);
