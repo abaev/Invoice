@@ -18,7 +18,7 @@ h1, h3, b {
 }
 
 h1, h3, p {
-	background: yellow;
+	background: yellow; /*для отладки*/
 }
 
 .no-margin-top {

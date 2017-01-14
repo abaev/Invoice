@@ -6,7 +6,11 @@ angular.module('app.directives', []);
 angular.module('app.directives')
 	.directive('invAddLogo', function() {
 		return {
-			link: function(scope, element, attrs) {
+			// Две строки ниже -  чтобы получить
+			// именно контроллер, а не его копию
+			controller: 'invoiceController', 
+			controllerAs: 'mainCtrl',
+			link: function(scope, element, attrs, ctrl) {
 				element.bind('change', function(event) {
 											
 					var files = event.target.files;
@@ -15,9 +19,9 @@ angular.module('app.directives')
 				  if (FileReader && files && files.length) {
 				      var fr = new FileReader();
 				      fr.onload = function () {
-			          scope.invoiceLogoSrc = fr.result;
+				      	ctrl.invoiceLogoSrc = fr.result;
 			          scope.$apply();
-			          // Чтобы событие change возникало,
+	         			// Чтобы событие change возникало,
 			          // даже если пользователь выберет
 			          // тот же файл снова
 			          element.val('');
