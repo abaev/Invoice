@@ -80,37 +80,39 @@
 				<!-- Колонка с формой -->
 				<div class="col-xs-12 col-md-10 col-lg-9 col-lg-offset-1 bcgr-white">
 					<div class="row">
-						<div ng-include="'./templates/summary.tmpl.html'"></div>	
+						<!-- Какие-то странные вещи происходят с контроллером,
+						если вместо директивы использовать в этом случае ng-include. -->
+						<div inv-summary></div>
 					</div>
 					<br>
 					
 					<div class="row">
-						<div ng-include="'./templates/payer.briefly.tmpl.html'"></div>
-						<div ng-include="'./templates/receiver.tmpl.html'"></div>
+						<div inv-payer-briefly></div>
+						<div inv-receiver></div>
 					</div>
 
-					<div ng-include="'./templates/receiver.optional.tmpl.html'"></div>
+					<div inv-receiver-optional></div>
 					<br>
 
-					<div ng-include="'./templates/table.tmpl.html'"></div>
+					<div inv-table></div>
 					
 					<div class="row">
 						
-						<div ng-include="'./templates/total.tmpl.html'"></div>
+						<div inv-total></div>
 
 						<div class="form-group col-xs-12 col-sm-8">
 							<label for="invoiceComment" class="control-label">Комментарий</label>
-							<textarea name="invoiceComment" class="form-control input-sm" id="" rows="3"></textarea>
+							<textarea name="invoiceComment" class="form-control input-sm" id="" rows="3" ng-model="mainCtrl.invoiceComment"></textarea>
 						</div>
 
 					</div>
 				</div>
 
-				<div ng-include="'./templates/sidebar.tmpl.html'"></div>
+				<div inv-sidebar></div>
 
 			</div>
 			<div class="row">
-				<div class="col-xs-12" ng-include="'./templates/result.html.tmpl.html'"></div>
+				<div class="col-xs-12" inv-result-html></div>
 			</div>
 		
 		</form>

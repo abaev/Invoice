@@ -6,8 +6,7 @@
 	
 	<div>
 		<p><b>Плательщик:</b> {{mainCtrl.invoicePayer}}</p>
-		<p class="no-margin-top"><b>Основание платежа:</b></p>
-		<p class="no-margin-top">>{{mainCtrl.invoiceBriefly}}</p>
+		<p class="no-margin-top"><b>Основание платежа: </b>{{mainCtrl.invoiceBriefly}}</p>
 	</div>
 
 	<div>
@@ -20,5 +19,47 @@
 
 	<div ng-repeat="formGroup in mainCtrl.optionalTextInputs.slice(4) | filter:{visible:true}">
 		<p class="no-margin-top"><b>{{formGroup.text}}:</b> {{formGroup.value}}</p>
+	</div>
+
+	<table>
+		<tr>
+			<th class="name">Наименование</th>
+			<th class="quantity">Кол-во</th>
+			<th class="measure">Ед.</th>
+			<th class="price">Цена</th>
+			<th class="amount">Сумма</th>
+		</tr>
+
+		<tr ng-repeat="item in mainCtrl.itemsTable">
+			<td class="name">{{item.name}}</td>
+			<td class="quantity">{{item.quantity}}</td>
+			<td class="measure">{{item.measure}}</td>
+			<td class="price">{{item.price}}</td>
+			<td class="amount">{{item.amount() | numFormat}}</td>
+		</tr>
+	</table>
+
+	<div>
+		<p><b>Промежуточный итог:</b> {{mainCtrl.calc.subTotal(mainCtrl) | numFormat}} {{mainCtrl.invoiceCurrency}}</p>
+				
+		<p class="no-margin-top"><b>{{mainCtrl.ndsType == 1 ? 'НДС ' : 'НДС включен в стоимость '}}({{mainCtrl.ndsRate}}%):</b> <span >{{mainCtrl.calc.nds(mainCtrl) | numFormat}} {{mainCtrl.invoiceCurrency}}</span></p>
+		
+		<!-- Если Скидка в процентах -->
+		<div ng-if="mainCtrl.invoiceDiscountType == 'percent'">
+			<p class="no-margin-top"><b>Скидка {{mainCtrl.invoiceDiscount | numFormat}}%:</b> {{mainCtrl.calc.discount(mainCtrl) | numFormat}} {{mainCtrl.invoiceCurrency}}</p>
+		</div>
+
+		<!-- Если Скидка - число -->
+		<div ng-if="mainCtrl.invoiceDiscountType == 'currency'">
+			<p class="no-margin-top"><b>Скидка:</b> {{mainCtrl.invoiceDiscount | numFormat}} {{mainCtrl.invoiceCurrency}}</p>
+		</div>
+
+		<p class="no-margin-top"><b>Доставка:</b> {{mainCtrl.invoiceShipping | numFormat}} {{mainCtrl.invoiceCurrency}}</p>
+		
+		<p class="no-margin-top"><b>ИТОГО: {{mainCtrl.calc.total(mainCtrl) | numFormat}} {{mainCtrl.invoiceCurrency}}</b></p>
+	</div>
+
+	<div>
+		<p ng-if="mainCtrl.invoiceComment"><b>Комментарий: </b>{{mainCtrl.invoiceComment}}</p>
 	</div>
 </div>

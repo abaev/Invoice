@@ -1,5 +1,5 @@
 {
-	"name": "Invoice Server",
+	"name": "invoice-server",
 	"version": "0.0.1",
 	"description": "Server for my Invoice app",
 	

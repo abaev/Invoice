@@ -1,4 +1,5 @@
 /* Стиль для создания PDF */
+/* html-pdf добавляет отступы сверху ко всем p */
 body {
 	width: 18cm;
 	height: 27cm; /* Не 27.7 как должно быть, чтобы генерировалась одна страница */  
@@ -25,6 +26,10 @@ h1, h3, p {
 	margin-top: -0.5cm !important;
 }
 
+h3 {
+	margin-top: .8cm !important;
+}
+
 .center {
 	text-align: center;
 }
@@ -32,4 +37,38 @@ h1, h3, p {
 span {
 	margin: 0 auto;
 	/*width: 50%;*/
+}
+
+/* Таблица */
+th {
+	font-weight: 700;
+}
+
+td {
+	font-size: 10pt;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid black;
+	overflow: hidden;
+}
+
+.name {
+	width: 32%;
+}
+
+.quantity,
+.measure,
+.price,
+.amount {
+	width: 17%;
+}
+
+tr td:not(.name) {
+	text-align: center;
 }

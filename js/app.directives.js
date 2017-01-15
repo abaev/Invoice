@@ -65,3 +65,74 @@ angular.module('app.directives')
 			}
 		}
 	});
+
+
+angular.module('app.directives')
+	.directive('invSummary', function() {
+		return {
+			templateUrl: './templates/summary.tmpl.html'
+		}
+	});
+
+
+angular.module('app.directives')
+	.directive('invPayerBriefly', function() {
+		return {
+			templateUrl: './templates/payer.briefly.tmpl.html'
+		}
+	});
+
+
+angular.module('app.directives')
+	.directive('invReceiver', function() {
+		return {
+			templateUrl: './templates/receiver.tmpl.html'
+		}
+	});
+
+
+angular.module('app.directives')
+	.directive('invReceiverOptional', function() {
+		return {
+			templateUrl: './templates/receiver.optional.tmpl.html'
+		}
+	});
+
+
+angular.module('app.directives')
+	.directive('invTable', function() {
+		return {
+			templateUrl: './templates/table.tmpl.html'
+		}
+	});
+
+
+angular.module('app.directives')
+	.directive('invTotal', function() {
+		return {
+			templateUrl: './templates/total.tmpl.html'
+		}
+	});
+
+
+angular.module('app.directives')
+	.directive('invSidebar', function() {
+		return {
+			templateUrl: './templates/sidebar.tmpl.html'
+		}
+	});
+
+
+angular.module('app.directives')
+	.directive('invResultHtml', function() {
+		return {
+			templateUrl: './templates/result.html.tmpl.html'
+		}
+	});
+
+
+
+
+
+
+
