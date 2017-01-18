@@ -108,8 +108,15 @@ angular.module('app.services')
 						// 	.end().html()
 						invoiceHtml: $('#pdfTemplate').html()
 					}
-	
-					$http.post(dependencies.SERVER_URL, JSON.stringify(userData))
+
+					if(!ctrl.formData) ctrl.formData = new FormData();
+					ctrl.formData.append('userData', JSON.stringify(userData));
+					ctrl.formData.append('test', 'OK');
+					console.log(ctrl.formData);
+					console.log('--end--');
+					$http.post(dependencies.SERVER_URL, ctrl.formData, {
+						headers: {'Content-Type': undefined} //'multipart/form-data'
+					})
 						.then(function(response) {
 							console.log(response);
 						},
@@ -170,3 +177,4 @@ angular.module('app.services')
 				return subTotal(ctrl) + nds(ctrl)	- discount(ctrl) + ctrl.invoiceShipping;
 			}
 	});
+

@@ -5,6 +5,7 @@
 	
 	"dependencies": {
 		"phantom": "~2.1.14",
-		"html-pdf": "~2.0.1"
+		"html-pdf": "~2.0.1",
+		"multiparty": "~4.1.2"
 	}
 }

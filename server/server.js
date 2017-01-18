@@ -4,6 +4,7 @@ var fs = require('fs');
 // Установленные модули
 var pdf = require('html-pdf');
 var phantom = require('phantom');
+var multiparty = require('multiparty');
 
 var ALLOW_ORIGIN_HEADER = '*'; // Потом alex1.enwony.net/server, например
 var FONT_LINK = '<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">';
@@ -45,6 +46,7 @@ http.createServer(function(request, response) {
         }
 
         if(method === 'POST') {
+          console.log(request.data);
           servePost(request, response, userData);
         }
     });
@@ -56,27 +58,54 @@ http.createServer(function(request, response) {
 
 
 function servePost(request, response, userData) {
-  var html = '';
-  
-  try {
-    userData = JSON.parse(userData);
-    html = FONT_LINK + pdfStyle + userData.invoiceHtml;
-    console.log(userData.invoiceHtml);
+  console.log(userData);
+  var form = new multiparty.Form();
 
-    pdf.create(html, PDF_OPTIONS).toFile('invoice.pdf', function(err, res) {
-      if (err) {
-        console.error(err);
-        send500(request, response);
-      } else {
-        console.log(res); // { filename: 'invoice.pdf' } Удалить потом
-        sendData(request, response, 'Success. invoice.pdf was created.')
-      }
-    });
-
-  } catch(err) {
+  form.on('error', function(err){
     console.error(err);
-    send500(request, response);
-  }
+    sendError(request, response, {
+      number: 400,
+      message: 'Invalid request: ' + err.message
+    });
+    return;
+  });
+
+  form.parse(request, function(err, fields, files) {
+    if(err) return console.error(err);
+
+    Object.keys(fields).forEach(function(name) {
+      console.log('got field named ' + name);
+    });
+   
+    Object.keys(files).forEach(function(name) {
+      console.log('got file named ' + name);
+    });
+   
+    console.log('Upload completed!');
+  });
+
+
+  // var html = '';
+  
+  // try {
+  //   userData = JSON.parse(userData);
+  //   html = FONT_LINK + pdfStyle + userData.invoiceHtml;
+  //   console.log(userData.invoiceHtml);
+
+  //   pdf.create(html, PDF_OPTIONS).toFile('invoice.pdf', function(err, res) {
+  //     if (err) {
+  //       console.error(err);
+  //       send500(request, response);
+  //     } else {
+  //       console.log(res); // { filename: 'invoice.pdf' } Удалить потом
+  //       sendData(request, response, 'Success. invoice.pdf was created.')
+  //     }
+  //   });
+
+  // } catch(err) {
+  //   console.error(err);
+  //   send500(request, response);
+  // }
 }
 
 function sendError(request, response, err) {
