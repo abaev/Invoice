@@ -14,6 +14,15 @@ body {
 	font-weight: 400;
 }
 
+.logo {
+	max-height: 3.5cm;
+	max-width: 3.5cm;
+	padding-right: .3cm;
+	padding-bottom: .3cm;
+	float: left;
+	margin-top: -0.5cm;
+}
+
 h1, h3, b {
 	font-weight: 700;
 }

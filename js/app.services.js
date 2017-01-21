@@ -102,31 +102,27 @@ angular.module('app.services')
 // Отправляем на сервер данные пользователя
 angular.module('app.services')
 	.factory('send', ['$http', 'dependencies', function($http, dependencies) {
-			return function(ctrl) {
-					var userData = {
-						// invoiceHtml: $('#pdfTemplate').find('[class]').removeAttr('class')
-						// 	.end().html()
-						invoiceHtml: $('#pdfTemplate').html()
-					}
-
-					if(!ctrl.formData) ctrl.formData = new FormData();
-					ctrl.formData.append('userData', JSON.stringify(userData));
-					ctrl.formData.append('test', 'OK');
-					console.log(ctrl.formData);
-					console.log('--end--');
-					$http.post(dependencies.SERVER_URL, ctrl.formData, {
-						headers: {'Content-Type': undefined} //'multipart/form-data'
-					})
-						.then(function(response) {
-							console.log(response);
-						},
-						function(response) {
-							console.log(response);
-					});
-	
-					console.log(userData.invoiceHtml);
+		return function(ctrl) {
+				var userData = {
+					invoiceHtml: $('#pdfTemplate').html()
 				}
-		}]);
+				
+				if(!ctrl.formData) ctrl.formData = new FormData();
+				ctrl.formData.set('userData', JSON.stringify(userData));
+				// 'Content-Type': undefined, иначе multiparty
+				// отвечает Invalid request: unsupported content-type
+				$http.post(dependencies.SERVER_URL, ctrl.formData, {
+					headers: {'Content-Type': undefined}
+				})
+					.then(function(response) {
+						console.log(response);
+					},
+					function(response) {
+						console.log(response);
+				});
+
+			}
+	}]);
 
 // Функции расчета Промежуточного итога,
 // НДС, Скидки, Доставки, Итого

@@ -1,6 +1,12 @@
 <!-- HTML, который отправляем на сервер,
 там из него создается PDF -->
-<div id="pdfTemplate">
+<div id="pdfTemplate"> 
+
+	<div ng-if="mainCtrl.invoiceLogoSrc != 'img/add_logo.png'">
+		<!-- Сервер заменит replaceThis на src к пользовательскому логотипу -->
+		<img src="replaceThis" class="logo" alt="">
+	</div>
+
 	<h1 class="center no-margin-top"><span>Счет на оплату</span></h1>
 	<p class="center no-margin-top"><b>№</b> {{mainCtrl.invoiceNumber}}&ensp;|&ensp;<b>Дата:</b> {{mainCtrl.invoiceDate}}&ensp;|&ensp;<b>Валюта:</b> {{mainCtrl.invoiceCurrency}}</p>
 	
