@@ -15,24 +15,26 @@ var PDF_OPTIONS = {
   orientation: 'portrait'
 };
 
-// Настройка nodemailer'а
-var transporter = nodemailer.createTransport({
-    service: 'Yandex',
-    auth: {
-      user: 'invoicegen@yandex.ru',
-      pass: "F1XEDbug109"
-    },
-    tls: {rejectUnauthorized: false}
-  });
-var mailOptions = {
-    from: "'Сервис создания счетов' <invoicegen@yandex.ru>",
-    to: 'lowrydertrue@gmail.com',
-    subject: 'Счет на оплату',
-    text: '',
-    html: ''
-  }
-
+var transporter, mailOptions;
 var pdfStyle = '';
+
+// Настройка nodemailer'а
+fs.readFile(__dirname + '/data/config.json', 'utf8', function(err, data) {
+  var config = {};
+  
+  if(err) return console.error(err);
+  
+  try {
+    config = JSON.parse(data);
+    // create reusable transporter object using the default SMTP transport
+    transporter = nodemailer.createTransport(config.transporter);
+    // setup e-mail data with unicode symbols
+    mailOptions = config.mailOptions;
+  } catch(e) {
+    return console.error(e);
+  }
+});
+
 
 //Читаем CSS для нашего документа в pdfStyle
 fs.readFile('pdf.css', 'utf8', function(err, data) {
@@ -48,6 +50,10 @@ http.createServer(function(request, response) {
   var body = [];
     
   request.on('error', function(err) {
+    console.error(err);
+  });
+
+  response.on('error', function(err) {
     console.error(err);
   });
         
@@ -102,9 +108,12 @@ function servePost(request, response) {
       userData = JSON.parse(fields.userData);
       if(uploadedFile) { 
         // Если есть лого - добавить его
-        html = FONT_LINK + pdfStyle +
-          userData.invoiceHtml.replace(/replaceThis/g, SERVER_PATH
-            + uploadedFile.path.replace(/\\/g, '/'));
+        // html = FONT_LINK + pdfStyle +
+        //   userData.invoiceHtml.replace(/replaceThis/g, SERVER_PATH
+        //     + uploadedFile.path.replace(/\\/g, '/'));
+
+        html = FONT_LINK + pdfStyle.replace(/replaceThis/g, SERVER_PATH
+            + uploadedFile.path.replace(/\\/g, '/')) +  userData.invoiceHtml;
       } else html = FONT_LINK + pdfStyle + userData.invoiceHtml;
       
       
@@ -116,6 +125,10 @@ function servePost(request, response) {
           console.log(res); // { filename: 'invoice.pdf' } Удалить потом
           // Теперь отправляем e-mail и удаляем загруженную
           // картинку логотипа и сгенерированнй PDF
+          mailOptions.to = userData.email.payerEmail;
+          mailOptions.subject = userData.email.payerEmailSubj;
+          mailOptions.html = userData.email.payerEmailText +
+            '<br><br>Создано с помощью <a href="http://alex.enwony.net/">Сервис создания счетов</a>';
           mailOptions.attachments = [{
             filename: 'invoice.pdf',
             content: fs.createReadStream('tmp/invoice.pdf'),

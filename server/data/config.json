@@ -1,0 +1,18 @@
+{
+  "transporter": {
+    "service": "Yandex",
+    "auth": {
+      "user": "invoicegen@yandex.ru",
+      "pass": "F1XEDbug109"
+    },
+    "tls": {"rejectUnauthorized": false}
+  },
+
+"mailOptions": {
+    "from": "'Сервис создания счетов alex.enwony.net' <invoicegen@yandex.ru>",
+    "to": "",
+    "subject": "",
+    "text": "",
+    "html": ""
+  }
+}

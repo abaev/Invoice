@@ -133,6 +133,18 @@ angular.module('app.directives')
 	});
 
 
+// Модальное окно перед отправкой
+angular.module('app.directives')
+	.directive('invPreSendModal', function() {
+		return {
+			scope: {
+				ctrl: '=ctrl'
+			},
+			templateUrl: './templates/preSendModal.tmpl.html'
+		}
+	});
+
+
 
 
 

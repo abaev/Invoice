@@ -1,26 +1,42 @@
 <!-- HTML, который отправляем на сервер,
 там из него создается PDF -->
 <div id="pdfTemplate"> 
-
-	<div ng-if="mainCtrl.invoiceLogoSrc != 'img/add_logo.png'">
-		<!-- Сервер заменит replaceThis на src к пользовательскому логотипу -->
-		<img src="replaceThis" class="logo" alt="">
-	</div>
-
-	<h1 class="center no-margin-top"><span>Счет на оплату</span></h1>
-	<p class="center no-margin-top"><b>№</b> {{mainCtrl.invoiceNumber}}&ensp;|&ensp;<b>Дата:</b> {{mainCtrl.invoiceDate}}&ensp;|&ensp;<b>Валюта:</b> {{mainCtrl.invoiceCurrency}}</p>
-	
 	<div>
+		<div ng-if="mainCtrl.invoiceLogoSrc != 'img/add_logo.png'" class="logo">
+			<!-- Сервер заменит replaceThis на src к пользовательскому логотипу -->
+			<!-- <img src="replaceThis" alt=""> -->
+		</div>
+
+		<h1 class="center no-margin-top">Счет на оплату</h1>
+		<p class="center no-margin-top"><b>№</b> {{mainCtrl.invoiceNumber}}&ensp;|&ensp;<b>Дата:</b> {{mainCtrl.invoiceDate}}&ensp;|&ensp;<b>Валюта:</b> {{mainCtrl.invoiceCurrency}}</p>
+	</div>
+	<div class="clearfix"></div>
+	<div ng-if="mainCtrl.invoicePayer" class="">
 		<p><b>Плательщик:</b> {{mainCtrl.invoicePayer}}</p>
 		<p class="no-margin-top"><b>Основание платежа: </b>{{mainCtrl.invoiceBriefly}}</p>
 	</div>
 
 	<div>
-		<h3>Получатель платежа</h3>
-		<p class="no-margin-top"><b>{{mainCtrl.receiverName}}</b></p>
-		<p class="no-margin-top"><b>Телефон:</b> {{mainCtrl.optionalTextInputs[0].value}}</p>
-		<p class="no-margin-top"><b>E-mail:</b> {{mainCtrl.optionalTextInputs[1].value}}</p>
-		<p class="no-margin-top"><b>Адрес:</b> {{mainCtrl.optionalTextInputs[2].value}}</p>
+		<h3 ng-if="mainCtrl.receiverName
+			|| mainCtrl.optionalTextInputs[0].value
+			|| mainCtrl.optionalTextInputs[1].value
+			|| mainCtrl.optionalTextInputs[2].value">Получатель платежа</h3>
+		
+		<p class="no-margin-top" ng-if="mainCtrl.receiverName">
+			<b>{{mainCtrl.receiverName}}</b>
+		</p>
+		
+		<p class="no-margin-top" ng-if="mainCtrl.optionalTextInputs[0].value">
+			<b>Телефон:</b> {{mainCtrl.optionalTextInputs[0].value}}
+		</p>
+		
+		<p class="no-margin-top" ng-if="mainCtrl.optionalTextInputs[1].value">
+			<b>E-mail:</b> {{mainCtrl.optionalTextInputs[1].value}}
+		</p>
+		
+		<p class="no-margin-top" ng-if="mainCtrl.optionalTextInputs[2].value">
+			<b>Адрес:</b> {{mainCtrl.optionalTextInputs[2].value}}
+		</p>
 	</div>
 
 	<div ng-repeat="formGroup in mainCtrl.optionalTextInputs.slice(4) | filter:{visible:true}">

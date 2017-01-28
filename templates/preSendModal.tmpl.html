@@ -1,0 +1,39 @@
+<!-- preSendModal -->
+<div class="modal fade" id="preSendModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+	    
+	    <div class="modal-header">
+	      <h3 class="modal-title text-center" id="preSendModalLabel"><b>Отправка</b></h3>
+      </div>
+
+      <div class="modal-body">
+        <p ng-show="ctrl.form.$invalid" class="text-danger"><b>Не все поля счета заполнены</b></p>
+        <hr ng-show="ctrl.form.$invalid">
+
+        <ng-form name="preSendForm" novalidate>
+          <div class="form-group">
+            <label for="payerEmail">E-mail плательщика</label>
+            <input type="email" class="form-control" id="payerEmail" name="payerEmail" placeholder="" ng-model="ctrl.email.payerEmail" required="">
+          </div>
+          <div>&nbsp;</div>
+          <div class="form-group">
+            <label for="payerEmailSubj">Тема</label>
+            <input type="text" class="form-control" id="payerEmailSubj" placeholder="{{ctrl.payerEmailSubj}}" ng-model="ctrl.email.payerEmailSubj" maxlength="100">
+          </div>
+          <div class="form-group">
+            <label for="payerEmailText">Текст письма</label>
+            <textarea type="text" class="form-control" id="payerEmailText" rows="4" placeholder="{{ctrl.payerEmailText}}" ng-model="ctrl.email.payerEmailText"></textarea>
+          </div>
+        </ng-form>
+      </div>
+			
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Вернуться к редактированию</button>
+        <div class="visible-xs-block visible-sm-block">&nbsp;</div>
+        <button type="button" class="btn btn-primary" ng-click="ctrl.send(ctrl)" data-dismiss="modal" ng-disabled="preSendForm.$invalid">Отправить</button>
+      </div>
+
+    </div>
+  </div>
+</div> <!-- End Modal  -->

@@ -14,13 +14,25 @@ body {
 	font-weight: 400;
 }
 
+.clearfix {
+  clear: both;
+}
+
 .logo {
-	max-height: 3.5cm;
-	max-width: 3.5cm;
-	padding-right: .3cm;
-	padding-bottom: .3cm;
+	/*margin-top: -0.5cm;*/
+  width: 3.8cm;
+  height: 3.8cm;
 	float: left;
-	margin-top: -0.5cm;
+  background-image: url("replaceThis");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
 }
 
 h1, h3, b {
@@ -28,7 +40,7 @@ h1, h3, b {
 }
 
 h1, h3, p {
-	background: yellow; /*для отладки*/
+	/*background: yellow;*/ /*для отладки*/
 }
 
 .no-margin-top {
@@ -68,13 +80,18 @@ th, td {
 }
 
 .name {
-	width: 32%;
+	width: 36%;
+}
+.quantity {
+	width: 10%;
 }
 
-.quantity,
-.measure,
-.price,
 .amount {
+	width: 20%;
+}
+
+.measure,
+.price {
 	width: 17%;
 }
 

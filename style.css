@@ -109,5 +109,5 @@ textarea.ng-invalid.ng-touched {
 }
 
 #pdfTemplate {
-	/*display: none;*/
+	display: none;
 }

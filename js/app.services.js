@@ -104,9 +104,13 @@ angular.module('app.services')
 	.factory('send', ['$http', 'dependencies', function($http, dependencies) {
 		return function(ctrl) {
 				var userData = {
-					invoiceHtml: $('#pdfTemplate').html()
-				}
-				
+					invoiceHtml: $('#pdfTemplate').html(),
+					email: ctrl.email
+				};
+				userData.email.payerEmailSubj = userData.email.payerEmailSubj ||
+					'Счет № ' + ctrl.invoiceNumber + ' от ' + ctrl.receiverName;
+				userData.email.payerEmailText = userData.email.payerEmailText ||
+					'PDF со счетом на ваше имя в приложении к письму.';
 				if(!ctrl.formData) ctrl.formData = new FormData();
 				ctrl.formData.set('userData', JSON.stringify(userData));
 				// 'Content-Type': undefined, иначе multiparty
