@@ -107,34 +107,32 @@ function servePost(request, response) {
     try {
       userData = JSON.parse(fields.userData);
       if(uploadedFile) { 
-        // Если есть лого - добавить его
-        // html = FONT_LINK + pdfStyle +
-        //   userData.invoiceHtml.replace(/replaceThis/g, SERVER_PATH
-        //     + uploadedFile.path.replace(/\\/g, '/'));
-
         html = FONT_LINK + pdfStyle.replace(/replaceThis/g, SERVER_PATH
-            + uploadedFile.path.replace(/\\/g, '/')) +  userData.invoiceHtml;
+          + uploadedFile.path.replace(/\\/g, '/')) +  userData.invoiceHtml;
       } else html = FONT_LINK + pdfStyle + userData.invoiceHtml;
       
       
-      pdf.create(html, PDF_OPTIONS).toFile('tmp/invoice.pdf', function(err, res) {
+      pdf.create(html, PDF_OPTIONS).toBuffer(function(err, pdfBuffer) {
         if (err) {
           console.error(err);
           send500(request, response);
         } else {
-          console.log(res); // { filename: 'invoice.pdf' } Удалить потом
-          // Теперь отправляем e-mail и удаляем загруженную
-          // картинку логотипа и сгенерированнй PDF
+          // Теперь отправляем e-mail
+          // и удаляем загруженную картинку логотипа
           mailOptions.to = userData.email.payerEmail;
           mailOptions.subject = userData.email.payerEmailSubj;
           mailOptions.html = userData.email.payerEmailText +
             '<br><br>Создано с помощью <a href="http://alex.enwony.net/">Сервис создания счетов</a>';
           mailOptions.attachments = [{
             filename: 'invoice.pdf',
-            content: fs.createReadStream('tmp/invoice.pdf'),
+            content: pdfBuffer,
             contentType: 'application/pdf'
           }];
           transporter.sendMail(mailOptions, function(error, info){
+            if(uploadedFile) fs.unlink(uploadedFile.path, function(err) {
+              if(err) console.error(err);
+            });
+            
             if(error) {
               console.error(error);
               send500(request, response);
@@ -183,16 +181,16 @@ function send500(request, response) {
 }
 
 
-function send403(request, response) {
-  if(response.finished) return;
-  sendError(request, response, {
-      number: 403,
-      message: 'Forbidden',
-      headers: {
-        'WWW-Authenticate': 'Basic realm="Server access denied"'
-      }
-    });
-}
+// function send403(request, response) {
+//   if(response.finished) return;
+//   sendError(request, response, {
+//       number: 403,
+//       message: 'Forbidden',
+//       headers: {
+//         'WWW-Authenticate': 'Basic realm="Server access denied"'
+//       }
+//     });
+// }
 
 
 function sendData(request, response, data) {
