@@ -7,12 +7,16 @@ var phantom = require('phantom');
 var multiparty = require('multiparty');
 var nodemailer = require('nodemailer');
 
-var SERVER_PATH = 'http://www.invoice/server/';
-var ALLOW_ORIGIN_HEADER = '*'; // Потом alex1.enwony.net/server, например
+var CSS_FILE = 'pdf.serv.ver.css'; //'pdf.css';
+var SERVER_PATH = 'http://alex.enwony.net/';
+var ALLOW_ORIGIN_HEADER = 'http://alex.enwony.net/server'; // '*' 'alex.enwony.net/server'
 var FONT_LINK = '<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">';
+var EMAIL_SIGN = '<br><br>Создано с помощью <a href="http://alex.enwony.net/">Сервис создания счетов</a>';
+var PORT = 3000; //8080;
 var PDF_OPTIONS = {
   format: 'A4',
-  orientation: 'portrait'
+  orientation: 'portrait',
+  base: '/home/alex1/www/server'
 };
 
 var transporter, mailOptions;
@@ -37,7 +41,7 @@ fs.readFile(__dirname + '/data/config.json', 'utf8', function(err, data) {
 
 
 //Читаем CSS для нашего документа в pdfStyle
-fs.readFile('pdf.css', 'utf8', function(err, data) {
+fs.readFile(CSS_FILE, 'utf8', function(err, data) {
   if(err) return console.error(err);
   pdfStyle = '<style>' + data.toString() + '</style>';
 });
@@ -56,7 +60,7 @@ http.createServer(function(request, response) {
   response.on('error', function(err) {
     console.error(err);
   });
-        
+  
   if(method === 'OPTIONS') {
     sendData(request, response, 'OK');
   }
@@ -65,8 +69,8 @@ http.createServer(function(request, response) {
     servePost(request, response);
   }
  
-}).listen(8080, function() {
-  console.log('Server listening on port 8080');
+}).listen(PORT, function() {
+  console.log('Server listening on port ' + PORT);
   console.log('process.cwd() ' + process.cwd())
   console.log('__dirname ' + __dirname);
 });
@@ -76,7 +80,7 @@ function servePost(request, response) {
   var form = new multiparty.Form({
     maxFilesSize: 3145728, // Лого не больше 3 Мб
     autoFiles: true,
-    uploadDir: 'tmp'
+    uploadDir: __dirname + '/../tmp'
   });
   var uploadedFile;
 
@@ -108,10 +112,9 @@ function servePost(request, response) {
       userData = JSON.parse(fields.userData);
       if(uploadedFile) { 
         html = FONT_LINK + pdfStyle.replace(/replaceThis/g, SERVER_PATH
-          + uploadedFile.path.replace(/\\/g, '/')) +  userData.invoiceHtml;
+          + uploadedFile.path.replace(/\\/g, '/').replace('/home/alex1/www/','')) +  userData.invoiceHtml;
       } else html = FONT_LINK + pdfStyle + userData.invoiceHtml;
-      
-      
+
       pdf.create(html, PDF_OPTIONS).toBuffer(function(err, pdfBuffer) {
         if (err) {
           console.error(err);
@@ -121,8 +124,7 @@ function servePost(request, response) {
           // и удаляем загруженную картинку логотипа
           mailOptions.to = userData.email.payerEmail;
           mailOptions.subject = userData.email.payerEmailSubj;
-          mailOptions.html = userData.email.payerEmailText +
-            '<br><br>Создано с помощью <a href="http://alex.enwony.net/">Сервис создания счетов</a>';
+          mailOptions.html = userData.email.payerEmailText + EMAIL_SIGN;
           mailOptions.attachments = [{
             filename: 'invoice.pdf',
             content: pdfBuffer,

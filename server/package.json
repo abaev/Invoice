@@ -2,6 +2,7 @@
 	"name": "invoice-server",
 	"version": "0.0.1",
 	"description": "Server for my Invoice app",
+	"author": "Aleksandr Abaev",
 	
 	"dependencies": {
 		"phantom": "~2.1.14",

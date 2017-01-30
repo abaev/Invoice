@@ -4,7 +4,7 @@ angular.module('app.services', []);
 angular.module('app.services')
 	.factory('dependencies', function() {
 		return {
-			SERVER_URL: 'http://localhost:8080'
+			SERVER_URL: 'http://alex.enwony.net/server' // http://localhost:8080'
 		}
 	});
 
