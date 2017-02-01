@@ -34,7 +34,9 @@ angular.module('app.controllers')
 			self.invoiceShipping = 0;
 			self.invoiceDate = $filter('date')(new Date(), 'dd.MM.yyyy');
 			self.invoiceLogoSrc = 'img/add_logo.png';
-			self.payerEmailText = 'PDF со счетом на ваше имя в приложении к письму.';
+			self.email = {
+				payerEmailText: 'PDF со счетом на ваше имя в приложении к письму.'
+			};
 
 			// Опциональные поля ввода
 			self.optionalTextInputs = [

@@ -1,17 +1,27 @@
 /* Стиль для создания PDF */
-/* html-pdf добавляет отступы сверху ко всем p */
+/* html-pdf (или PhantomJS) добавляет отступы сверху ко всем p */
+
+@font-face {
+  font-family: "Roboto-Regular"; 
+  src: url("Roboto-Regular.ttf"); 
+}
+
+@font-face {
+  font-family: "Roboto-Bold"; 
+  src: url("Roboto-Bold.ttf"); 
+}
+
 body {
 	width: 18cm;
 	height: 27cm; /* Не 27.7 как должно быть, чтобы генерировалась одна страница */  
 	padding: 1cm;
 	padding-left: 2cm;
 	font-size: 12pt;
-	/*font-family: 'Open Sans Condensed', sans-serif;*/
+	zoom: .75; 
 }
 
 * {
-	font-family: 'Roboto', sans-serif;
-	font-weight: 400;
+	font-family: 'Roboto-Regular', sans-serif;
 }
 
 .clearfix {
@@ -19,8 +29,7 @@ body {
 }
 
 .logo {
-	/*margin-top: -0.5cm;*/
-  width: 3.8cm;
+	width: 3.8cm;
   height: 3.8cm;
 	float: left;
   background-image: url("replaceThis");
@@ -36,11 +45,7 @@ img {
 }
 
 h1, h3, b {
-	font-weight: 700;
-}
-
-h1, h3, p {
-	/*background: yellow;*/ /*для отладки*/
+	font-family: 'Roboto-Bold', sans-serif;
 }
 
 .no-margin-top {
@@ -57,12 +62,11 @@ h3 {
 
 span {
 	margin: 0 auto;
-	/*width: 50%;*/
 }
 
 /* Таблица */
 th {
-	font-weight: 700;
+	font-family: 'Roboto-Bold', sans-serif;
 }
 
 td {

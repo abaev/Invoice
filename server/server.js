@@ -7,16 +7,16 @@ var phantom = require('phantom');
 var multiparty = require('multiparty');
 var nodemailer = require('nodemailer');
 
-var CSS_FILE = 'pdf.serv.ver.css'; //'pdf.css';
+var CSS_FILE = 'pdf.css'; //'pdf.serv.ver.css';
 var SERVER_PATH = 'http://alex.enwony.net/';
 var ALLOW_ORIGIN_HEADER = 'http://alex.enwony.net/server'; // '*' 'alex.enwony.net/server'
-var FONT_LINK = '<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">';
+var FONT_LINK = ''; //'<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">';
 var EMAIL_SIGN = '<br><br>Создано с помощью <a href="http://alex.enwony.net/">Сервис создания счетов</a>';
 var PORT = 3000; //8080;
 var PDF_OPTIONS = {
   format: 'A4',
   orientation: 'portrait',
-  base: '/home/alex1/www/server'
+  base: 'file:///home/alex1/www/server/' // Именно file:/// и / в конце
 };
 
 var transporter, mailOptions;
@@ -40,7 +40,7 @@ fs.readFile(__dirname + '/data/config.json', 'utf8', function(err, data) {
 });
 
 
-//Читаем CSS для нашего документа в pdfStyle
+// Читаем CSS для нашего документа в pdfStyle
 fs.readFile(CSS_FILE, 'utf8', function(err, data) {
   if(err) return console.error(err);
   pdfStyle = '<style>' + data.toString() + '</style>';
@@ -113,7 +113,7 @@ function servePost(request, response) {
       if(uploadedFile) { 
         html = FONT_LINK + pdfStyle.replace(/replaceThis/g, SERVER_PATH
           + uploadedFile.path.replace(/\\/g, '/').replace('/home/alex1/www/','')) +  userData.invoiceHtml;
-      } else html = FONT_LINK + pdfStyle + userData.invoiceHtml;
+      } else html =  FONT_LINK + pdfStyle + userData.invoiceHtml;
 
       pdf.create(html, PDF_OPTIONS).toBuffer(function(err, pdfBuffer) {
         if (err) {
