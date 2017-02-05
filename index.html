@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Invoice - создание счетов</title>
+	<title>Создание счетов</title>
 
 	<!-- FAVICONS -->
 	<link rel="apple-touch-icon" sizes="114x114" href="./icon/apple-touch-icon.png">
@@ -40,6 +40,9 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-route.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-sanitize.min.js"></script>
+
 
 	<!-- Шрифт для шапки -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,600,600i&subset=cyrillic-ext" rel="stylesheet">
@@ -72,57 +75,8 @@
 		</div>
 	</header>
 	
-	<div class="container-fluid">
-
-		<form action="" name="invoiceForm" enctype="multipart/form-data" ng-controller="invoiceController as mainCtrl" novalidate>
-			<div class="row">
-				<br>
-				<!-- Колонка с формой -->
-				<div class="col-xs-12 col-md-10 col-lg-9 col-lg-offset-1 bcgr-white">
-					<div class="row">
-						<!-- Какие-то странные вещи происходят с контроллером,
-						если вместо директивы использовать в этом случае ng-include. -->
-						<div inv-summary></div>
-					</div>
-					<br>
-					
-					<div class="row">
-						<div inv-payer-briefly></div>
-						<div inv-receiver></div>
-					</div>
-
-					<div inv-receiver-optional></div>
-					<br>
-
-					<div inv-table></div>
-					
-					<div class="row">
-						
-						<div inv-total></div>
-
-						<div class="form-group col-xs-12 col-sm-8">
-							<label for="invoiceComment" class="control-label">Комментарий</label>
-							<textarea name="invoiceComment" class="form-control input-sm" id="" rows="3" ng-model="mainCtrl.invoiceComment"></textarea>
-						</div>
-
-					</div>
-				</div>
-
-				<div inv-sidebar></div>
-
-			</div>
-			<div class="row">
-				<div class="col-xs-12" inv-result-html></div>
-			</div>
-		
-		</form>
-		
-		<div class="row">
-			<div class="col-xs-12 col-md-10 col-lg-9 col-lg-offset-1">
-				<hr>
-				<p class="text-center text-muted">Разработка: Александр Абаев, lowrydertrue@gmail.com</p>
-			</div>
-		</div>
+	<div ng-controller="invoiceController as mainCtrl">
+		<div ng-view></div>
 	</div>
 
 </body>

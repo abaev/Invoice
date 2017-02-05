@@ -1,11 +1,13 @@
 var http = require('http');
 var fs = require('fs');
+var stream = require('stream');
 
 // Установленные модули
 var pdf = require('html-pdf');
 var phantom = require('phantom');
 var multiparty = require('multiparty');
 var nodemailer = require('nodemailer');
+var shortid = require('shortid');
 
 var CSS_FILE = 'pdf.css'; //'pdf.serv.ver.css';
 var SERVER_PATH = 'http://alex.enwony.net/';
@@ -82,14 +84,12 @@ function servePost(request, response) {
     autoFiles: true,
     uploadDir: __dirname + '/../tmp'
   });
-  var uploadedFile;
+  var responseData, uploadedFile, pdfFile = shortid.generate();
+  var pdfUrl = '';
 
   form.on('error', function(err){
     console.error(err);
-    sendError(request, response, {
-      number: 400,
-      message: 'Invalid request: ' + err.message
-    });
+    send500(request, response, '<p class="text-danger">Ошибка</p>');
   });
 
   form.on('file', function(name, file) {
@@ -98,13 +98,11 @@ function servePost(request, response) {
 
   form.parse(request, function(err, fields, files) {
     var html = '', userData;
+    var pdfBufferStream = new stream.PassThrough();
 
     if(err) {
       console.error(err);
-      sendError(request, response, {
-        number: 400,
-        message: 'Invalid request: ' + err.message
-      });
+      send500(request, response, '<p class="text-danger">Ошибка</p>');
       return;
     }
 
@@ -115,34 +113,58 @@ function servePost(request, response) {
           + uploadedFile.path.replace(/\\/g, '/').replace('/home/alex1/www/','')) +  userData.invoiceHtml;
       } else html =  FONT_LINK + pdfStyle + userData.invoiceHtml;
 
-      pdf.create(html, PDF_OPTIONS).toBuffer(function(err, pdfBuffer) {
-        if (err) {
-          console.error(err);
-          send500(request, response);
-        } else {
-          // Теперь отправляем e-mail
-          // и удаляем загруженную картинку логотипа
-          mailOptions.to = userData.email.payerEmail;
-          mailOptions.subject = userData.email.payerEmailSubj;
-          mailOptions.html = userData.email.payerEmailText + EMAIL_SIGN;
-          mailOptions.attachments = [{
-            filename: 'invoice.pdf',
-            content: pdfBuffer,
-            contentType: 'application/pdf'
-          }];
-          transporter.sendMail(mailOptions, function(error, info){
+      pdf.create(html, PDF_OPTIONS).
+        toFile('../pdf' + pdfFile + '.pdf', function(err, pdfBuffer) {
+          if (err) {
+            console.error(err);
+            // Даже PDF не удалось
+            responseData = '<p class="text-danger">Ошибка: не удалось создать PDF</p>'
+            send500(request, response, responseData);
+          } else {
+            // Теперь отправляем (если нужно) e-mail
+            // и удаляем загруженную картинку логотипа
             if(uploadedFile) fs.unlink(uploadedFile.path, function(err) {
-              if(err) console.error(err);
-            });
-            
-            if(error) {
-              console.error(error);
-              send500(request, response);
+                if(err) console.error(err);
+              });
+
+            if(!userData.sendRequired) {
+              // Всё норм
+              pdfUrl = 'http://alex.enwony.net/pdf' + pdfFile + '.pdf';
+              responseData =
+                '<p>PDF будет доступен вам в течение суток по адресу: <a href="' +
+                pdfUrl+ '" target="_blank">' + pdfUrl + '</a></p>';
+              sendData(request, response, responseData);
               return;
             }
-          
-            sendData(request, response, 'OK. Invoice PDF was sent');
-          });
+
+            mailOptions.to = userData.email.payerEmail;
+            mailOptions.subject = userData.email.payerEmailSubj;
+            mailOptions.html = userData.email.payerEmailText + EMAIL_SIGN;
+            mailOptions.attachments = [{
+              filename: 'invoice.pdf',
+              path: '../pdf' + pdfFile + '.pdf',
+              contentType: 'application/pdf'
+            }];
+            transporter.sendMail(mailOptions, function(error, info){
+                          
+              if(error) {
+                console.error(error);
+                // Не удалось отправить, но PDF OK
+                pdfUrl = 'http://alex.enwony.net/pdf' + pdfFile + '.pdf';
+                responseData = '<p class="text-danger">Ошибка: не удалось отправить e-mail</p>' +
+                  '<p>PDF будет доступен вам в течение суток по адресу: <a href="' +
+                  pdfUrl+ '" target="_blank">' + pdfUrl + '</a></p>';
+                send500(request, response, responseData);
+                return;
+              }
+              
+              // Всё норм
+              pdfUrl = 'http://alex.enwony.net/pdf' + pdfFile + '.pdf';
+              responseData = '<p>Письмо со счетом отправлено</p>' +
+                '<p>PDF будет доступен вам в течение суток по адресу: <a href="' +
+                pdfUrl+ '" target="_blank">' + pdfUrl + '</a></p>';
+              sendData(request, response, responseData);
+            });
 
         }
       });
@@ -174,15 +196,15 @@ function sendError(request, response, err) {
 }
 
 
-function send500(request, response) {
+function send500(request, response, data) {
   if(response.finished) return;
   sendError(request, response, {
       number: 500,
-      message: 'Internal Server Error'
+      message: data || 'Internal Server Error'
     });
 }
 
-
+// Не используется пока
 // function send403(request, response) {
 //   if(response.finished) return;
 //   sendError(request, response, {

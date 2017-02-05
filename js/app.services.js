@@ -105,8 +105,11 @@ angular.module('app.services')
 		return function(ctrl) {
 				var userData = {
 					invoiceHtml: $('#pdfTemplate').html(),
-					email: ctrl.email
+					email: ctrl.email,
+					sendRequired: ctrl.sendRequired
 				};
+
+				ctrl.sendState = true;
 				userData.email.payerEmailSubj = userData.email.payerEmailSubj ||
 					'Счет № ' + ctrl.invoiceNumber + ' от ' + ctrl.receiverName;
 				userData.email.payerEmailText = userData.email.payerEmailText ||
@@ -120,9 +123,11 @@ angular.module('app.services')
 				})
 					.then(function(response) {
 						console.log(response);
+						ctrl.response = response.data;
 					},
 					function(response) {
 						console.log(response);
+						ctrl.response = response.data;
 				});
 
 			}
@@ -176,5 +181,16 @@ angular.module('app.services')
 				
 				return subTotal(ctrl) + nds(ctrl)	- discount(ctrl) + ctrl.invoiceShipping;
 			}
+	});
+
+
+// Убирает Bootstrap's modal
+angular.module('app.services')
+	.factory('closeModal', function() {
+		return function(id) {
+			$(id).modal('hide');
+			$('body').removeClass('modal-open');
+			$('.modal-backdrop').remove();
+		}
 	});
 

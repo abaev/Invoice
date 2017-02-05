@@ -31,6 +31,7 @@ body {
 .logo {
 	width: 3.8cm;
   height: 3.8cm;
+  margin-bottom: .5cm;
 	float: left;
   background-image: url("replaceThis");
   background-size: contain;

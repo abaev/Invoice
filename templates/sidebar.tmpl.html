@@ -3,7 +3,7 @@
 но при некоторых значениях ширины экрана (где-то между sm и md)
 появляется горизонтальная прокрутка -->
 	<div class="col-xs-12 col-md-2 col-lg-2 hidden-xs hidden-sm">
-		<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal" ng-click="mainCtrl.email.payerEmailSubj = 'Счет № ' + mainCtrl.invoiceNumber + ' от ' + mainCtrl.receiverName">Отправить</button>
+		<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal" ng-click="mainCtrl.email.payerEmailSubj = 'Счет № ' + mainCtrl.invoiceNumber + ' от ' + mainCtrl.receiverName; mainCtrl.response = null; mainCtrl.sendState = false">Отправить</button>
 		<br>
 		<button type="reset" class="btn btn-default btn-md center-block" ng-click="mainCtrl.resetForm(mainCtrl, invoiceForm)">Очистить форму</button>
 	</div>
@@ -12,7 +12,7 @@
 		<div class="row">
 			<div class="col-xs-6 col-xs-offset-3">
 				<br class="visible-xs-block visible-sm-block">
-				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal">Отправить</button>
+				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal" ng-click="mainCtrl.email.payerEmailSubj = 'Счет № ' + mainCtrl.invoiceNumber + ' от ' + mainCtrl.receiverName; mainCtrl.response = null; mainCtrl.sendState = false">Отправить</button>
 				<br>
 				<button type="reset" class="btn btn-default btn-md btn-block" ng-click="mainCtrl.resetForm(mainCtrl, invoiceForm)">Очистить форму</button>
 				<br>

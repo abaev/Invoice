@@ -5,11 +5,11 @@ angular.module('app.controllers')
 	.controller('invoiceController',
 		['$scope', '$http', 'numFormatFilter', '$filter', 'changeReceiverLabel',
 		'showHideInput', 'addInput', 'addItem', 'removeItem', 'resetForm',
-		'send', 'calc',
+		'send', 'calc', 'closeModal',
 
 		function($scope, $http, numFormatFilter, $filter, changeReceiverLabel,
 			showHideInput, addInput, addItem, removeItem, resetForm,
-			send, calc) {
+			send, calc, closeModal) {
 			
 			var self = this;
 
@@ -22,6 +22,7 @@ angular.module('app.controllers')
 			self.resetForm = resetForm;
 			self.send = send;
 			self.calc = calc;
+			self.closeModal = closeModal;
 			
 			self.receiverLabel = 'Название организации';
 			self.addingInput = false; // Используется в addInput();

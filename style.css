@@ -111,3 +111,22 @@ textarea.ng-invalid.ng-touched {
 #pdfTemplate {
 	display: none;
 }
+
+.my-account-link {
+	margin-top: -10px;
+}
+
+.my-account-link img {
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+}
+
+.my-account-link a,
+.my-account-link a:visited {
+	color: #777;
+}
+
+.my-account-link a:hover {
+	color: #555;
+}

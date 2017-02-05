@@ -8,13 +8,18 @@
       </div>
 
       <div class="modal-body">
-        <p ng-show="ctrl.form.$invalid" class="text-danger"><b>Не все поля счета заполнены</b></p>
+        <p ng-show="ctrl.form.$invalid" class="text-warning"><b>Не все поля счета заполнены - но это и не обязательно</b></p>
         <hr ng-show="ctrl.form.$invalid">
 
         <ng-form name="preSendForm" novalidate>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="ctrl.sendRequired"> Отправить счет на e-mail
+            </label>
+          </div>
           <div class="form-group">
             <label for="payerEmail">E-mail плательщика</label>
-            <input type="email" class="form-control" id="payerEmail" name="payerEmail" placeholder="" ng-model="ctrl.email.payerEmail" required="">
+            <input type="email" class="form-control" id="payerEmail" name="payerEmail" placeholder="" ng-model="ctrl.email.payerEmail" ng-disabled="!ctrl.sendRequired" required="">
           </div>
           <div>&nbsp;</div>
           <div class="form-group">
@@ -29,9 +34,24 @@
       </div>
 			
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Вернуться к редактированию</button>
-        <div class="visible-xs-block visible-sm-block">&nbsp;</div>
-        <button type="button" class="btn btn-primary" ng-click="ctrl.send(ctrl)" data-dismiss="modal" ng-disabled="preSendForm.$invalid">Отправить</button>
+        <!-- Показывать до отправки запроса -->
+        <div ng-hide="ctrl.sendState">
+  				<button type="button" class="btn btn-default" data-dismiss="modal">Вернуться к редактированию</button>
+          <div class="visible-xs-block visible-sm-block">&nbsp;</div>
+          <button type="button" class="btn btn-primary" ng-click="ctrl.send(ctrl)" ng-disabled="ctrl.sendRequired && (preSendForm.$invalid && ctrl.sendRequired)">Создать</button>
+        </div>
+
+        <!-- Ожидание ответа -->
+        <div ng-show="!ctrl.response && ctrl.sendState">
+          <div>Создание PDF <img src="img/ajax-loader.gif" alt=""></div>
+        </div>
+        
+        <!-- После получения ответа -->
+        <div ng-show="ctrl.response && ctrl.sendState"> 
+          <p ng-bind-html="ctrl.response"></p>
+          <button type="button" class="btn btn-success" ng-click="ctrl.sendState = false" data-dismiss="modal">ОК</button>
+        </div>
+
       </div>
 
     </div>
