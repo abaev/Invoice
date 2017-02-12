@@ -6,7 +6,8 @@ angular.module('invoiceApp',
 	'app.filters',
 
 	'ngRoute',
-	'ngSanitize'
+	'ngSanitize',
+	'ngCookies'
 ]);
 
 
@@ -20,4 +21,11 @@ angular.module('invoiceApp')
 				templateUrl: './templates/main.tmpl.html'
 			})
 			.otherwise({redirectTo: '/'});
+	}]);
+
+
+angular.module('invoiceApp')
+	.config(['$cookiesProvider', function($cookiesProvider) {
+		$cookiesProvider.path = '/';
+		$cookiesProvider.domain = 'alex.enwony.net';
 	}]);

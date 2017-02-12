@@ -1,6 +1,8 @@
 var http = require('http');
 var fs = require('fs');
 var stream = require('stream');
+var parse = require('url').parse;
+var join = require('path').join;
 
 // Установленные модули
 var pdf = require('html-pdf');
@@ -8,11 +10,14 @@ var phantom = require('phantom');
 var multiparty = require('multiparty');
 var nodemailer = require('nodemailer');
 var shortid = require('shortid');
+var Cookies = require('cookies');
+var jsonFormat = require('json-format');
 
-var CSS_FILE = 'pdf.css'; //'pdf.serv.ver.css';
+var CSS_FILE = 'pdf.css';
+var PDF_LIST = join(__dirname, '/data/pdf.list.json');
 var SERVER_PATH = 'http://alex.enwony.net/';
 var ALLOW_ORIGIN_HEADER = 'http://alex.enwony.net/server'; // '*' 'alex.enwony.net/server'
-var FONT_LINK = ''; //'<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">';
+var FONT_LINK = '';
 var EMAIL_SIGN = '<br><br>Создано с помощью <a href="http://alex.enwony.net/">Сервис создания счетов</a>';
 var PORT = 3000; //8080;
 var PDF_OPTIONS = {
@@ -25,7 +30,7 @@ var transporter, mailOptions;
 var pdfStyle = '';
 
 // Настройка nodemailer'а
-fs.readFile(__dirname + '/data/config.json', 'utf8', function(err, data) {
+fs.readFile(join(__dirname, '/data/config.json'), 'utf8', function(err, data) {
   var config = {};
   
   if(err) return console.error(err);
@@ -54,7 +59,7 @@ http.createServer(function(request, response) {
   var method = request.method;
   var url = request.url;
   var body = [];
-    
+      
   request.on('error', function(err) {
     console.error(err);
   });
@@ -63,14 +68,18 @@ http.createServer(function(request, response) {
     console.error(err);
   });
   
-  if(method === 'OPTIONS') {
-    sendData(request, response, 'OK');
+  switch(method) {
+    case 'OPTIONS':
+      sendData(request, response, 'OK');
+      break;
+    case 'POST':
+      servePost(request, response);
+      break;
+    case 'GET':
+      serveGet(request, response);
+      break;
   }
 
-  if(method === 'POST') {
-    servePost(request, response);
-  }
- 
 }).listen(PORT, function() {
   console.log('Server listening on port ' + PORT);
   console.log('process.cwd() ' + process.cwd())
@@ -82,10 +91,15 @@ function servePost(request, response) {
   var form = new multiparty.Form({
     maxFilesSize: 3145728, // Лого не больше 3 Мб
     autoFiles: true,
-    uploadDir: __dirname + '/../tmp'
+    uploadDir: join(__dirname, '/tmp')
   });
   var responseData, uploadedFile, pdfFile = shortid.generate();
   var pdfUrl = '';
+  var cookies = new Cookies(request, response);
+  var userId = cookies.get('invUserId');
+
+  if(!userId) userId = shortid.generate();
+  cookies.set('invUserId', userId);
 
   form.on('error', function(err){
     console.error(err);
@@ -98,8 +112,7 @@ function servePost(request, response) {
 
   form.parse(request, function(err, fields, files) {
     var html = '', userData;
-    var pdfBufferStream = new stream.PassThrough();
-
+    
     if(err) {
       console.error(err);
       send500(request, response, '<p class="text-danger">Ошибка</p>');
@@ -108,31 +121,57 @@ function servePost(request, response) {
 
     try {
       userData = JSON.parse(fields.userData);
+      
       if(uploadedFile) { 
-        html = FONT_LINK + pdfStyle.replace(/replaceThis/g, SERVER_PATH
-          + uploadedFile.path.replace(/\\/g, '/').replace('/home/alex1/www/','')) +  userData.invoiceHtml;
-      } else html =  FONT_LINK + pdfStyle + userData.invoiceHtml;
+        html = FONT_LINK + pdfStyle.replace(/replaceThis/g, uploadedFile.path) +
+          userData.invoiceHtml;
+      } else html = FONT_LINK + pdfStyle + userData.invoiceHtml;
 
       pdf.create(html, PDF_OPTIONS).
-        toFile('../pdf' + pdfFile + '.pdf', function(err, pdfBuffer) {
+        toFile(join(__dirname, '/pdf/', pdfFile + '.pdf'), function(err, pdfBuffer) {
           if (err) {
             console.error(err);
             // Даже PDF не удалось
             responseData = '<p class="text-danger">Ошибка: не удалось создать PDF</p>'
             send500(request, response, responseData);
           } else {
-            // Теперь отправляем (если нужно) e-mail
-            // и удаляем загруженную картинку логотипа
+            // Теперь записывем имя файла и куки отправителя
+            // в pdf.list.json, чтобы потом отдавать PDF только автору,
+            fs.readFile(PDF_LIST, function(err, data) {
+              var arr = [];
+
+              if(err) return console.error(err);
+
+              try {
+                arr = JSON.parse(data);
+                arr.push({
+                  name: pdfFile + '.pdf',
+                  userId: userId,
+                  date: new Date()
+                });
+                
+                fs.writeFile(PDF_LIST, jsonFormat(arr), function(err) {
+                  if(err) return console.error(err);
+                });
+              }
+
+              catch(err) {
+                console.error(err);
+              }
+            });
+
+            // Удаляем загруженную картинку логотипа
+            // и отправляем (если нужно) e-mail
             if(uploadedFile) fs.unlink(uploadedFile.path, function(err) {
                 if(err) console.error(err);
               });
 
             if(!userData.sendRequired) {
               // Всё норм
-              pdfUrl = 'http://alex.enwony.net/pdf' + pdfFile + '.pdf';
+              pdfUrl = 'http://alex.enwony.net/server/pdf/' + pdfFile + '.pdf';
               responseData =
                 '<p>PDF будет доступен вам в течение суток по адресу: <a href="' +
-                pdfUrl+ '" target="_blank">' + pdfUrl + '</a></p>';
+                pdfUrl + '" target="_blank">' + pdfUrl + '</a></p>';
               sendData(request, response, responseData);
               return;
             }
@@ -142,7 +181,7 @@ function servePost(request, response) {
             mailOptions.html = userData.email.payerEmailText + EMAIL_SIGN;
             mailOptions.attachments = [{
               filename: 'invoice.pdf',
-              path: '../pdf' + pdfFile + '.pdf',
+              path: join(__dirname, '/pdf/', pdfFile + '.pdf'),
               contentType: 'application/pdf'
             }];
             transporter.sendMail(mailOptions, function(error, info){
@@ -150,16 +189,16 @@ function servePost(request, response) {
               if(error) {
                 console.error(error);
                 // Не удалось отправить, но PDF OK
-                pdfUrl = 'http://alex.enwony.net/pdf' + pdfFile + '.pdf';
+                pdfUrl = 'http://alex.enwony.net/server/pdf/' + pdfFile + '.pdf';
                 responseData = '<p class="text-danger">Ошибка: не удалось отправить e-mail</p>' +
                   '<p>PDF будет доступен вам в течение суток по адресу: <a href="' +
-                  pdfUrl+ '" target="_blank">' + pdfUrl + '</a></p>';
+                  pdfUrl + '" target="_blank">' + pdfUrl + '</a></p>';
                 send500(request, response, responseData);
                 return;
               }
               
               // Всё норм
-              pdfUrl = 'http://alex.enwony.net/pdf' + pdfFile + '.pdf';
+              pdfUrl = 'http://alex.enwony.net/server/pdf/' + pdfFile + '.pdf';
               responseData = '<p>Письмо со счетом отправлено</p>' +
                 '<p>PDF будет доступен вам в течение суток по адресу: <a href="' +
                 pdfUrl+ '" target="_blank">' + pdfUrl + '</a></p>';
@@ -172,12 +211,73 @@ function servePost(request, response) {
     } catch(err) {
       console.error(err);
       console.log(fields.userData);
-      send500(request, response);
+      send500(request, response, '<p class="text-danger">Ошибка</p>');
     }
 
   });
   
 }
+
+
+function serveGet(request, response) {
+  // Отдавать только PDF из /server/pdf,
+  // пока всем подряд, но в итоге только тем,
+  // кто этот PDF создал
+  var pdfUrl = parse(request.url);
+  var path = join(__dirname, pdfUrl.pathname);
+  var cookies = new Cookies(request, response);
+  var userId = cookies.get('invUserId');
+  var files = [], status = 'Not found';
+  var stream;
+
+  fs.readFile(PDF_LIST, function(err, data) {
+    
+    if(err) {
+      console.error(err);
+      send500(request, response, '<h1>Ошибка сервера</h1>');
+      return;
+    }
+
+    try {
+      files = JSON.parse(data);
+
+      files.forEach(function(item) {
+        if(pdfUrl.pathname.replace('/pdf/', '') == item.name) {
+        	status = 'Denied';
+        	if(userId == item.userId) {
+        		status = 'OK';
+        		stream = fs.createReadStream(path);
+        		stream.on('error', function(err) {
+        			console.error(err);
+        			send500(request, response, '<h1>Ошибка сервера</h1>');
+        		});
+        		stream.pipe(response);
+        		return;
+        	}
+        }
+      });
+      
+      switch(status) {
+      	case 'Denied':
+      		send403(request, response, '<h1>Доступ запрещен</h1>');
+      		break;
+      	case 'Not found':
+      		sendError(request, response, {
+      			number: 404,
+      			message: '<h1>Запрашиваемый документ не найден</h1>'
+      		});
+      		break;
+      }
+    }
+
+    catch(err) {
+      console.error(err);
+      send500(request, response, '<h1>Ошибка сервера</h1>');
+      return;
+    }
+  });
+}
+
 
 function sendError(request, response, err) {
   var headers = err.headers || {};
@@ -204,17 +304,14 @@ function send500(request, response, data) {
     });
 }
 
-// Не используется пока
-// function send403(request, response) {
-//   if(response.finished) return;
-//   sendError(request, response, {
-//       number: 403,
-//       message: 'Forbidden',
-//       headers: {
-//         'WWW-Authenticate': 'Basic realm="Server access denied"'
-//       }
-//     });
-// }
+
+function send403(request, response, data) {
+  if(response.finished) return;
+  sendError(request, response, {
+      number: 403,
+      message: data || 'Forbidden'
+    });
+}
 
 
 function sendData(request, response, data) {

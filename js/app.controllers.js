@@ -3,11 +3,11 @@ angular.module('app.controllers',
 
 angular.module('app.controllers')
 	.controller('invoiceController',
-		['$scope', '$http', 'numFormatFilter', '$filter', 'changeReceiverLabel',
+		['$scope', '$http', '$cookies', 'numFormatFilter', '$filter', 'changeReceiverLabel',
 		'showHideInput', 'addInput', 'addItem', 'removeItem', 'resetForm',
 		'send', 'calc', 'closeModal',
 
-		function($scope, $http, numFormatFilter, $filter, changeReceiverLabel,
+		function($scope, $http, $cookies, numFormatFilter, $filter, changeReceiverLabel,
 			showHideInput, addInput, addItem, removeItem, resetForm,
 			send, calc, closeModal) {
 			
@@ -87,6 +87,7 @@ angular.module('app.controllers')
 			self.itemsTable = [];
 		
 			self.addItem(self); // Первая строка таблицы
+
 	}]);
 
 
