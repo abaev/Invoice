@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"mar",
+				"margin-top"
+			],
+			[
 				"margin",
 				"margin-right"
 			],
@@ -26,10 +30,6 @@
 			[
 				"boder",
 				"border"
-			],
-			[
-				"mar",
-				"margin-bottom"
 			],
 			[
 				"n",
@@ -407,7 +407,7 @@
 			"file": "templates/sidebar.tmpl.html",
 			"settings":
 			{
-				"buffer_size": 1455,
+				"buffer_size": 1895,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -479,7 +479,7 @@
 			"file": "js/app.controllers.js",
 			"settings":
 			{
-				"buffer_size": 2101,
+				"buffer_size": 2068,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -497,7 +497,7 @@
 			"file": "js/app.services.js",
 			"settings":
 			{
-				"buffer_size": 4981,
+				"buffer_size": 5044,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -506,7 +506,7 @@
 			"file": "js/app.directives.js",
 			"settings":
 			{
-				"buffer_size": 3281,
+				"buffer_size": 3469,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -524,7 +524,7 @@
 			"file": "server/server.js",
 			"settings":
 			{
-				"buffer_size": 7652,
+				"buffer_size": 10504,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -548,10 +548,19 @@
 			}
 		},
 		{
+			"file": "templates/previewModal.tmpl.html",
+			"settings":
+			{
+				"buffer_size": 509,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "style.css",
 			"settings":
 			{
-				"buffer_size": 2666,
+				"buffer_size": 2762,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -560,7 +569,7 @@
 			"file": "server/package.json",
 			"settings":
 			{
-				"buffer_size": 316,
+				"buffer_size": 370,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -573,6 +582,16 @@
 				"encoding": "UTF-8",
 				"line_ending": "Windows",
 				"name": "<VirtualHost *:80>"
+			}
+		},
+		{
+			"file": "server/data/pdf.list.json",
+			"settings":
+			{
+				"buffer_size": 2,
+				"encoding": "UTF-8",
+				"line_ending": "Windows",
+				"name": "[]"
 			}
 		}
 	],
@@ -680,6 +699,7 @@
 	},
 	"file_history":
 	[
+		"/C/my_folder/_web_dev/Invoice/app/server/node_modules/cookies/package.json",
 		"/C/downloads/angular-cookies.min.js.map",
 		"/C/my_folder/_web_dev/Invoice/GitHub-Mark/.DS_Store",
 		"/C/my_folder/_web_dev/GrandValesDV/app/package.json",
@@ -806,8 +826,7 @@
 		"/C/Users/User/AppData/Local/Temp/F3T7D70.tmp/vacancies.json",
 		"/C/Users/User/AppData/Local/Temp/F3T7D6E.tmp/reviews.new.json",
 		"/C/my_folder/_web_dev/books/Node.js в действии/М. Кантелон, М. Хартер, T. Головайчук, Н. Райлих - Node.js в действии - 2014/code/2/chat/server.js",
-		"/C/Users/User/AppData/Local/Temp/F3T34D0.tmp/reviews.new.json",
-		"/C/Users/User/AppData/Local/Temp/F3T34D1.tmp/reviews.json"
+		"/C/Users/User/AppData/Local/Temp/F3T34D0.tmp/reviews.new.json"
 	],
 	"find":
 	{
@@ -825,6 +844,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"pdfBuffer",
+			"arr",
 			"CSS_FILE",
 			"Отправить",
 			"ctrl.pdfLink",
@@ -950,9 +971,7 @@
 			"padding",
 			"col-xs-3",
 			"<div class=\"form-horizontal\">",
-			"shipowner-form",
-			"form-inline",
-			"vacCtrl"
+			"shipowner-form"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -975,7 +994,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 17,
 			"sheets":
 			[
 				{
@@ -1002,10 +1021,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2310.0,
+						"translation.y": 66.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -1035,7 +1054,7 @@
 						"translation.y": 836.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
@@ -1064,7 +1083,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
@@ -1093,7 +1112,7 @@
 						"translation.y": 198.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
@@ -1102,19 +1121,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1455,
+						"buffer_size": 1895,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								524,
-								524
-							],
-							[
-								1171,
-								1171
+								1248,
+								1248
 							]
 						],
 						"settings":
@@ -1124,10 +1139,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 264.0,
+						"translation.y": 330.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1157,7 +1172,7 @@
 						"translation.y": 326.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 22,
+					"stack_index": 24,
 					"type": "text"
 				},
 				{
@@ -1187,7 +1202,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 21,
+					"stack_index": 23,
 					"type": "text"
 				},
 				{
@@ -1217,7 +1232,7 @@
 						"translation.y": 662.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 19,
+					"stack_index": 21,
 					"type": "text"
 				},
 				{
@@ -1247,7 +1262,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 20,
 					"type": "text"
 				},
 				{
@@ -1275,7 +1290,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 20,
+					"stack_index": 22,
 					"type": "text"
 				},
 				{
@@ -1305,7 +1320,7 @@
 						"translation.y": 540.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
@@ -1335,7 +1350,7 @@
 						"translation.y": 462.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
@@ -1344,15 +1359,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2101,
+						"buffer_size": 2068,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								347,
-								347
+								2058,
+								2058
 							]
 						],
 						"settings":
@@ -1361,11 +1376,11 @@
 							"tab_size": 2,
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.x": -0.0,
+						"translation.y": 1650.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
@@ -1395,7 +1410,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
@@ -1404,15 +1419,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4981,
+						"buffer_size": 5044,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3426,
-								3439
+								2638,
+								2645
 							]
 						],
 						"settings":
@@ -1421,10 +1436,10 @@
 							"tab_size": 2
 						},
 						"translation.x": 0.0,
-						"translation.y": 2552.0,
+						"translation.y": 2156.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1433,15 +1448,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3281,
+						"buffer_size": 3469,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3240,
-								3231
+								3436,
+								3436
 							]
 						],
 						"settings":
@@ -1451,10 +1466,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2675.0,
+						"translation.y": 2900.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1484,7 +1499,7 @@
 						"translation.y": 1386.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
@@ -1493,28 +1508,28 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7652,
+						"buffer_size": 10504,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3007,
-								3007
+								3803,
+								3827
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"syntax": "Packages/ActionScript/ActionScript.sublime-syntax",
 							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4109.0,
+						"translation.y": 3432.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1544,7 +1559,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
@@ -1560,8 +1575,8 @@
 						"selection":
 						[
 							[
-								2499,
-								2517
+								608,
+								608
 							]
 						],
 						"settings":
@@ -1571,27 +1586,57 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 980.0,
+						"translation.y": 792.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 20,
-					"file": "style.css",
+					"file": "templates/previewModal.tmpl.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2666,
+						"buffer_size": 509,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2475,
-								2475
+								381,
+								381
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 21,
+					"file": "style.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2762,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1361,
+								1361
 							]
 						],
 						"settings":
@@ -1601,27 +1646,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2488.0,
+						"translation.y": 660.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 21,
+					"buffer": 22,
 					"file": "server/package.json",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 316,
+						"buffer_size": 370,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								122,
-								122
+								334,
+								334
 							]
 						],
 						"settings":
@@ -1633,11 +1678,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 22,
+					"buffer": 23,
 					"file": "for apache/alex1.enwony.net.conf",
 					"semi_transient": false,
 					"settings":
@@ -1663,7 +1708,36 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 19,
+					"type": "text"
+				},
+				{
+					"buffer": 24,
+					"file": "server/data/pdf.list.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2,
+								2
+							]
+						],
+						"settings":
+						{
+							"auto_name": "[]",
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
 					"type": "text"
 				}
 			]

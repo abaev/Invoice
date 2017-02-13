@@ -25,6 +25,13 @@ var PDF_OPTIONS = {
   orientation: 'portrait',
   base: 'file:///home/alex1/www/server/' // Именно file:/// и / в конце
 };
+var PDF_OPTIONS_PNG = {
+  format: 'A4',
+  orientation: 'portrait',
+  base: 'file:///home/alex1/www/server/', // Именно file:/// и / в конце
+  type: 'png',
+  quality: 50
+};
 
 var transporter, mailOptions;
 var pdfStyle = '';
@@ -93,6 +100,7 @@ function servePost(request, response) {
     autoFiles: true,
     uploadDir: join(__dirname, '/tmp')
   });
+  var bufferStream = new stream.PassThrough();
   var responseData, uploadedFile, pdfFile = shortid.generate();
   var pdfUrl = '';
   var cookies = new Cookies(request, response);
@@ -127,8 +135,22 @@ function servePost(request, response) {
           userData.invoiceHtml;
       } else html = FONT_LINK + pdfStyle + userData.invoiceHtml;
 
+      if(userData.preview) {
+	      // Предпросмотр
+      	// Гененрируем PNG (JPEG генерируется с ошибками) и отсылаем его
+      	pdf.create(html, PDF_OPTIONS_PNG).toBuffer(function(err, pdfBuffer) {
+	        if (err) {
+	          console.error(err);
+	          send500(request, response, '<p class="text-danger">Ошибка: предварительный просмотр невозможен</p>');
+	        } else {
+	          sendData(request, response, 'data:image/png;base64,' + pdfBuffer.toString('base64'));
+	        }
+        });
+        return;
+      }
+
       pdf.create(html, PDF_OPTIONS).
-        toFile(join(__dirname, '/pdf/', pdfFile + '.pdf'), function(err, pdfBuffer) {
+        toFile(join(__dirname, '/pdf/', pdfFile + '.pdf'), function(err) {
           if (err) {
             console.error(err);
             // Даже PDF не удалось
@@ -221,8 +243,7 @@ function servePost(request, response) {
 
 function serveGet(request, response) {
   // Отдавать только PDF из /server/pdf,
-  // пока всем подряд, но в итоге только тем,
-  // кто этот PDF создал
+  // только тем, кто этот PDF создал (cookie)
   var pdfUrl = parse(request.url);
   var path = join(__dirname, pdfUrl.pathname);
   var cookies = new Cookies(request, response);

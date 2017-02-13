@@ -106,10 +106,13 @@ angular.module('app.services')
 				var userData = {
 					invoiceHtml: $('#pdfTemplate').html(),
 					email: ctrl.email,
-					sendRequired: ctrl.sendRequired
+					sendRequired: ctrl.sendRequired,
+					preview: ctrl.preview
 				};
 
-				ctrl.sendState = true;
+				ctrl.response = null;
+
+				if(!ctrl.preview) ctrl.sendState = true;
 				userData.email.payerEmailSubj = userData.email.payerEmailSubj ||
 					'Счет № ' + ctrl.invoiceNumber + ' от ' + ctrl.receiverName;
 				userData.email.payerEmailText = userData.email.payerEmailText ||
@@ -123,11 +126,11 @@ angular.module('app.services')
 				})
 					.then(function(response) {
 						console.log(response);
-						ctrl.response = response.data;
+						ctrl.response = response;
 					},
 					function(response) {
 						console.log(response);
-						ctrl.response = response.data;
+						ctrl.response = response;
 				});
 
 			}

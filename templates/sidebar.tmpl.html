@@ -3,17 +3,21 @@
 но при некоторых значениях ширины экрана (где-то между sm и md)
 появляется горизонтальная прокрутка -->
 	<div class="col-xs-12 col-md-2 col-lg-2 hidden-xs hidden-sm">
-		<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal" ng-click="mainCtrl.email.payerEmailSubj = 'Счет № ' + mainCtrl.invoiceNumber + ' от ' + mainCtrl.receiverName; mainCtrl.response = null; mainCtrl.sendState = false">Создать</button>
-		<br>
+		<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#previewModal" ng-click="mainCtrl.preview = true;  mainCtrl.send(mainCtrl)">Просмотр</button>
+		
+		<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal" ng-click="mainCtrl.email.payerEmailSubj = 'Счет № ' + mainCtrl.invoiceNumber + ' от ' + mainCtrl.receiverName; mainCtrl.response = null; mainCtrl.sendState = false; mainCtrl.preview = false">Создать PDF</button>
+				
 		<button type="reset" class="btn btn-default btn-md center-block" ng-click="mainCtrl.resetForm(mainCtrl, invoiceForm)">Очистить форму</button>
 	</div>
 
 	<div class="col-xs-12 col-md-2 col-lg-2 visible-xs-block visible-sm-block">
 		<div class="row">
-			<div class="col-xs-6 col-xs-offset-3">
+			<div class="col-xs-10 col-xs-offset-1">
 				<br class="visible-xs-block visible-sm-block">
-				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal" ng-click="mainCtrl.email.payerEmailSubj = 'Счет № ' + mainCtrl.invoiceNumber + ' от ' + mainCtrl.receiverName; mainCtrl.response = null; mainCtrl.sendState = false">Создать</button>
-				<br>
+				<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#previewModal" ng-click="mainCtrl.preview = true;  mainCtrl.send(mainCtrl)">Просмотр</button>
+				
+				<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal" ng-click="mainCtrl.email.payerEmailSubj = 'Счет № ' + mainCtrl.invoiceNumber + ' от ' + mainCtrl.receiverName; mainCtrl.response = null; mainCtrl.sendState = false; mainCtrl.preview = false">Создать PDF</button>
+								
 				<button type="reset" class="btn btn-default btn-md btn-block" ng-click="mainCtrl.resetForm(mainCtrl, invoiceForm)">Очистить форму</button>
 				<br>
 			</div>
@@ -21,3 +25,4 @@
 	</div>
 
 	<div inv-pre-send-modal ctrl="mainCtrl" ng-init="mainCtrl.form = invoiceForm"></div>
+	<div inv-preview-modal ctrl="mainCtrl"></div>

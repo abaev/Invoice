@@ -145,6 +145,17 @@ angular.module('app.directives')
 	});
 
 
+angular.module('app.directives')
+	.directive('invPreviewModal', function() {
+		return {
+			scope: {
+				ctrl: '=ctrl'
+			},
+			templateUrl: './templates/previewModal.tmpl.html'
+		}
+	});
+
+
 
 
 

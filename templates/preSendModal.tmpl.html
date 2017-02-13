@@ -48,7 +48,7 @@
         
         <!-- После получения ответа -->
         <div ng-show="ctrl.response && ctrl.sendState"> 
-          <p ng-bind-html="ctrl.response"></p>
+          <p ng-bind-html="ctrl.response.data"></p>
           <button type="button" class="btn btn-success" ng-click="ctrl.sendState = false" data-dismiss="modal">ОК</button>
         </div>
 

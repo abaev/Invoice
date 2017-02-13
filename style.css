@@ -42,6 +42,10 @@ h1 {
 	cursor: pointer;
 }
 
+div.col-xs-12.col-md-2.col-lg-2.hidden-xs.hidden-sm button[type="reset"] {
+	margin-top: 5px;
+}
+
 /* Отступ для кнопок возрата полей,
 когда они занимают больше строки */
 .buttons-list {
