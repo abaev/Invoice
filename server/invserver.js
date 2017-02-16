@@ -18,7 +18,7 @@ var PDF_LIST = join(__dirname, '/data/pdf.list.json');
 var SERVER_PATH = 'http://alex.enwony.net/';
 var ALLOW_ORIGIN_HEADER = 'http://alex.enwony.net/server'; // '*' 'alex.enwony.net/server'
 var FONT_LINK = '';
-var EMAIL_SIGN = '<br><br>Создано с помощью <a href="http://alex.enwony.net/">Сервис создания счетов</a>';
+var EMAIL_SIGN = '<br><br><p>Создано с помощью <a href="http://alex.enwony.net/">Сервис создания счетов</a></p>';
 var PORT = 3000; //8080;
 var PDF_OPTIONS = {
   format: 'A4',
@@ -144,6 +144,8 @@ function servePost(request, response) {
 	          send500(request, response, '<p class="text-danger">Ошибка: предварительный просмотр невозможен</p>');
 	        } else {
 	          sendData(request, response, 'data:image/png;base64,' + pdfBuffer.toString('base64'));
+	          // bufferStream.end(pdfBuffer);
+	          // bufferStream.pipe(response);
 	        }
         });
         return;
@@ -200,7 +202,7 @@ function servePost(request, response) {
 
             mailOptions.to = userData.email.payerEmail;
             mailOptions.subject = userData.email.payerEmailSubj;
-            mailOptions.html = userData.email.payerEmailText + EMAIL_SIGN;
+            mailOptions.html = userData.email.payerEmailText.replace(/(\r\n|\r|\n)/g, '<br>') + EMAIL_SIGN;
             mailOptions.attachments = [{
               filename: 'invoice.pdf',
               path: join(__dirname, '/pdf/', pdfFile + '.pdf'),
