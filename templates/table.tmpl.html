@@ -24,7 +24,7 @@
 				<input type="number" step="any" min="0" class="form-control input-sm" ng-model="item.price">
 			</td>
 			<td class="col-xs-1 text-center vertical-middle">
-				{{item.amount() | numFormat}}
+				{{item.quantity * item.price | numFormat}}
 			</td>
 			<td class="col-xs-1"> <!-- Кнопка Удалить -->
 				<button type="button" class="btn bg-primary btn-sm center-block" ng-show="mainCtrl.itemsTable.length > 1" ng-click="mainCtrl.removeItem(mainCtrl, item.index)">

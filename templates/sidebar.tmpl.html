@@ -6,6 +6,8 @@
 	<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#previewModal" ng-click="mainCtrl.preview = true;  mainCtrl.send(mainCtrl)">Просмотр</button>
 	
 	<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal" ng-click="mainCtrl.email.payerEmailSubj = 'Счет № ' + mainCtrl.invoiceNumber + ' от ' + mainCtrl.receiverName; mainCtrl.response = null; mainCtrl.sendState = false; mainCtrl.preview = false">Создать PDF</button>
+
+	<button type="button" class="btn btn-info btn-sm center-block" ng-click="mainCtrl.saveTemplate(mainCtrl)">Сохранить шаблон</button>
 			
 	<button type="reset" class="btn btn-default btn-md center-block" ng-click="mainCtrl.resetForm(mainCtrl, invoiceForm)">Очистить форму</button>
 </div>
@@ -20,6 +22,8 @@
 			<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#previewModal" ng-click="$('#previewModal').modal(); mainCtrl.preview = true;  mainCtrl.send(mainCtrl)">Просмотр</button>
 			
 			<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal" ng-click="mainCtrl.email.payerEmailSubj = 'Счет № ' + mainCtrl.invoiceNumber + ' от ' + mainCtrl.receiverName; mainCtrl.response = null; mainCtrl.sendState = false; mainCtrl.preview = false">Создать PDF</button>
+
+			<button type="button" class="btn btn-info btn-sm btn-block" ng-click="mainCtrl.saveTemplate(mainCtrl)">Сохранить шаблон</button>
 							
 			<button type="reset" class="btn btn-default btn-md btn-block" ng-click="mainCtrl.resetForm(mainCtrl, invoiceForm)">Очистить форму</button>
 			<br>

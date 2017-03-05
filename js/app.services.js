@@ -63,11 +63,7 @@ angular.module('app.services')
 						name: '',
 						quantity: 1,
 						measure: 'шт.',
-						price: 0,
-						amount: function() {
-							var result = this.quantity * this.price; 
-							return result;
-						}
+						price: 0
 				});
 			}
 	});
@@ -119,22 +115,65 @@ angular.module('app.services')
 					'PDF со счетом на ваше имя в приложении к письму.';
 				if(!ctrl.formData) ctrl.formData = new FormData();
 				ctrl.formData.set('userData', JSON.stringify(userData));
+				
 				// 'Content-Type': undefined, иначе multiparty
 				// отвечает Invalid request: unsupported content-type
 				$http.post(dependencies.SERVER_URL, ctrl.formData, {
 					headers: {'Content-Type': undefined}
 				})
-					.then(function(response) {
+					.then(function successCallback(response) {
 						console.log(response);
-						ctrl.response = response;
+						ctrl.response = angular.copy(response);
 					},
-					function(response) {
+					function errorCallback(response) {
 						console.log(response);
-						ctrl.response = response;
+						ctrl.response = angular.copy(response);
 				});
 
 			}
 	}]);
+
+
+angular.module('app.services')
+	.factory('saveTemplate',
+		['$http', 'dependencies', function($http, dependencies) {
+			return function(ctrl) {
+				var template = {
+					invoiceLogoSrc: ctrl.invoiceLogoSrc,
+					invoiceNumber: ctrl.invoiceNumber,
+					invoiceDate: ctrl.invoiceDate,
+					invoiceCurrency: ctrl.invoiceCurrency,
+					invoicePayer: ctrl.invoicePayer,
+					invoiceBriefly: ctrl.invoiceBriefly,		
+					receiverLabel: ctrl.receiverLabel,
+					receiverName: ctrl.receiverName,
+					// addingInput: ctrl.addingInput,
+					// newInputLabel: ctrl.newInputLabel,
+					ndsType: ctrl.ndsType,
+					ndsRate: ctrl.ndsRate,
+					invoiceDiscount: ctrl.invoiceDiscount,
+					invoiceDiscountType: ctrl.invoiceDiscountType,
+					invoiceShipping: ctrl.invoiceShipping,
+					invoiceComment: ctrl.invoiceComment,
+					
+					// Objects
+					email: angular.copy(ctrl.email),
+					// Опциональные поля ввода
+					optionalTextInputs: angular.copy(ctrl.optionalTextInputs),
+					// Таблица
+					itemsTable: angular.copy(ctrl.itemsTable)
+				};
+
+				$http.post(dependencies.SERVER_URL + '/templates', template)
+					.then(function successCallback(response) {
+						console.log(response);
+					},
+					function errorCallback(response) {
+						console.log(response);
+				});
+			}
+		}]);
+
 
 // Функции расчета Промежуточного итога,
 // НДС, Скидки, Доставки, Итого
@@ -170,7 +209,7 @@ angular.module('app.services')
 		function subTotal(ctrl) {
 			var result = 0;
 			angular.forEach(ctrl.itemsTable, function(el) {
-				result += el.amount();
+				result += el.quantity * el.price
 			});
 			return result;
 		}
@@ -196,4 +235,39 @@ angular.module('app.services')
 			$('.modal-backdrop').remove();
 		}
 	});
+
+
+angular.module('app.services')
+	.factory('getTemplates', ['$http', '$location', 'dependencies',
+		function($http, $location, dependencies) {
+			return function(templNumber) {
+				return $http.get(dependencies.SERVER_URL + '/templates')
+					.then(function successCallback(response) {
+						// Если нет сохраненных шаблонов - 
+						// редирект без сохранения в истории
+						if(templNumber == -1) {
+							// Если не хотим показывать шаблон, а загружаем путь '/'
+							return {
+								arr: response.data,
+								current: templNumber
+							};
+						}
+						if(response.data.length <= templNumber) $location.path('/').replace();
+						return {
+							arr: response.data,
+							current: templNumber
+						};
+					},
+					function errorCallback(response) {
+						// Ошибка - тоже редирект
+						$location.path('/').replace();
+						return {
+							arr: [],
+							current: templNumber
+						};;
+					});
+			}
+		}]);
+
+
 

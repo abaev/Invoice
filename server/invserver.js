@@ -15,6 +15,7 @@ var jsonFormat = require('json-format');
 
 var CSS_FILE = 'pdf.css';
 var PDF_LIST = join(__dirname, '/data/pdf.list.json');
+var TEMPLATES = join(__dirname, '/data/templates.json');
 var SERVER_PATH = 'http://alex.enwony.net/';
 var ALLOW_ORIGIN_HEADER = 'http://alex.enwony.net/server'; // '*' 'alex.enwony.net/server'
 var FONT_LINK = '';
@@ -80,10 +81,14 @@ http.createServer(function(request, response) {
       sendData(request, response, 'OK');
       break;
     case 'POST':
-      servePost(request, response);
+    	if(request.url.match(/\/templates/)) {
+    		saveTemplate(request, response);
+    	} else servePost(request, response);
       break;
     case 'GET':
-      serveGet(request, response);
+    	if(request.url.match(/\/templates/)) {
+    		sendTemplates(request, response);
+    	} else serveGet(request, response);
       break;
   }
 
@@ -105,9 +110,10 @@ function servePost(request, response) {
   var pdfUrl = '';
   var cookies = new Cookies(request, response);
   var userId = cookies.get('invUserId');
-
+  
   if(!userId) userId = shortid.generate();
-  cookies.set('invUserId', userId);
+  // cookies.set('invUserId', userId, { maxAge: 157680000000 }); // 5 лет
+  cookies.set('invUserId', userId, { expires: new Date(Date.now() + 157680000000) });
 
   form.on('error', function(err){
     console.error(err);
@@ -162,19 +168,19 @@ function servePost(request, response) {
             // Теперь записывем имя файла и куки отправителя
             // в pdf.list.json, чтобы потом отдавать PDF только автору,
             fs.readFile(PDF_LIST, function(err, data) {
-              var arr = [];
+              var files = {};
 
               if(err) return console.error(err);
 
               try {
-                arr = JSON.parse(data);
-                arr.push({
-                  name: pdfFile + '.pdf',
-                  userId: userId,
-                  date: new Date()
-                });
+                files = JSON.parse(data);
                 
-                fs.writeFile(PDF_LIST, jsonFormat(arr), function(err) {
+                files[pdfFile + '.pdf'] = {
+                	userId: userId,
+                  date: new Date()
+                };
+                
+                fs.writeFile(PDF_LIST, jsonFormat(files), function(err) {
                   if(err) return console.error(err);
                 });
               }
@@ -250,8 +256,9 @@ function serveGet(request, response) {
   var path = join(__dirname, pdfUrl.pathname);
   var cookies = new Cookies(request, response);
   var userId = cookies.get('invUserId');
-  var files = [], status = 'Not found';
+  var files = {}, status = 'Not found';
   var stream;
+  var fileName = pdfUrl.pathname.replace('/pdf/', '');
 
   fs.readFile(PDF_LIST, function(err, data) {
     
@@ -264,21 +271,19 @@ function serveGet(request, response) {
     try {
       files = JSON.parse(data);
 
-      files.forEach(function(item) {
-        if(pdfUrl.pathname.replace('/pdf/', '') == item.name) {
-        	status = 'Denied';
-        	if(userId == item.userId) {
-        		status = 'OK';
-        		stream = fs.createReadStream(path);
-        		stream.on('error', function(err) {
-        			console.error(err);
-        			send500(request, response, '<h1>Ошибка сервера</h1>');
-        		});
-        		stream.pipe(response);
-        		return;
-        	}
-        }
-      });
+      if(files[fileName]) {
+      	status = 'Denied';
+      	if(userId == files[fileName].userId) {
+      		status = 'OK';
+      		stream = fs.createReadStream(path);
+      		stream.on('error', function(err) {
+      			console.error(err);
+      			send500(request, response, '<h1>Ошибка сервера</h1>');
+      		});
+      		stream.pipe(response);
+      		return;
+      	}
+      }
       
       switch(status) {
       	case 'Denied':
@@ -296,6 +301,106 @@ function serveGet(request, response) {
     catch(err) {
       console.error(err);
       send500(request, response, '<h1>Ошибка сервера</h1>');
+      return;
+    }
+  });
+}
+
+
+function saveTemplate(request, response) {
+	var templates = {}, body = [], userData;
+	var cookies = new Cookies(request, response);
+  var userId = cookies.get('invUserId');
+  
+  request.on('data', function(chunk) {
+      body.push(chunk);
+  })
+  
+  request.on('end', function() {
+    userData = Buffer.concat(body).toString();
+
+    if(!userId) userId = shortid.generate();
+	  // cookies.set('invUserId', userId, { maxAge: 157680000000 }); // 5 лет
+	  cookies.set('invUserId', userId, { expires: new Date(Date.now() + 157680000000) });
+
+    try {
+    	userData = JSON.parse(userData);
+    }
+    catch(err) {
+    	console.error(err);
+      send500(request, response);
+      return;
+    }
+	  
+	  fs.readFile(TEMPLATES, function(err, data) {
+	    
+	    if(err) {
+	      console.error(err);
+	      send500(request, response);
+	      return;
+	    }
+
+	    try {
+	      templates = JSON.parse(data);
+	      
+	      if(templates[userId]) {
+	      	if(templates[userId].length >= 5) return send500(request, response);
+	      } else templates[userId] = [];
+	      templates[userId].push(userData);
+	   		
+	   		fs.writeFile(TEMPLATES, jsonFormat(templates), function(err) {
+	   			if(err) return send500(request, response);
+	   			sendData(request, response, 'OK');
+	   		});
+	    }
+
+	    catch(err) {
+	      console.error(err);
+	      send500(request, response);
+	      return;
+	    }
+	  });
+  });
+};
+
+
+function sendTemplates(request, response) {
+	// Отсылает (если находит) шаблоны
+	var templates = {};
+	var cookies = new Cookies(request, response);
+  var userId = cookies.get('invUserId');
+
+  if(!userId) {
+  	// Если в запросе не установлены наши куки,
+  	// значит пользователь не может / не должен получать шаблоны,
+  	// в любом случае, мы не сможем найти шаблоны пользователя,
+  	// поэтому - Not Found
+  	userId = shortid.generate();
+  	cookies.set('invUserId', userId, { expires: new Date(Date.now() + 157680000000) }); // 5 лет
+  	sendError(request, response, { number: 404, message: 'Not Found' });
+  	return;
+  }
+  
+  fs.readFile(TEMPLATES, function(err, data) {
+    
+    if(err) {
+      console.error(err);
+      send500(request, response);
+      return;
+    }
+
+    try {
+      templates = JSON.parse(data);
+      
+      if(templates[userId]) {
+      	sendData(request, response, JSON.stringify(templates[userId]));
+      } else sendError(request, response,
+      		{ number: 404, message: 'Not Found' });
+    }
+
+    catch(err) {
+      console.error(err);
+      send500(request, response);
       return;
     }
   });

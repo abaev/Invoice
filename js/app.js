@@ -14,11 +14,35 @@ angular.module('invoiceApp',
 angular.module('invoiceApp')
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
-			.when('/showpdf', {
-				templateUrl: './templates/showpdf.tmpl.html'
-			})
+			// .when('/showpdf', {
+			// 	templateUrl: './templates/showpdf.tmpl.html'
+			// })
 			.when('/', {
-				templateUrl: './templates/main.tmpl.html'
+				templateUrl: './templates/main.tmpl.html',
+				controller: 'invoiceController',
+				resolve: {
+					'templates': ['getTemplates', function(getTemplates) {
+						return getTemplates(-1);
+					}]
+				}
+			})
+			.when('/template0', {
+				templateUrl: './templates/main.tmpl.html',
+				controller: 'invoiceController',
+				resolve: {
+					'templates': ['getTemplates', function(getTemplates) {
+						return getTemplates(0);
+					}]
+				}
+			})
+			.when('/template1', {
+				templateUrl: './templates/main.tmpl.html',
+				controller: 'invoiceController',
+				resolve: {
+					'templates': ['getTemplates', function(getTemplates) {
+						return getTemplates(1);
+					}]
+				}
 			})
 			.otherwise({redirectTo: '/'});
 	}]);

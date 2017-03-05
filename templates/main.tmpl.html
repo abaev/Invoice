@@ -1,56 +1,56 @@
 <div class="container-fluid">
 
-			<form action="" name="invoiceForm" enctype="multipart/form-data" novalidate>
+	<form action="" name="invoiceForm" enctype="multipart/form-data" novalidate>
+		<div class="row">
+			<br>
+			<!-- Колонка с формой -->
+			<div class="col-xs-12 col-md-10 col-lg-9 col-lg-offset-1 bcgr-white">
 				<div class="row">
-					<br>
-					<!-- Колонка с формой -->
-					<div class="col-xs-12 col-md-10 col-lg-9 col-lg-offset-1 bcgr-white">
-						<div class="row">
-							<!-- Какие-то странные вещи происходят с контроллером,
-							если вместо директивы использовать в этом случае ng-include. -->
-							<div inv-summary></div>
-						</div>
-						<br>
-						
-						<div class="row">
-							<div inv-payer-briefly></div>
-							<div inv-receiver></div>
-						</div>
+					<!-- Какие-то странные вещи происходят с контроллером,
+					если вместо директивы использовать в этом случае ng-include. -->
+					<div inv-summary></div>
+				</div>
+				<br>
+				
+				<div class="row">
+					<div inv-payer-briefly></div>
+					<div inv-receiver></div>
+				</div>
 
-						<div inv-receiver-optional></div>
-						<br>
+				<div inv-receiver-optional></div>
+				<br>
 
-						<div inv-table></div>
-						
-						<div class="row">
-							
-							<div inv-total></div>
+				<div inv-table></div>
+				
+				<div class="row">
+					
+					<div inv-total></div>
 
-							<div class="form-group col-xs-12 col-sm-8">
-								<label for="invoiceComment" class="control-label">Комментарий</label>
-								<textarea name="invoiceComment" class="form-control input-sm" id="" rows="3" ng-model="mainCtrl.invoiceComment"></textarea>
-							</div>
-
-						</div>
+					<div class="form-group col-xs-12 col-sm-8">
+						<label for="invoiceComment" class="control-label">Комментарий</label>
+						<textarea name="invoiceComment" class="form-control input-sm" id="" rows="3" ng-model="mainCtrl.invoiceComment"></textarea>
 					</div>
 
-					<div inv-sidebar></div>
-
-				</div>
-				<div class="row">
-					<div class="col-xs-12" inv-result-html></div>
-				</div>
-			
-			</form>
-			
-			<div class="row">
-				<div class="col-xs-12 col-md-10 col-lg-9 col-lg-offset-1 text-center">
-					<hr>
-					<p class="text-center text-muted">Разработка: Александр Абаев, lowrydertrue@gmail.com</p>
-					<div class="text-center my-account-link">
-						<a href="https://github.com/abaev/" target="_blank"><img src="img/GitHub-Mark-Light-32px.png" alt="Octocat!!">github.com/abaev/</a>
-					</div>
-					<br>
 				</div>
 			</div>
+
+			<div inv-sidebar></div>
+
 		</div>
+		<div class="row">
+			<div class="col-xs-12" inv-result-html></div>
+		</div>
+	
+	</form>
+	
+	<div class="row">
+		<div class="col-xs-12 col-md-10 col-lg-9 col-lg-offset-1 text-center">
+			<hr>
+			<p class="text-center text-muted">Разработка: Александр Абаев, lowrydertrue@gmail.com</p>
+			<div class="text-center my-account-link">
+				<a href="https://github.com/abaev/" target="_blank"><img src="img/GitHub-Mark-Light-32px.png" alt="Octocat!!">github.com/abaev/</a>
+			</div>
+			<br>
+		</div>
+	</div>
+</div>
