@@ -11,9 +11,9 @@ angular.module('app.controllers')
 			showHideInput, addInput, addItem, removeItem, resetForm,
 			send, calc, closeModal, saveTemplate) {
 			var self = this;
-			$scope.self = this;
-			
+						
 			var templates;
+
 			if($route && $route.current && $route.current.locals) {
 				// В докоментации Angular'а ничего нет, про проблему
 				// передачи resolve из $routeProvider в контроллер,
@@ -37,10 +37,6 @@ angular.module('app.controllers')
 			self.closeModal = closeModal;
 			self.saveTemplate = saveTemplate;
 			
-			self.invoicePayer = 'One';
-			$timeout(function() {
-				self.invoicePayer = 'Two';
-			}, 5000);
 			self.receiverLabel = 'Название организации';
 			self.addingInput = false; // Используется в addInput();
 			self.newInputLabel = ''; // Используется в addInput();
@@ -105,20 +101,10 @@ angular.module('app.controllers')
 
 			if(templates) console.log(templates);
 			if(templates && templates.current != -1) {
-				// Инициализируем контроллер загруженным шаблоном
-				$timeout(function() {
-					
-					$scope.$apply(function() {
-						angular.extend(self, templates.arr[templates.current]);
-						self.receiverName = 'Бла-бла';
-						console.log('self = ');
-						console.log(self);
-					});
-										
-					// $scope.$digest();
-				}, 1000);
-				
-				
+				// Инициализируем контроллер загруженным шаблоном,
+				angular.extend(self, templates.arr[templates.current]);
+				console.log('self = ');
+				console.log(self);
 			}
 		
 			self.addItem(self); // Первая строка таблицы

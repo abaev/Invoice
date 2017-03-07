@@ -20,6 +20,7 @@ angular.module('invoiceApp')
 			.when('/', {
 				templateUrl: './templates/main.tmpl.html',
 				controller: 'invoiceController',
+				controllerAs: 'mainCtrl',
 				resolve: {
 					'templates': ['getTemplates', function(getTemplates) {
 						return getTemplates(-1);
@@ -29,6 +30,7 @@ angular.module('invoiceApp')
 			.when('/template0', {
 				templateUrl: './templates/main.tmpl.html',
 				controller: 'invoiceController',
+				controllerAs: 'mainCtrl',
 				resolve: {
 					'templates': ['getTemplates', function(getTemplates) {
 						return getTemplates(0);
@@ -38,9 +40,30 @@ angular.module('invoiceApp')
 			.when('/template1', {
 				templateUrl: './templates/main.tmpl.html',
 				controller: 'invoiceController',
+				controllerAs: 'mainCtrl',
 				resolve: {
 					'templates': ['getTemplates', function(getTemplates) {
 						return getTemplates(1);
+					}]
+				}
+			})
+			.when('/template2', {
+				templateUrl: './templates/main.tmpl.html',
+				controller: 'invoiceController',
+				controllerAs: 'mainCtrl',
+				resolve: {
+					'templates': ['getTemplates', function(getTemplates) {
+						return getTemplates(2);
+					}]
+				}
+			})
+			.when('/template3', {
+				templateUrl: './templates/main.tmpl.html',
+				controller: 'invoiceController',
+				controllerAs: 'mainCtrl',
+				resolve: {
+					'templates': ['getTemplates', function(getTemplates) {
+						return getTemplates(3);
 					}]
 				}
 			})
