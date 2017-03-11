@@ -17,11 +17,6 @@ angular.module('app.directives')
 				      var fr = new FileReader();
 				      fr.onload = function () {
 				      	ctrl.invoiceLogoSrc = fr.result;
-				      	// Добавляем к отправляемым данным,
-				      	// одновременно затирая старое значение если было
-				      	ctrl.formData = new FormData($('[name="invoiceForm"]')[0]);
-				      	ctrl.formData.append('file', element[0].files[0]);
-				      	ctrl.formData.append('test', 'OK');
 				      	scope.$apply();
 	         			// Чтобы событие change возникало,
 			          // даже если пользователь выберет

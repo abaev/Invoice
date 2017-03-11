@@ -97,8 +97,9 @@ angular.module('app.services')
 
 // Отправляем на сервер данные пользователя
 angular.module('app.services')
-	.factory('send', ['$http', 'dependencies', function($http, dependencies) {
-		return function(ctrl) {
+	.factory('send', ['$http', 'dependencies', 'dataURLtoFile',
+		function($http, dependencies, dataURLtoFile) {
+			return function(ctrl) {
 				var userData = {
 					invoiceHtml: $('#pdfTemplate').html(),
 					email: ctrl.email,
@@ -113,9 +114,18 @@ angular.module('app.services')
 					'Счет № ' + ctrl.invoiceNumber + ' от ' + ctrl.receiverName;
 				userData.email.payerEmailText = userData.email.payerEmailText ||
 					'PDF со счетом на ваше имя в приложении к письму.';
-				if(!ctrl.formData) ctrl.formData = new FormData();
-				ctrl.formData.set('userData', JSON.stringify(userData));
 				
+				ctrl.formData = new FormData();
+				
+				// Если пользователь выбрал файл или лого есть в шаблоне
+				// создаем из строки dataUrl объект File и добавляем к FormData
+				if(ctrl.invoiceLogoSrc != 'img/add_logo.png') {
+					ctrl.formData.append('file',
+						dataURLtoFile(ctrl.invoiceLogoSrc));
+				}
+				
+				ctrl.formData.append('userData', JSON.stringify(userData));
+								
 				// 'Content-Type': undefined, иначе multiparty
 				// отвечает Invalid request: unsupported content-type
 				$http.post(dependencies.SERVER_URL, ctrl.formData, {
@@ -282,6 +292,24 @@ angular.module('app.services')
 					});
 			}
 		}]);
+
+// Преобразует строку dataURL в объект Blob,
+// потомучто Edge и IE не поддерживают new File(),
+// а Blob в итоге подходит для записи в FormData вместо File
+angular.module('app.services')
+	.factory('dataURLtoFile', function() {
+		return function(dataUrl /*, fileName*/ ) {
+			var arr = dataUrl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+	    while(n--) {
+	      u8arr[n] = bstr.charCodeAt(n);
+	    }
+	    // Если бы поддерживался File, то:
+	    // return new File([u8arr], fileName, { type:mime });
+	    
+	    return new Blob([u8arr], { type:mime });
+		}
+	});
 
 
 

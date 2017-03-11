@@ -123,7 +123,7 @@ function servePost(request, response) {
   if(!userId) userId = shortid.generate();
   cookies.set('invUserId', userId, { expires: new Date(Date.now() + 157680000000) });
 
-  form.on('error', function(err){
+  form.on('error', function(err) {
     console.error(err);
     send500(request, response, '<p class="text-danger">Ошибка</p>');
   });
@@ -208,7 +208,7 @@ function servePost(request, response) {
               // Всё норм
               pdfUrl = 'http://alex.enwony.net/server/pdf/' + pdfFile + '.pdf';
               responseData =
-                '<p>PDF будет доступен вам в течение суток по адресу: <a href="' +
+                '<p>PDF будет доступен вам в течение суток по адресу:<br> <a href="' +
                 pdfUrl + '" target="_blank">' + pdfUrl + '</a></p>';
               sendData(request, response, responseData);
               return;
