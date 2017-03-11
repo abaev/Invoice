@@ -22,8 +22,9 @@ angular.module('invoiceApp')
 				controller: 'invoiceController',
 				controllerAs: 'mainCtrl',
 				resolve: {
-					'templates': ['getTemplates', function(getTemplates) {
-						return getTemplates(-1);
+					'template': ['getTemplates', function(getTemplates) {
+						// Просто количество шаблонов
+						return getTemplates();
 					}]
 				}
 			})
@@ -32,7 +33,9 @@ angular.module('invoiceApp')
 				controller: 'invoiceController',
 				controllerAs: 'mainCtrl',
 				resolve: {
-					'templates': ['getTemplates', function(getTemplates) {
+					'template': ['getTemplates', function(getTemplates) {
+						// Получить нужный шаблон и всё остальное
+						// (общее количество и номер текущего шаблона)
 						return getTemplates(0);
 					}]
 				}
@@ -42,7 +45,9 @@ angular.module('invoiceApp')
 				controller: 'invoiceController',
 				controllerAs: 'mainCtrl',
 				resolve: {
-					'templates': ['getTemplates', function(getTemplates) {
+					'template': ['getTemplates', function(getTemplates) {
+						// Получить нужный шаблон и всё остальное
+						// (общее количество и номер текущего шаблона)
 						return getTemplates(1);
 					}]
 				}
@@ -52,18 +57,10 @@ angular.module('invoiceApp')
 				controller: 'invoiceController',
 				controllerAs: 'mainCtrl',
 				resolve: {
-					'templates': ['getTemplates', function(getTemplates) {
+					'template': ['getTemplates', function(getTemplates) {
+						// Получить нужный шаблон и всё остальное
+						// (общее количество и номер текущего шаблона)
 						return getTemplates(2);
-					}]
-				}
-			})
-			.when('/template3', {
-				templateUrl: './templates/main.tmpl.html',
-				controller: 'invoiceController',
-				controllerAs: 'mainCtrl',
-				resolve: {
-					'templates': ['getTemplates', function(getTemplates) {
-						return getTemplates(3);
 					}]
 				}
 			})

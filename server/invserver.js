@@ -67,6 +67,8 @@ http.createServer(function(request, response) {
   var method = request.method;
   var url = request.url;
   var body = [];
+
+  var templNumber;
       
   request.on('error', function(err) {
     console.error(err);
@@ -80,14 +82,21 @@ http.createServer(function(request, response) {
     case 'OPTIONS':
       sendData(request, response, 'OK');
       break;
+    
     case 'POST':
     	if(request.url.match(/\/templates/)) {
     		saveTemplate(request, response);
     	} else servePost(request, response);
       break;
+    
     case 'GET':
     	if(request.url.match(/\/templates/)) {
-    		sendTemplates(request, response);
+    		templNumber = request.url.match(/\d/);
+    		
+    		if(templNumber != null) {
+    			templNumber = parseInt(templNumber[0], 10);
+    		}
+    		sendTemplates(request, response, templNumber);
     	} else serveGet(request, response);
       break;
   }
@@ -112,7 +121,6 @@ function servePost(request, response) {
   var userId = cookies.get('invUserId');
   
   if(!userId) userId = shortid.generate();
-  // cookies.set('invUserId', userId, { maxAge: 157680000000 }); // 5 лет
   cookies.set('invUserId', userId, { expires: new Date(Date.now() + 157680000000) });
 
   form.on('error', function(err){
@@ -320,7 +328,6 @@ function saveTemplate(request, response) {
     userData = Buffer.concat(body).toString();
 
     if(!userId) userId = shortid.generate();
-	  // cookies.set('invUserId', userId, { maxAge: 157680000000 }); // 5 лет
 	  cookies.set('invUserId', userId, { expires: new Date(Date.now() + 157680000000) });
 
     try {
@@ -344,7 +351,7 @@ function saveTemplate(request, response) {
 	      templates = JSON.parse(data);
 	      
 	      if(templates[userId]) {
-	      	if(templates[userId].length >= 5) return send500(request, response);
+	      	if(templates[userId].length >= 3) return send500(request, response);
 	      } else templates[userId] = [];
 	      templates[userId].push(userData);
 	   		
@@ -364,8 +371,9 @@ function saveTemplate(request, response) {
 };
 
 
-function sendTemplates(request, response) {
-	// Отсылает (если находит) шаблоны
+function sendTemplates(request, response, templNumber) {
+	// Отсылает (если находит) шаблон номер templNumber,
+	// и количество сохраненых шаблонов
 	var templates = {};
 	var cookies = new Cookies(request, response);
   var userId = cookies.get('invUserId');
@@ -391,9 +399,34 @@ function sendTemplates(request, response) {
 
     try {
       templates = JSON.parse(data);
-      
+
       if(templates[userId]) {
-      	sendData(request, response, JSON.stringify(templates[userId]));
+      	
+      	// Отправляем запрошенный шаблон
+      	// и количество сохраненых шаблонов
+      	if(templNumber != null) {
+      		if(templNumber < templates[userId].length) {
+      			sendData(request, response,
+		      		JSON.stringify({
+		      			template: templates[userId][templNumber],
+		      			quantity: templates[userId].length
+		      		})
+		      	);
+      		} else sendError(request, response,
+				      		{ number: 404, message: 'Not Found' });
+	      	
+	      	return;
+		    }
+
+		    // Если templNumber == null - просто количество шаблонов
+	     	sendData(request, response,
+      		JSON.stringify({
+      			template: [],
+      			quantity: templates[userId].length
+      		})
+      	);
+      	return;
+		 	      
       } else sendError(request, response,
       		{ number: 404, message: 'Not Found' });
     }

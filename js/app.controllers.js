@@ -12,7 +12,7 @@ angular.module('app.controllers')
 			send, calc, closeModal, saveTemplate) {
 			var self = this;
 						
-			var templates;
+			var templObj;
 
 			if($route && $route.current && $route.current.locals) {
 				// В докоментации Angular'а ничего нет, про проблему
@@ -22,7 +22,7 @@ angular.module('app.controllers')
 				// обновляется когда промисы разрешаются что-ли (черт знает)
 				// в итоге становясь тем, чем нам надо (вот это точно).
 				// DI просто охреневший
-				templates = $route.current.locals.templates;
+				templObj = $route.current.locals.template;
 			}
 
 			// Services
@@ -99,15 +99,19 @@ angular.module('app.controllers')
 
 			self.itemsTable = [];
 
-			if(templates) console.log(templates);
-			if(templates && templates.current != -1) {
+			if(templObj) console.log(templObj);
+			if(templObj && templObj.current !== '') {
 				// Инициализируем контроллер загруженным шаблоном,
-				angular.extend(self, templates.arr[templates.current]);
+				angular.extend(self, templObj.template);
+
 				console.log('self = ');
 				console.log(self);
 			}
-		
-			self.addItem(self); // Первая строка таблицы
+			
+			if(self.itemsTable.length == 0) {
+				self.addItem(self); // Первая строка таблицы
+			}
+			
 	}]);
 
 

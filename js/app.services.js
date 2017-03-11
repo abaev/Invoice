@@ -237,34 +237,48 @@ angular.module('app.services')
 	});
 
 
+// Загружает шаблоны с сервера
 angular.module('app.services')
 	.factory('getTemplates', ['$http', '$location', 'dependencies',
 		function($http, $location, dependencies) {
 			return function(templNumber) {
-				return $http.get(dependencies.SERVER_URL + '/templates')
+				// Если templNumber не указан - отправить запрос
+				// на получение количества шаблонов
+				if(!templNumber && templNumber != 0) templNumber = '';
+
+				return $http.get(dependencies.SERVER_URL + '/templates' + templNumber)
 					.then(function successCallback(response) {
 						// Если нет сохраненных шаблонов - 
 						// редирект без сохранения в истории
-						if(templNumber == -1) {
-							// Если не хотим показывать шаблон, а загружаем путь '/'
-							return {
-								arr: response.data,
-								current: templNumber
-							};
-						}
-						if(response.data.length <= templNumber) $location.path('/').replace();
+						// if(templNumber == '') {
+						// 	// Если не хотим показывать шаблон, а загружаем путь '/'
+						// 	return {
+						// 		arr: response.data,
+						// 		current: templNumber
+						// 	};
+						// }
+
+						// if(templNumber != '' && response.data.quantity <= templNumber) $location.path('/').replace();
 						return {
-							arr: response.data,
+							// шаблон
+							template: response.data.template, 
+							
+							// количество сохраненых шаблонов
+							quantity: response.data.quantity,
+							
+							// номер текущего шаблона, если '',
+							// форма по умолчанию, без шаблона
 							current: templNumber
 						};
 					},
 					function errorCallback(response) {
 						// Ошибка - тоже редирект
+						// Доработать здесь
 						$location.path('/').replace();
-						return {
-							arr: [],
-							current: templNumber
-						};;
+						// return {
+						// 	arr: [],
+						// 	current: templNumber
+						// };
 					});
 			}
 		}]);
