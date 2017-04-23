@@ -42,10 +42,14 @@ h1 {
 	cursor: pointer;
 }
 
-div.col-xs-12.col-md-2.col-lg-2.hidden-xs.hidden-sm button[type="reset"],
-div.col-xs-12.col-md-2.col-lg-2.hidden-xs.hidden-sm button.btn.btn-info.btn-sm.center-block {
+.margin-top5 {
 	margin-top: 5px;
 }
+
+.margin-top15 {
+	margin-top: 15px;
+}
+
 
 /* Отступ для кнопок возрата полей,
 когда они занимают больше строки */

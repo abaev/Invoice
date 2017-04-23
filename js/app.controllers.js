@@ -23,6 +23,7 @@ angular.module('app.controllers')
 				// в итоге становясь тем, чем нам надо (вот это точно).
 				// DI просто охреневший
 				templObj = $route.current.locals.template;
+				self.templObj = templObj;
 			}
 
 			// Services
