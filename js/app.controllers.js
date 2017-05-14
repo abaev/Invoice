@@ -3,16 +3,17 @@ angular.module('app.controllers',
 
 angular.module('app.controllers')
 	.controller('invoiceController',
-		['$scope', '$http', '$cookies', 'numFormatFilter', '$filter', '$route', '$timeout', 'changeReceiverLabel',
-		'showHideInput', 'addInput', 'addItem', 'removeItem', 'resetForm',
-		'send', 'calc', 'closeModal', 'saveTemplate', 
+		['$scope', '$http', '$cookies', '$filter', '$route', '$timeout',
+		'numFormatFilter', 'changeReceiverLabel',	'showHideInput',
+		'addInput', 'addItem', 'removeItem', 'resetForm',
+		'send', 'calc', 'closeModal', 'saveTemplate', 'invRouting', 
 
-		function($scope, $http, $cookies, numFormatFilter, $filter, $route, $timeout, changeReceiverLabel,
-			showHideInput, addInput, addItem, removeItem, resetForm,
-			send, calc, closeModal, saveTemplate) {
+		function($scope, $http, $cookies, $filter, $route, $timeout,
+			numFormatFilter, changeReceiverLabel,	showHideInput,
+			addInput, addItem, removeItem, resetForm,
+			send, calc, closeModal, saveTemplate, invRouting) {
+			
 			var self = this;
-						
-			var templObj;
 
 			if($route && $route.current && $route.current.locals) {
 				// В докоментации Angular'а ничего нет, про проблему
@@ -22,11 +23,11 @@ angular.module('app.controllers')
 				// обновляется когда промисы разрешаются что-ли (черт знает)
 				// в итоге становясь тем, чем нам надо (вот это точно).
 				// DI просто охреневший
-				templObj = $route.current.locals.template;
-				self.templObj = templObj;
+				self.templObj = $route.current.locals.template;
 			}
 
 			// Services
+			self.invRouting = invRouting;
 			self.changeReceiverLabel = changeReceiverLabel;
 			self.showHideInput = showHideInput;
 			self.addInput = addInput;
@@ -100,10 +101,10 @@ angular.module('app.controllers')
 
 			self.itemsTable = [];
 
-			if(templObj) console.log(templObj);
-			if(templObj && templObj.current !== '') {
+			if(self.templObj) console.log(self.templObj);
+			if(self.templObj && self.templObj.current !== '') {
 				// Инициализируем контроллер загруженным шаблоном,
-				angular.extend(self, templObj.template);
+				angular.extend(self, self.templObj.template);
 
 				console.log('self = ');
 				console.log(self);

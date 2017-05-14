@@ -8,6 +8,14 @@ angular.module('app.services')
 		}
 	});
 
+// Здесь храним состояние роутинга
+// для отображения оверлея с гифкой загрузки
+angular.module('app.services')
+	.factory('invRouting', function() {
+		return {
+			isRunning: true
+		}
+	});
 
 // Изменение по щелчку Название/Ф.И.О.
 angular.module('app.services')
@@ -146,7 +154,7 @@ angular.module('app.services')
 
 angular.module('app.services')
 	.factory('saveTemplate',
-		['$http', 'dependencies', function($http, dependencies) {
+		['$http', '$location', 'dependencies', function($http, $location, dependencies) {
 			return function(ctrl) {
 				var template = {
 					invoiceLogoSrc: ctrl.invoiceLogoSrc,
@@ -177,6 +185,7 @@ angular.module('app.services')
 				$http.post(dependencies.SERVER_URL + '/templates', template)
 					.then(function successCallback(response) {
 						console.log(response);
+						$location.path('/template' + ctrl.templObj.quantity);
 					},
 					function errorCallback(response) {
 						console.log(response);
@@ -258,17 +267,6 @@ angular.module('app.services')
 
 				return $http.get(dependencies.SERVER_URL + '/templates' + templNumber)
 					.then(function successCallback(response) {
-						// Если нет сохраненных шаблонов - 
-						// редирект без сохранения в истории
-						// if(templNumber == '') {
-						// 	// Если не хотим показывать шаблон, а загружаем путь '/'
-						// 	return {
-						// 		arr: response.data,
-						// 		current: templNumber
-						// 	};
-						// }
-
-						// if(templNumber != '' && response.data.quantity <= templNumber) $location.path('/').replace();
 						return {
 							// шаблон
 							template: response.data.template, 

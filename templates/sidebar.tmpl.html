@@ -8,11 +8,11 @@
 	<button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#preSendModal" ng-click="mainCtrl.email.payerEmailSubj = 'Счет № ' + mainCtrl.invoiceNumber + ' от ' + mainCtrl.receiverName; mainCtrl.response = null; mainCtrl.sendState = false; mainCtrl.preview = false">Создать PDF</button>
 	
 	<!-- Управление шаблонами -->
-	<button type="button" class="btn btn-info btn-sm btn-block margin-top15" ng-click="mainCtrl.saveTemplate(mainCtrl)">Сохранить шаблон</button>
+	<button type="button" class="btn btn-info btn-sm btn-block margin-top15" ng-click="mainCtrl.saveTemplate(mainCtrl)" ng-disabled="mainCtrl.templObj.quantity === 3">Сохранить шаблон</button>
 	
 	<div class="text-center">
 		<div class="btn-group">
-			<a class="btn btn-success btn-sm margin-top5" href="#template0" ng-class="mainCtrl.templObj.current === 0 ? 'active' : ''">Шаблон 1</a>
+			<a class="btn btn-success btn-sm margin-top5" href="#template0" ng-class="mainCtrl.templObj.current === 0 ? 'active' : ''" ng-disabled="mainCtrl.templObj.quantity === 0">Шаблон 1</a>
 			<button type="button" class="btn btn-success btn-sm dropdown-toggle margin-top5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  ng-disabled="mainCtrl.templObj.current !== 0">
 				<span class="caret"></span>
 		    <span class="sr-only">Toggle Dropdown</span>
@@ -26,7 +26,7 @@
 	
 	<div class="text-center">
 		<div class="btn-group">
-			<a class="btn btn-success btn-sm margin-top5" href="#template1" ng-class="mainCtrl.templObj.current === 1 ? 'active' : ''">Шаблон 2</a>
+			<a class="btn btn-success btn-sm margin-top5" href="#template1" ng-class="mainCtrl.templObj.current === 1 ? 'active' : ''" ng-disabled="mainCtrl.templObj.quantity < 2">Шаблон 2</a>
 			<button type="button" class="btn btn-success btn-sm dropdown-toggle margin-top5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="mainCtrl.templObj.current !== 1">
 				<span class="caret"></span>
 		    <span class="sr-only">Toggle Dropdown</span>
@@ -40,7 +40,7 @@
 
 	<div class="text-center">
 		<div class="btn-group">
-			<a class="btn btn-success btn-sm margin-top5" href="#template2" ng-class="mainCtrl.templObj.current === 2 ? 'active' : ''">Шаблон 3</a>
+			<a class="btn btn-success btn-sm margin-top5" href="#template2" ng-class="mainCtrl.templObj.current === 2 ? 'active' : ''" ng-disabled="mainCtrl.templObj.quantity < 3">Шаблон 3</a>
 			<button type="button" class="btn btn-success btn-sm dropdown-toggle margin-top5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="mainCtrl.templObj.current !== 2">
 				<span class="caret"></span>
 		    <span class="sr-only">Toggle Dropdown</span>

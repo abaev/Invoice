@@ -68,6 +68,28 @@ angular.module('invoiceApp')
 	}]);
 
 
+// Обработка события начала роутинга,
+// чтобы показать оверлей с гифкой Загрузка
+angular.module('invoiceApp')
+	.run(['$rootScope', 'invRouting', function($rootScope, invRouting) {
+		$rootScope.$on('$routeChangeStart', function(evt, next, previous) {
+			invRouting.isRunning = true;
+		});
+	}]);
+
+
+// Обработка события успешного
+// окончания роутинга,
+// чтобы скрыть оверлей с гифкой Загрузка
+// Что-то решить для события с ошибкой роутинга
+angular.module('invoiceApp')
+	.run(['$rootScope', 'invRouting', function($rootScope, invRouting) {
+		$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
+			invRouting.isRunning = false;
+		});
+	}]);
+
+
 angular.module('invoiceApp')
 	.config(['$cookiesProvider', function($cookiesProvider) {
 		$cookiesProvider.path = '/';

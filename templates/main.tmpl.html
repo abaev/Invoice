@@ -1,8 +1,14 @@
 <div class="container-fluid">
+	
+	<!-- Loading overlay and gif -->
+	<div class="loading" ng-show="mainCtrl.invRouting.isRunning">
+		<img class="gif" src="img/ajax-loader-big.gif" alt="">
+	</div>
 
 	<form action="" name="invoiceForm" enctype="multipart/form-data" novalidate>
 		<div class="row">
 			<br>
+			
 			<!-- Колонка с формой -->
 			<div class="col-xs-12 col-md-10 col-lg-9 col-lg-offset-1 bcgr-white">
 				<div class="row">
