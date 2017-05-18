@@ -99,6 +99,19 @@ http.createServer(function(request, response) {
     		sendTemplates(request, response, templNumber);
     	} else serveGet(request, response);
       break;
+
+    case 'DELETE':
+    	if(request.url.match(/\/templates/)) {
+    		// Удалить шаблон
+    		templNumber = request.url.match(/\d/);
+    		
+    		if(templNumber != null) {
+    			templNumber = parseInt(templNumber[0], 10);
+    		}
+    		delTemplate(request, response, templNumber);
+    	} else sendError(request, response,
+    			{ number: 404, message: 'Not Found' });
+      break;
   }
 
 }).listen(PORT, function() {
@@ -371,9 +384,9 @@ function saveTemplate(request, response) {
 };
 
 
+// Отсылает (если находит) шаблон номер templNumber,
+// и количество сохраненых шаблонов
 function sendTemplates(request, response, templNumber) {
-	// Отсылает (если находит) шаблон номер templNumber,
-	// и количество сохраненых шаблонов
 	var templates = {};
 	var cookies = new Cookies(request, response);
   var userId = cookies.get('invUserId');
@@ -427,6 +440,54 @@ function sendTemplates(request, response, templNumber) {
       	);
       	return;
 		 	      
+      } else sendError(request, response,
+      		{ number: 404, message: 'Not Found' });
+    }
+
+    catch(err) {
+      console.error(err);
+      send500(request, response);
+      return;
+    }
+  });
+}
+
+
+// Удаляет (если находит) шаблон номер templNumber
+function delTemplate(request, response, templNumber) {
+	var templates = {};
+	var cookies = new Cookies(request, response);
+  var userId = cookies.get('invUserId');
+
+  if(!userId) {
+  	// Если в запросе не установлены наши куки,
+  	sendError(request, response, { number: 403, message: 'Forbidden' });
+  	return;
+  }
+  
+  fs.readFile(TEMPLATES, function(err, data) {
+    
+    if(err) {
+      console.error(err);
+      send500(request, response);
+      return;
+    }
+
+    try {
+      templates = JSON.parse(data);
+
+      if(templates[userId]) {
+      	if(templNumber < templates[userId].length) {
+      		// Удаляем
+    			templates[userId].splice(templNumber, 1);
+
+    			fs.writeFile(TEMPLATES, jsonFormat(templates), function(err) {
+		   			if(err) return send500(request, response);
+		   			sendData(request, response, 'OK');
+		   		});
+    		} else sendError(request, response,
+			      		{ number: 404, message: 'Not Found' });
+      		 		 	      
       } else sendError(request, response,
       		{ number: 404, message: 'Not Found' });
     }

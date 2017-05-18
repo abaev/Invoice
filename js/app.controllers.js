@@ -6,12 +6,14 @@ angular.module('app.controllers')
 		['$scope', '$http', '$cookies', '$filter', '$route', '$timeout',
 		'numFormatFilter', 'changeReceiverLabel',	'showHideInput',
 		'addInput', 'addItem', 'removeItem', 'resetForm',
-		'send', 'calc', 'closeModal', 'saveTemplate', 'invRouting', 
+		'send', 'calc', 'closeModal', 'saveTemplate', 'invRouting',
+		'delTemplates', 
 
 		function($scope, $http, $cookies, $filter, $route, $timeout,
 			numFormatFilter, changeReceiverLabel,	showHideInput,
 			addInput, addItem, removeItem, resetForm,
-			send, calc, closeModal, saveTemplate, invRouting) {
+			send, calc, closeModal, saveTemplate, invRouting,
+			delTemplates) {
 			
 			var self = this;
 
@@ -39,6 +41,7 @@ angular.module('app.controllers')
 			self.calc = calc;
 			self.closeModal = closeModal;
 			self.saveTemplate = saveTemplate;
+			self.delTemplates = delTemplates;
 			
 			self.receiverLabel = 'Название организации';
 			self.addingInput = false; // Используется в addInput();

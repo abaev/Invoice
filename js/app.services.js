@@ -291,6 +291,18 @@ angular.module('app.services')
 			}
 		}]);
 
+// Удаляет шаблон с сервера
+angular.module('app.services')
+	.factory('delTemplates', ['$http', '$location', 'dependencies',
+		function($http, $location, dependencies) {
+			return function(templNumber) {
+				return $http.delete(dependencies.SERVER_URL + '/templates' + templNumber)
+					.finally(function callback(response) {
+						$location.path('/').replace();
+					});
+			}
+		}]);
+
 // Преобразует строку dataURL в объект Blob,
 // потомучто Edge и IE не поддерживают new File(),
 // а Blob в итоге подходит для записи в FormData вместо File
