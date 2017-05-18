@@ -16,6 +16,7 @@ angular.module('app.controllers')
 			var self = this;
 
 			if($route && $route.current && $route.current.locals) {
+				// Сохраненные пользователем шаблоны.
 				// В докоментации Angular'а ничего нет, про проблему
 				// передачи resolve из $routeProvider в контроллер,
 				// если контроллер инициализируется с помощью ng-controller.
