@@ -16,12 +16,20 @@ angular.module('app.directives')
 				  if (FileReader && files && files.length) {
 				      var fr = new FileReader();
 				      fr.onload = function () {
-				      	ctrl.invoiceLogoSrc = fr.result;
-				      	scope.$apply();
-	         			// Чтобы событие change возникало,
+				      	// Проверка размера файла (<= 3145728 bytes)
+				      	if (files[0].size <= 3145728) {
+				      		ctrl.invoiceLogoSrc = fr.result;
+					      	scope.$apply();
+		         		} else {
+		         			// Нормальное сообщение сделать
+		         			console.log('Файл должен быть не больше 3 Мб');
+		         			console.log(files[0].size);
+		         		}
+
+				       	// Чтобы событие change возникало,
 			          // даже если пользователь выберет
 			          // тот же файл снова
-			          element.val('');
+				       	element.val('');
 			        }
 
 				      fr.readAsDataURL(files[0]);
