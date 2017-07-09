@@ -9,18 +9,19 @@ var pdf = require('html-pdf');
 var phantom = require('phantom');
 var multiparty = require('multiparty');
 var nodemailer = require('nodemailer');
-var shortid = require('shortid');
+var shortid = require('shortid'); // ниже переписываем функцию shortid.generate()
 var Cookies = require('cookies');
 var jsonFormat = require('json-format');
 
 var CSS_FILE = 'pdf.css';
 var PDF_LIST = join(__dirname, '/data/pdf.list.json');
-var TEMPLATES = join(__dirname, '/data/templates.json');
+var TEMPLATES = join(__dirname, '/data/templates/'); // '/data/templates.json'
 var SERVER_PATH = 'http://alex.enwony.net/';
 var ALLOW_ORIGIN_HEADER = 'http://alex.enwony.net/server'; // '*' 'alex.enwony.net/server'
 var FONT_LINK = '';
 var EMAIL_SIGN = '<br><br><p>Создано с помощью <a href="http://alex.enwony.net/">Сервис создания счетов</a></p>';
 var PORT = 3000; //8080;
+var COOKIE_INTERVAL = 315360000000 // 10 лет
 var PDF_OPTIONS = {
   format: 'A4',
   orientation: 'portrait',
@@ -36,6 +37,13 @@ var PDF_OPTIONS_PNG = {
 
 var transporter, mailOptions;
 var pdfStyle = '';
+
+// Переписываем shortid.generate(), чтобы возвращал id,
+// которые не начинаются с "-", потому как используем
+// эту функцию для создания имен файлов,
+// а они не могут начинаться с "-"
+shortid.generate = generateId();
+
 
 // Настройка nodemailer'а
 fs.readFile(join(__dirname, '/data/config.json'), 'utf8', function(err, data) {
@@ -134,7 +142,7 @@ function servePost(request, response) {
   var userId = cookies.get('invUserId');
   
   if(!userId) userId = shortid.generate();
-  cookies.set('invUserId', userId, { expires: new Date(Date.now() + 157680000000) });
+  cookies.set('invUserId', userId, { expires: new Date(Date.now() + COOKIE_INTERVAL) });
 
   form.on('error', function(err) {
     console.error(err);
@@ -171,9 +179,7 @@ function servePost(request, response) {
 	          send500(request, response, '<p class="text-danger">Ошибка: предварительный просмотр невозможен</p>');
 	        } else {
 	          sendData(request, response, 'data:image/png;base64,' + pdfBuffer.toString('base64'));
-	          // bufferStream.end(pdfBuffer);
-	          // bufferStream.pipe(response);
-	        }
+	         }
         });
         return;
       }
@@ -341,7 +347,7 @@ function saveTemplate(request, response) {
     userData = Buffer.concat(body).toString();
 
     if(!userId) userId = shortid.generate();
-	  cookies.set('invUserId', userId, { expires: new Date(Date.now() + 157680000000) });
+	  cookies.set('invUserId', userId, { expires: new Date(Date.now() + COOKIE_INTERVAL) });
 
     try {
     	userData = JSON.parse(userData);
@@ -351,8 +357,13 @@ function saveTemplate(request, response) {
       send500(request, response);
       return;
     }
+
+    if( !fs.existsSync(TEMPLATES + userId + '.json') ) {
+    	fs.openSync(TEMPLATES + userId + '.json', 'w');
+    	fs.writeFileSync(TEMPLATES + userId + '.json', jsonFormat([]));
+    }
 	  
-	  fs.readFile(TEMPLATES, function(err, data) {
+	  fs.readFile(TEMPLATES + userId + '.json', function(err, data) {
 	    
 	    if(err) {
 	      console.error(err);
@@ -363,12 +374,11 @@ function saveTemplate(request, response) {
 	    try {
 	      templates = JSON.parse(data);
 	      
-	      if(templates[userId]) {
-	      	if(templates[userId].length >= 3) return send500(request, response);
-	      } else templates[userId] = [];
-	      templates[userId].push(userData);
+	      if(templates.length >= 3) return send500(request, response);
+	      
+	      templates.push(userData);
 	   		
-	   		fs.writeFile(TEMPLATES, jsonFormat(templates), function(err) {
+	   		fs.writeFile(TEMPLATES + userId + '.json', jsonFormat(templates), function(err) {
 	   			if(err) return send500(request, response);
 	   			sendData(request, response, 'OK');
 	   		});
@@ -397,12 +407,12 @@ function sendTemplates(request, response, templNumber) {
   	// в любом случае, мы не сможем найти шаблоны пользователя,
   	// поэтому - Not Found
   	userId = shortid.generate();
-  	cookies.set('invUserId', userId, { expires: new Date(Date.now() + 157680000000) }); // 5 лет
+  	cookies.set('invUserId', userId, { expires: new Date(Date.now() + COOKIE_INTERVAL) }); // 5 лет
   	sendError(request, response, { number: 404, message: 'Not Found' });
   	return;
   }
   
-  fs.readFile(TEMPLATES, function(err, data) {
+  fs.readFile(TEMPLATES + userId + '.json', function(err, data) {
     
     if(err) {
       console.error(err);
@@ -413,16 +423,16 @@ function sendTemplates(request, response, templNumber) {
     try {
       templates = JSON.parse(data);
 
-      if(templates[userId]) {
+      if(templates.length > 0) {
       	
       	// Отправляем запрошенный шаблон
       	// и количество сохраненых шаблонов
       	if(templNumber != null) {
-      		if(templNumber < templates[userId].length) {
+      		if(templNumber < templates.length) {
       			sendData(request, response,
 		      		JSON.stringify({
-		      			template: templates[userId][templNumber],
-		      			quantity: templates[userId].length
+		      			template: templates[templNumber],
+		      			quantity: templates.length
 		      		})
 		      	);
       		} else sendError(request, response,
@@ -435,7 +445,7 @@ function sendTemplates(request, response, templNumber) {
 	     	sendData(request, response,
       		JSON.stringify({
       			template: [],
-      			quantity: templates[userId].length
+      			quantity: templates.length
       		})
       	);
       	return;
@@ -546,4 +556,23 @@ function sendData(request, response, data) {
   response.setHeader('Content-Type', 'text/html');
   response.writeHead(200);
   response.end(data);
+}
+
+
+// Переписываем shortid.generate(), чтобы возвращал id,
+// которые не начинаются с "-", потому как используем
+// эту функцию для создания имен файлов,
+// а они не могут начинаться с "-"
+function generateId() {
+	var g = shortid.generate;
+	
+	return function() {
+		var id = g();
+	
+		while(id.indexOf('-') === 0) {
+			id = g();
+		}
+
+		return id;
+	}
 }

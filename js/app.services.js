@@ -154,43 +154,48 @@ angular.module('app.services')
 
 angular.module('app.services')
 	.factory('saveTemplate',
-		['$http', '$location', 'dependencies', function($http, $location, dependencies) {
-			return function(ctrl) {
-				var template = {
-					invoiceLogoSrc: ctrl.invoiceLogoSrc,
-					invoiceNumber: ctrl.invoiceNumber,
-					invoiceDate: ctrl.invoiceDate,
-					invoiceCurrency: ctrl.invoiceCurrency,
-					invoicePayer: ctrl.invoicePayer,
-					invoiceBriefly: ctrl.invoiceBriefly,		
-					receiverLabel: ctrl.receiverLabel,
-					receiverName: ctrl.receiverName,
-					// addingInput: ctrl.addingInput,
-					// newInputLabel: ctrl.newInputLabel,
-					ndsType: ctrl.ndsType,
-					ndsRate: ctrl.ndsRate,
-					invoiceDiscount: ctrl.invoiceDiscount,
-					invoiceDiscountType: ctrl.invoiceDiscountType,
-					invoiceShipping: ctrl.invoiceShipping,
-					invoiceComment: ctrl.invoiceComment,
-					
-					// Objects
-					email: angular.copy(ctrl.email),
-					// Опциональные поля ввода
-					optionalTextInputs: angular.copy(ctrl.optionalTextInputs),
-					// Таблица
-					itemsTable: angular.copy(ctrl.itemsTable)
-				};
+		['$http', '$location', 'dependencies',
+			function($http, $location, dependencies) {
+				return function(ctrl) {
+					var quantity;
+					var template = {
+						invoiceLogoSrc: ctrl.invoiceLogoSrc,
+						invoiceNumber: ctrl.invoiceNumber,
+						invoiceDate: ctrl.invoiceDate,
+						invoiceCurrency: ctrl.invoiceCurrency,
+						invoicePayer: ctrl.invoicePayer,
+						invoiceBriefly: ctrl.invoiceBriefly,		
+						receiverLabel: ctrl.receiverLabel,
+						receiverName: ctrl.receiverName,
+						// addingInput: ctrl.addingInput,
+						// newInputLabel: ctrl.newInputLabel,
+						ndsType: ctrl.ndsType,
+						ndsRate: ctrl.ndsRate,
+						invoiceDiscount: ctrl.invoiceDiscount,
+						invoiceDiscountType: ctrl.invoiceDiscountType,
+						invoiceShipping: ctrl.invoiceShipping,
+						invoiceComment: ctrl.invoiceComment,
+						
+						// Objects
+						email: angular.copy(ctrl.email),
+						// Опциональные поля ввода
+						optionalTextInputs: angular.copy(ctrl.optionalTextInputs),
+						// Таблица
+						itemsTable: angular.copy(ctrl.itemsTable)
+					};
 
-				$http.post(dependencies.SERVER_URL + '/templates', template)
-					.then(function successCallback(response) {
-						console.log(response);
-						$location.path('/template' + ctrl.templObj.quantity);
-					},
-					function errorCallback(response) {
-						console.log(response);
-				});
-			}
+					$http.post(dependencies.SERVER_URL + '/templates', template)
+						.then(function successCallback(response) {
+							console.log(response);
+							if(!ctrl.templObj) {
+								quantity = 0;
+							} else quantity = ctrl.templObj.quantity
+							$location.path('/template' + quantity);
+						},
+						function errorCallback(response) {
+							console.log(response);
+					});
+				}
 		}]);
 
 

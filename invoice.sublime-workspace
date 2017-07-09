@@ -509,7 +509,7 @@
 			"file": "js/app.services.js",
 			"settings":
 			{
-				"buffer_size": 8906,
+				"buffer_size": 8944,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -536,8 +536,16 @@
 			"file": "server/invserver.js",
 			"settings":
 			{
-				"buffer_size": 15825,
+				"buffer_size": 16379,
 				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "server/data/.htaccess",
+			"settings":
+			{
+				"buffer_size": 13,
 				"line_ending": "Windows"
 			}
 		},
@@ -578,15 +586,6 @@
 			}
 		},
 		{
-			"file": "server/package.json",
-			"settings":
-			{
-				"buffer_size": 370,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "for apache/alex1.enwony.net.conf",
 			"settings":
 			{
@@ -604,6 +603,14 @@
 				"encoding": "UTF-8",
 				"line_ending": "Windows",
 				"name": "[]"
+			}
+		},
+		{
+			"file": "server/package.json",
+			"settings":
+			{
+				"buffer_size": 370,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -719,6 +726,11 @@
 	},
 	"file_history":
 	[
+		"/C/my_folder/_web_dev/Invoice/templates.json",
+		"/C/my_folder/_web_dev/Invoice/app/server/B1j2yxCVb.json",
+		"/C/Program Files/pia_manager/log/pia_nw.log",
+		"/C/Program Files/pia_manager/log/pia_manager.log",
+		"/C/my_folder/_web_dev/Invoice/app/server/package.json",
 		"/C/my_folder/_web_dev/practice/_good_news/Форма для коктейлей/cocktail form/index.html",
 		"/C/my_folder/_web_dev/practice/_good_news/Форма для коктейлей/cocktail form/style.css",
 		"/C/my_folder/_web_dev/Invoice/app/templates.json",
@@ -744,7 +756,6 @@
 		"/Z/home/invoice/www/templates/result.html.tmpl.html",
 		"/Z/home/invoice/www/js/app.directives.js",
 		"/C/my_folder/_web_dev/Invoice/app/server/.htaccess",
-		"/C/my_folder/_web_dev/Invoice/app/server/package.json",
 		"/Z/home/invoice/www/server/pdf.css",
 		"/C/my_folder/_web_dev/Invoice/app/server/test.js",
 		"/C/my_folder/_web_dev/Invoice/app/server/test.html",
@@ -842,11 +853,7 @@
 		"/C/my_folder/_web_dev/Invoice/app/app.js",
 		"/C/my_folder/_web_dev/Invoice/app/lib/jquery-ui-1.11.4/jquery-ui.theme.css",
 		"/C/my_folder/_web_dev/GrandValesDV/app/tmp.html",
-		"/C/my_folder/_web_dev/Invoice/app_back-up/app.js",
-		"/C/my_folder/_web_dev/GrandValesDV/app/Удалить по окончании.txt",
-		"/C/my_folder/_web_dev/GrandValesDV/app/temp data/reviews.json",
-		"/C/my_folder/_web_dev/GrandValesDV/app/temp data/vacancies.json",
-		"/C/my_folder/_web_dev/GrandValesDV/app/temp data/candidates.json"
+		"/C/my_folder/_web_dev/Invoice/app_back-up/app.js"
 	],
 	"find":
 	{
@@ -864,6 +871,15 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"oldGenerate",
+			"157680000000",
+			"new Date",
+			"TEMPLATES",
+			"saveTemplate",
+			"TEMPLATES",
+			"pdfFile",
+			"Allow",
+			"saveTemplate",
 			"fr.result.size",
 			"delTemplate",
 			"saveTemplate",
@@ -982,16 +998,7 @@
 			"self",
 			"addInput",
 			"self",
-			"showHideInput",
-			"InvoiceApp",
-			"changeReceiverLabel",
-			"<button class=\"btn btn-info btn-xs ng-binding\" ng-click=\"mainCtrl.showHideInput(mainCtrl.formGroup.id);\">",
-			"<button class=\"btn btn-info btn-xs ng-binding\" ng-click=\"mainCtrl.showHideInput(mainCtrl.formGroup.id);\">\n\t\t\t\t\t\t\t\t\t<span class=\"glyphicon glyphicon-plus\"></span>\n\t\t\t\t\t\t\t\t\t\t&nbsp;\n\t\t\t\t\t\t\t\t</button>",
-			"numForma",
-			"$scope",
-			"fleetType",
-			"review-author",
-			"vacancy"
+			"showHideInput"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1015,7 +1022,7 @@
 	"groups":
 	[
 		{
-			"selected": 15,
+			"selected": 14,
 			"sheets":
 			[
 				{
@@ -1042,10 +1049,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1266.0,
+						"translation.y": 1860.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
@@ -1075,7 +1082,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
@@ -1104,7 +1111,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
@@ -1133,7 +1140,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 19,
 					"type": "text"
 				},
 				{
@@ -1163,7 +1170,7 @@
 						"translation.y": 2112.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
@@ -1193,7 +1200,7 @@
 						"translation.y": 326.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
@@ -1223,7 +1230,7 @@
 						"translation.y": 462.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 22,
 					"type": "text"
 				},
 				{
@@ -1253,7 +1260,7 @@
 						"translation.y": 662.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 24,
+					"stack_index": 25,
 					"type": "text"
 				},
 				{
@@ -1283,7 +1290,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 21,
 					"type": "text"
 				},
 				{
@@ -1311,7 +1318,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 19,
+					"stack_index": 23,
 					"type": "text"
 				},
 				{
@@ -1341,7 +1348,7 @@
 						"translation.y": 540.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 22,
+					"stack_index": 24,
 					"type": "text"
 				},
 				{
@@ -1368,10 +1375,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 396.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1401,7 +1408,7 @@
 						"translation.y": 264.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1431,7 +1438,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 20,
 					"type": "text"
 				},
 				{
@@ -1440,15 +1447,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8906,
+						"buffer_size": 8944,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8215,
-								8215
+								4099,
+								4099
 							]
 						],
 						"settings":
@@ -1457,10 +1464,10 @@
 							"tab_size": 2
 						},
 						"translation.x": 0.0,
-						"translation.y": 5622.0,
+						"translation.y": 3828.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1490,7 +1497,7 @@
 						"translation.y": 264.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -1520,7 +1527,7 @@
 						"translation.y": 1386.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 23,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1529,15 +1536,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 15825,
+						"buffer_size": 16379,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3460,
-								3453
+								1684,
+								1684
 							]
 						],
 						"settings":
@@ -1547,14 +1554,42 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2442.0,
+						"translation.y": 9697.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 18,
+					"file": "server/data/.htaccess",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
 					"file": "templates.json",
 					"semi_transient": false,
 					"settings":
@@ -1580,11 +1615,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 19,
+					"buffer": 20,
 					"file": "templates/preSendModal.tmpl.html",
 					"semi_transient": false,
 					"settings":
@@ -1610,11 +1645,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 20,
+					"buffer": 21,
 					"file": "templates/previewModal.tmpl.html",
 					"semi_transient": false,
 					"settings":
@@ -1640,11 +1675,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 21,
+					"buffer": 22,
 					"file": "style.css",
 					"semi_transient": false,
 					"settings":
@@ -1667,39 +1702,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2970.0,
+						"translation.y": 2950.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 22,
-					"file": "server/package.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 370,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								334,
-								334
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 20,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
@@ -1723,13 +1729,14 @@
 						{
 							"auto_name": "<VirtualHost *:80>",
 							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2
+							"tab_size": 2,
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 132.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 21,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -1758,7 +1765,37 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 25,
+					"file": "server/package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 370,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
