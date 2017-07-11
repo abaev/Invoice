@@ -509,9 +509,21 @@
 			"file": "js/app.services.js",
 			"settings":
 			{
-				"buffer_size": 8944,
+				"buffer_size": 9047,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "[\n\t{\n\t\t\"invoiceLogoSrc\": \"img/add_logo.png\",\n\t\t\"invoiceDate\": \"09.07.2017\",\n\t\t\"invoiceCurrency\": \"руб.\",\n\t\t\"invoicePayer\": \"2\",\n\t\t\"receiverLabel\": \"Название организации\",\n\t\t\"ndsType\": \"1\",\n\t\t\"ndsRate\": \"0\",\n\t\t\"invoiceDiscount\": 0,\n\t\t\"invoiceDiscountType\": \"percent\",\n\t\t\"invoiceShipping\": 0,\n\t\t\"email\": {\n\t\t\t\"payerEmailText\": \"PDF со счетом на ваше имя в приложении к письму.\"\n\t\t},\n\t\t\"optionalTextInputs\": [\n\t\t\t{\n\t\t\t\t\"id\": \"receiverPhone\",\n\t\t\t\t\"text\": \"Телефон\",\n\t\t\t\t\"visible\": true\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": \"receiverEmail\",\n\t\t\t\t\"text\": \"E-mail\",\n\t\t\t\t\"visible\": true\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": \"receiverAddress\",\n\t\t\t\t\"text\": \"Адрес\",\n\t\t\t\t\"visible\": true\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": \"chiefName\",\n\t\t\t\t\"text\": \"Руководитель\",\n\t\t\t\t\"visible\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": \"invoiceINN\",\n\t\t\t\t\"text\": \"ИНН\",\n\t\t\t\t\"visible\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": \"invoiceKPP\",\n\t\t\t\t\"text\": \"КПП\",\n\t\t\t\t\"visible\": false\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"id\": \"invoiceBIK\",\n\t\t\t\t\"text\": \"БИК\",\n\t\t\t\t\"visible\": false\n\t\t\t}\n\t\t],\n\t\t\"itemsTable\": [\n\t\t\t{\n\t\t\t\t\"index\": 0,\n\t\t\t\t\"name\": \"\",\n\t\t\t\t\"quantity\": 1,\n\t\t\t\t\"measure\": \"шт.\",\n\t\t\t\t\"price\": 0\n\t\t\t}\n\t\t]\n\t}\n]",
+			"file": "Sy855qkSW.json",
+			"file_size": 1177,
+			"file_write_time": 131440754690000000,
+			"settings":
+			{
+				"buffer_size": 1085,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -536,7 +548,7 @@
 			"file": "server/invserver.js",
 			"settings":
 			{
-				"buffer_size": 16379,
+				"buffer_size": 16571,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -871,6 +883,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"serveGet",
+			"sendTemplates",
 			"oldGenerate",
 			"157680000000",
 			"new Date",
@@ -996,9 +1010,7 @@
 			"self",
 			"addItem",
 			"self",
-			"addInput",
-			"self",
-			"showHideInput"
+			"addInput"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1022,7 +1034,7 @@
 	"groups":
 	[
 		{
-			"selected": 14,
+			"selected": 18,
 			"sheets":
 			[
 				{
@@ -1052,7 +1064,7 @@
 						"translation.y": 1860.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 19,
 					"type": "text"
 				},
 				{
@@ -1082,7 +1094,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
@@ -1111,7 +1123,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
@@ -1140,7 +1152,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 19,
+					"stack_index": 20,
 					"type": "text"
 				},
 				{
@@ -1167,10 +1179,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2112.0,
+						"translation.y": 132.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1200,7 +1212,7 @@
 						"translation.y": 326.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
@@ -1230,7 +1242,7 @@
 						"translation.y": 462.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 22,
+					"stack_index": 23,
 					"type": "text"
 				},
 				{
@@ -1260,7 +1272,7 @@
 						"translation.y": 662.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 25,
+					"stack_index": 26,
 					"type": "text"
 				},
 				{
@@ -1290,7 +1302,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 21,
+					"stack_index": 22,
 					"type": "text"
 				},
 				{
@@ -1318,7 +1330,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 23,
+					"stack_index": 24,
 					"type": "text"
 				},
 				{
@@ -1348,7 +1360,7 @@
 						"translation.y": 540.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 24,
+					"stack_index": 25,
 					"type": "text"
 				},
 				{
@@ -1375,7 +1387,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 396.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -1394,8 +1406,8 @@
 						"selection":
 						[
 							[
-								1606,
-								1606
+								1151,
+								1159
 							]
 						],
 						"settings":
@@ -1405,10 +1417,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 264.0,
+						"translation.y": 330.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1438,7 +1450,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 20,
+					"stack_index": 21,
 					"type": "text"
 				},
 				{
@@ -1447,15 +1459,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8944,
+						"buffer_size": 9047,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4099,
-								4099
+								7277,
+								7277
 							]
 						],
 						"settings":
@@ -1464,14 +1476,43 @@
 							"tab_size": 2
 						},
 						"translation.x": 0.0,
-						"translation.y": 3828.0,
+						"translation.y": 3870.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 15,
+					"file": "Sy855qkSW.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1085,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1083,
+								1083
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": -0.0,
+						"translation.y": 1122.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
 					"file": "js/app.directives.js",
 					"semi_transient": false,
 					"settings":
@@ -1497,11 +1538,11 @@
 						"translation.y": 264.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 16,
+					"buffer": 17,
 					"file": "server/pdf.css",
 					"semi_transient": false,
 					"settings":
@@ -1527,24 +1568,24 @@
 						"translation.y": 1386.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 17,
+					"buffer": 18,
 					"file": "server/invserver.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16379,
+						"buffer_size": 16571,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1684,
-								1684
+								11027,
+								11027
 							]
 						],
 						"settings":
@@ -1554,14 +1595,14 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 9697.0,
+						"translation.y": 7742.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 18,
+					"buffer": 19,
 					"file": "server/data/.htaccess",
 					"semi_transient": false,
 					"settings":
@@ -1585,11 +1626,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 19,
+					"buffer": 20,
 					"file": "templates.json",
 					"semi_transient": false,
 					"settings":
@@ -1615,11 +1656,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 20,
+					"buffer": 21,
 					"file": "templates/preSendModal.tmpl.html",
 					"semi_transient": false,
 					"settings":
@@ -1645,11 +1686,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
-					"buffer": 21,
+					"buffer": 22,
 					"file": "templates/previewModal.tmpl.html",
 					"semi_transient": false,
 					"settings":
@@ -1675,11 +1716,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 22,
+					"buffer": 23,
 					"file": "style.css",
 					"semi_transient": false,
 					"settings":
@@ -1705,11 +1746,11 @@
 						"translation.y": 2950.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 23,
+					"buffer": 24,
 					"file": "for apache/alex1.enwony.net.conf",
 					"semi_transient": false,
 					"settings":
@@ -1736,11 +1777,11 @@
 						"translation.y": 132.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 24,
+					"buffer": 25,
 					"file": "server/data/pdf.list.json",
 					"semi_transient": false,
 					"settings":
@@ -1765,11 +1806,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 25,
+					"buffer": 26,
 					"file": "server/package.json",
 					"semi_transient": false,
 					"settings":
@@ -1795,7 +1836,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 7,
 					"type": "text"
 				}
 			]

@@ -93,7 +93,12 @@ http.createServer(function(request, response) {
     
     case 'POST':
     	if(request.url.match(/\/templates/)) {
-    		saveTemplate(request, response);
+    		templNumber = request.url.match(/\d/);
+    		
+    		if(templNumber != null) {
+    			templNumber = parseInt(templNumber[0], 10);
+    		}
+    		saveTemplate(request, response, templNumber);
     	} else servePost(request, response);
       break;
     
@@ -334,7 +339,7 @@ function serveGet(request, response) {
 }
 
 
-function saveTemplate(request, response) {
+function saveTemplate(request, response, templNumber) {
 	var templates = {}, body = [], userData;
 	var cookies = new Cookies(request, response);
   var userId = cookies.get('invUserId');
@@ -374,9 +379,11 @@ function saveTemplate(request, response) {
 	    try {
 	      templates = JSON.parse(data);
 	      
-	      if(templates.length >= 3) return send500(request, response);
-	      
-	      templates.push(userData);
+	      if(templates.length >= 3 && (!templNumber && templNumber !== 0)) return send500(request, response);
+	      	
+	      if(templNumber || templNumber === 0) {
+	      	templates[templNumber] = userData;
+	      } else templates.push(userData);
 	   		
 	   		fs.writeFile(TEMPLATES + userId + '.json', jsonFormat(templates), function(err) {
 	   			if(err) return send500(request, response);
@@ -410,6 +417,11 @@ function sendTemplates(request, response, templNumber) {
   	cookies.set('invUserId', userId, { expires: new Date(Date.now() + COOKIE_INTERVAL) }); // 5 лет
   	sendError(request, response, { number: 404, message: 'Not Found' });
   	return;
+  }
+
+  if( !fs.existsSync(TEMPLATES + userId + '.json') ) {
+  	fs.openSync(TEMPLATES + userId + '.json', 'w');
+  	fs.writeFileSync(TEMPLATES + userId + '.json', jsonFormat([]));
   }
   
   fs.readFile(TEMPLATES + userId + '.json', function(err, data) {
@@ -475,7 +487,7 @@ function delTemplate(request, response, templNumber) {
   	return;
   }
   
-  fs.readFile(TEMPLATES, function(err, data) {
+  fs.readFile(TEMPLATES + userId + '.json', function(err, data) {
     
     if(err) {
       console.error(err);
@@ -486,12 +498,12 @@ function delTemplate(request, response, templNumber) {
     try {
       templates = JSON.parse(data);
 
-      if(templates[userId]) {
-      	if(templNumber < templates[userId].length) {
+      if(templates.length > 0) {
+      	if(templNumber < templates.length) {
       		// Удаляем
-    			templates[userId].splice(templNumber, 1);
+    			templates.splice(templNumber, 1);
 
-    			fs.writeFile(TEMPLATES, jsonFormat(templates), function(err) {
+    			fs.writeFile(TEMPLATES + userId + '.json', jsonFormat(templates), function(err) {
 		   			if(err) return send500(request, response);
 		   			sendData(request, response, 'OK');
 		   		});

@@ -156,8 +156,8 @@ angular.module('app.services')
 	.factory('saveTemplate',
 		['$http', '$location', 'dependencies',
 			function($http, $location, dependencies) {
-				return function(ctrl) {
-					var quantity;
+				return function(ctrl, templNumber) {
+					var n;
 					var template = {
 						invoiceLogoSrc: ctrl.invoiceLogoSrc,
 						invoiceNumber: ctrl.invoiceNumber,
@@ -184,13 +184,23 @@ angular.module('app.services')
 						itemsTable: angular.copy(ctrl.itemsTable)
 					};
 
-					$http.post(dependencies.SERVER_URL + '/templates', template)
+					if(templNumber !== 0) templNumber = templNumber || '';
+					
+					$http.post(dependencies.SERVER_URL + '/templates' + templNumber, template)
 						.then(function successCallback(response) {
 							console.log(response);
+							// Переход в сохраненный шаблон,
+							// если нажата кнопка Сохранить шаблон
 							if(!ctrl.templObj) {
-								quantity = 0;
-							} else quantity = ctrl.templObj.quantity
-							$location.path('/template' + quantity);
+								n = 0;
+							} else n = ctrl.templObj.quantity
+
+							// Переход в сохраненный шаблон,
+							// если он перезаписывался	(была нажата ссылка Сохранить
+							// из выпадающего списка управления выбранным шаблоном)
+							if(templNumber !== '') n = templNumber;
+							
+							$location.path('/template' + n);
 						},
 						function errorCallback(response) {
 							console.log(response);
