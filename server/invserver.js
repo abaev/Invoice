@@ -15,6 +15,8 @@ var jsonFormat = require('json-format');
 
 var CSS_FILE = 'pdf.css';
 var PDF_LIST = join(__dirname, '/data/pdf.list.json');
+var PDF_PATH = join(__dirname, '/pdf/'); // сохраненные PDF пользователей
+var PDF_INTERVAL = 24 * 3600 * 1000; // срок хранения PDF на сервере
 var TEMPLATES = join(__dirname, '/data/templates/'); // '/data/templates.json'
 var SERVER_PATH = 'http://alex.enwony.net/';
 var ALLOW_ORIGIN_HEADER = 'http://alex.enwony.net/server'; // '*' 'alex.enwony.net/server'
@@ -68,6 +70,10 @@ fs.readFile(CSS_FILE, 'utf8', function(err, data) {
   if(err) return console.error(err);
   pdfStyle = '<style>' + data.toString() + '</style>';
 });
+
+
+// Отслеживаем старые PDF, удаляем их
+setInterval(pdfCollector, 3600000, PDF_LIST, PDF_PATH, PDF_INTERVAL);
 
 
 http.createServer(function(request, response) {
@@ -272,7 +278,6 @@ function servePost(request, response) {
 
     } catch(err) {
       console.error(err);
-      console.log(fields.userData);
       send500(request, response, '<p class="text-danger">Ошибка</p>');
     }
 
@@ -379,14 +384,20 @@ function saveTemplate(request, response, templNumber) {
 	    try {
 	      templates = JSON.parse(data);
 	      
-	      if(templates.length >= 3 && (!templNumber && templNumber !== 0)) return send500(request, response);
+	      if(templates.length >= 3 && (!templNumber && templNumber !== 0)) {
+	      	return send500(request, response);
+	      }
 	      	
 	      if(templNumber || templNumber === 0) {
 	      	templates[templNumber] = userData;
 	      } else templates.push(userData);
 	   		
 	   		fs.writeFile(TEMPLATES + userId + '.json', jsonFormat(templates), function(err) {
-	   			if(err) return send500(request, response);
+	   			if(err) {
+	   				console.error(err);
+	   				send500(request, response);
+	   				return;
+	   			}
 	   			sendData(request, response, 'OK');
 	   		});
 	    }
@@ -588,3 +599,50 @@ function generateId() {
 		return id;
 	}
 }
+
+
+// Обходит весь объект (из файла fileName) с именами PDF-файлов
+// (из папки dirName) и датами их создания, удаляя те,
+// что хранятся дольше interval миллисекунд
+function pdfCollector(fileName, dirName, interval) {
+	fs.readFile(fileName, function(err, data) {
+    var pdfList, file;
+    
+    if(err) return console.error(err);
+    
+    try {
+      pdfList = JSON.parse(data);
+    }
+    catch(err) {
+    	return console.error(err);
+    }
+
+  	for (var pdfFileName in pdfList) {
+  		
+  		if(Date.now() - new Date(pdfList[pdfFileName].date) > interval) {
+  			fs.unlink(dirName + pdfFileName, function(err) {
+  				if(err) return console.error(err);
+
+  				// И удаляем запись о файле из объекта
+  				delete pdfList[pdfFileName];
+  			});
+  		}
+  	}
+
+  	// И записывем объект в файл
+		fs.unlink(fileName, function(err) {
+			if(err) return console.error(err);
+
+			// Так и не понял, почему здесь для перезаписи файла
+			// приходиться вот так вот делать, тогда как в других
+			// местах достаточо одного fs.writeFile
+			fs.openSync(fileName, 'w');
+			fs.writeFile(fileName, jsonFormat(pdfList), function(err) {
+	 			if(err) return console.error(err);
+	 		});
+	  });
+
+	});
+}
+
+	  	
