@@ -324,12 +324,28 @@ function serveGet(request, response) {
       
       switch(status) {
       	case 'Denied':
-      		send403(request, response, '<h1>Доступ запрещен</h1>');
+      		send403(request, response,
+      			'<html lang="ru">' +
+							'<head>' +
+								'<meta charset="utf-8"/>' +
+							'</head>' +
+							'<body>' +
+		      			'<h1>Доступ запрещен</h1>' +
+	      			'</body>' +
+						'</html>');
       		break;
       	case 'Not found':
       		sendError(request, response, {
       			number: 404,
-      			message: '<h1>Запрашиваемый документ не найден</h1>'
+      			// message: '<h1>Запрашиваемый документ не найден</h1>'
+      			message: '<html lang="ru">' +
+    										'<head>' +
+    											'<meta charset="utf-8"/>' +
+    										'</head>' +
+    										'<body>' +
+    											'<h1>Запрашиваемый документ не найден</h1>' +
+    										'</body>' +
+    									'</html>'
       		});
       		break;
       }

@@ -94,11 +94,7 @@ angular.module('app.services')
 angular.module('app.services')
 	.factory('resetForm', ['$window', function($window) {
 			return function(ctrl, form) {
-					// Заменяет .ng-dirty на .ng-pristine
-					// form.$setPristine();
-
-					// Может и переделать потом...
-					$window.location.reload(false);
+					ctrl = angular.copy(ctrl.master);
 				}
 		}]);
 

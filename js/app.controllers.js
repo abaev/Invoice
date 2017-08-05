@@ -109,14 +109,14 @@ angular.module('app.controllers')
 			if(self.templObj && self.templObj.current !== '') {
 				// Инициализируем контроллер загруженным шаблоном,
 				angular.extend(self, self.templObj.template);
-
-				console.log('self = ');
-				console.log(self);
 			}
 			
 			if(self.itemsTable.length == 0) {
 				self.addItem(self); // Первая строка таблицы
 			}
+
+			// Для возможности Очистить форму
+			self.master = angular.copy(self);
 			
 	}]);
 
