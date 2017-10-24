@@ -18,10 +18,10 @@ var PDF_LIST = join(__dirname, '/data/pdf.list.json');
 var PDF_PATH = join(__dirname, '/pdf/'); // сохраненные PDF пользователей
 var PDF_INTERVAL = 24 * 3600 * 1000; // срок хранения PDF на сервере
 var TEMPLATES = join(__dirname, '/data/templates/'); // '/data/templates.json'
-var SERVER_PATH = 'http://alex.enwony.net/';
-var ALLOW_ORIGIN_HEADER = 'http://alex.enwony.net/server'; // '*' 'alex.enwony.net/server'
+var SERVER_PATH = 'https://alex.enwony.net/';
+var ALLOW_ORIGIN_HEADER = 'https://alex.enwony.net/server'; // '*' 'alex.enwony.net/server'
 var FONT_LINK = '';
-var EMAIL_SIGN = '<br><br><p>Создано с помощью <a href="http://alex.enwony.net/">Сервис создания счетов</a></p>';
+var EMAIL_SIGN = '<br><br><p>Создано с помощью <a href="https://alex.enwony.net/">Сервис создания счетов</a></p>';
 var PORT = 3000; //8080;
 var COOKIE_INTERVAL = 315360000000 // 10 лет
 var PDF_OPTIONS = {
@@ -236,7 +236,7 @@ function servePost(request, response) {
 
             if(!userData.sendRequired) {
               // Всё норм
-              pdfUrl = 'http://alex.enwony.net/server/pdf/' + pdfFile + '.pdf';
+              pdfUrl = 'https://alex.enwony.net/server/pdf/' + pdfFile + '.pdf';
               responseData =
                 '<p>PDF будет доступен вам в течение суток по адресу:<br> <a href="' +
                 pdfUrl + '" target="_blank">' + pdfUrl + '</a></p>';
@@ -257,7 +257,7 @@ function servePost(request, response) {
               if(error) {
                 console.error(error);
                 // Не удалось отправить, но PDF OK
-                pdfUrl = 'http://alex.enwony.net/server/pdf/' + pdfFile + '.pdf';
+                pdfUrl = 'https://alex.enwony.net/server/pdf/' + pdfFile + '.pdf';
                 responseData = '<p class="text-danger">Ошибка: не удалось отправить e-mail</p>' +
                   '<p>PDF будет доступен вам в течение суток по адресу: <a href="' +
                   pdfUrl + '" target="_blank">' + pdfUrl + '</a></p>';
@@ -266,7 +266,7 @@ function servePost(request, response) {
               }
               
               // Всё норм
-              pdfUrl = 'http://alex.enwony.net/server/pdf/' + pdfFile + '.pdf';
+              pdfUrl = 'https://alex.enwony.net/server/pdf/' + pdfFile + '.pdf';
               responseData = '<p>Письмо со счетом отправлено</p>' +
                 '<p>PDF будет доступен вам в течение суток по адресу: <a href="' +
                 pdfUrl+ '" target="_blank">' + pdfUrl + '</a></p>';
